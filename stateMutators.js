@@ -33,19 +33,39 @@ const setBasketValue = (state, value) => ({
     basketValue: value,
 });
 
+const resetBasketValue = (state) => ({
+    ...state,
+    basketValue: 0,
+});
+
 const setScore = (state, value) => ({
     ...state,
     score: value,
 });
 
-const setlivesRemaining = (state, value) => ({
+const resetScore = (state) => ({
+    ...state,
+    score: 0,
+});
+
+const setLivesRemaining = (state, value) => ({
     ...state,
     livesRemaining: value,
+});
+
+const resetLivesRemaining = (state) => ({
+    ...state,
+    livesRemaining: 3,
 });
 
 const setGameLevel = (state, value) => ({
     ...state,
     gameLevel: value,
+});
+
+const resetGameLevel = (state) => ({
+    ...state,
+    gameLevel: 0,
 });
 
 const setGameMode = (state, value) => ({
