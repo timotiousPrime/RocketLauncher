@@ -73,16 +73,14 @@ const setGameMode = (state, value) => ({
     gameMode: value,
 });
 
-// unsure why fallingObjects is saying not defined
-const addFallingObject = (state, fallingObj) => ({
-    ...state,
-    fallingObjects: fallingObjects.push(fallingObj)
-});
+function addFallingObject (state, fallingObj) {
+    state.fallingObjects.push(fallingObj)
+};
 
-const removeFallingObject = (state, fallingObj) => ({
-    ...state,
-    fallingObjects: fallingObjects.splice( fallingObj, 1)
-});
+// need to fix this
+function removeFallingObject (state, fallingObj) {
+    state.fallingObjects.splice(fallingObj, 1)
+};
 
 
 // Object constructor for falling object
