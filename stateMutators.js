@@ -77,9 +77,9 @@ function addFallingObject (state, fallingObj) {
     state.fallingObjects.push(fallingObj)
 };
 
-// need to fix this
 function removeFallingObject (state, fallingObj) {
-    state.fallingObjects.splice(fallingObj, 1)
+    let objectIndex = state.fallingObjects.indexOf(fallingObj)
+    state.fallingObjects.splice(objectIndex, 1)
 };
 
 
