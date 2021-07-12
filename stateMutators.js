@@ -94,10 +94,6 @@ function FallingObject(posX, posY, numerator, denominator) {
     this.id = id;
 }
 
-const setFallingObjPosX = (fallingObj, value) => {
-    fallingObj.posX = value;
-}
-
 const setFallingObjPosY = (fallingObj, value) => {
     fallingObj.posY = value;
 }
