@@ -73,14 +73,17 @@ const setGameMode = (state, value) => ({
     gameMode: value,
 });
 
-function addFallingObject (state, fallingObj) {
-    state.fallingObjects.push(fallingObj)
-};
+const addFallingObject = (state, fallingObj) => ({
+    ...state,
+    fallingObjects: state.fallingObjects.push(fallingObj)
+});
 
-function removeFallingObject (state, fallingObj) {
-    let objectIndex = state.fallingObjects.indexOf(fallingObj)
-    state.fallingObjects.splice(objectIndex, 1)
-};
+const removeFallingObject = (state, fallingObj) => ({
+    let objectIndex = state.fallingObjects.indexOf(fallingObj);
+
+    ...state,
+    fallingObjects: state.fallingObjects.splice(objectIndex, 1)
+});
 
 
 // Object constructor for falling object
