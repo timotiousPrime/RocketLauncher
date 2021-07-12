@@ -1,4 +1,4 @@
-import { GAME_MODE } from './constants'
+import { GAME_MODE, EL_IDS } from './constants'
 
 // __This is the main render function which delegates control to the more-specific render functions.__
 function renderGame(state) {
@@ -32,6 +32,20 @@ function renderGame(state) {
 
 // This is just an example of what implementation of the inner-most render functions might look like
 function renderBasket({ basketPosition }) {
-    const basketDiv = document.getElementById('basket')
+    const basketDiv = document.getElementById(EL_IDS.basket)
     basketDiv.style.left = basketPosition
 }
+
+function renderBasketValue({ basketValue }) {}
+
+function renderScore({ score }) {}
+
+function renderLevel({ gameLevel }) {}
+
+function renderLivesRemaining({ livesRemaining }) {}
+
+function renderFallingObjects({ fallingObjects }) {}
+
+function renderGameOverOverlay(state, { isInit }) {}
+
+function renderPauseOverlay(state) {}
