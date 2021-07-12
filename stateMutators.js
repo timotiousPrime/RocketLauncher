@@ -78,11 +78,9 @@ const addFallingObject = (state, fallingObj) => ({
     fallingObjects: state.fallingObjects.push(fallingObj)
 });
 
-const removeFallingObject = (state, fallingObj) => ({
-    let objectIndex = state.fallingObjects.indexOf(fallingObj);
-
+const removeFallingObject = (state, fallingObjId) => ({
     ...state,
-    fallingObjects: state.fallingObjects.splice(objectIndex, 1)
+    fallingObjects: state.fallingObjects.splice(fallingObjId, 1)
 });
 
 
