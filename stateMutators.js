@@ -90,7 +90,8 @@ function FallingObject(posX, posY, numerator, denominator) {
     this.posY = posY;
     this.numerator = numerator;
     this.denominator = denominator;
-    this.value = numerator / denominator
+    this.value = numerator / denominator;
+    this.id = id;
 }
 
 const setFallingObjPosX = (fallingObj, value) => {
