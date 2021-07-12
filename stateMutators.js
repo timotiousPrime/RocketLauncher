@@ -13,12 +13,12 @@ const setBasketPos = (state, value) => ({
     basketPos: value,
 });
 
-const moveBasketLeftKey = (state, value) => ({
+const moveBasketLeft = (state, value) => ({
     ...state,
     basketPos: basketPos - value,
 });
 
-const moveBasketRightKey = (state, value) => ({
+const moveBasketRight = (state, value) => ({
     ...state,
     basketPos: basketPos + value,
 });
