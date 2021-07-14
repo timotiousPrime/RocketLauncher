@@ -1,6 +1,11 @@
 const gameState = {
-    basketPos: 50,
-    basketValue: 0,
+    basket: {
+        basketValue: 0,
+        xPos: 50,
+        yPos: 10,
+        width: 30,
+        height: 10
+    },
     score: 0,
     livesRemaining: 3,
     gameLevel: 1,
