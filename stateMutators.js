@@ -120,8 +120,10 @@ const removeFallingObject = (state, fallingObjId) => {
 
 // Object constructor for falling object
 function FallingObject(posX, posY, numerator, denominator) {
-    this.posX = posX;
-    this.posY = posY;
+    this.xPos = xPos;
+    this.yPos = yPos;
+    this.width = width;
+    this.height = height;
     this.numerator = numerator;
     this.denominator = denominator;
     this.value = numerator / denominator;
