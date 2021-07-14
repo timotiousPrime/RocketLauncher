@@ -78,7 +78,10 @@ const addFallingObject = (state, fallingObj) => ({
 
 const removeFallingObject = (state, fallingObjId) => ({
     ...state,
-    fallingObjects: state.fallingObjects.splice(fallingObjId, 1)
+    fallingObjects: [
+        ...state.fallingObjects.slice[0, fallingObj],
+        ...state.fallingObjects.slice[fallingObj + 1],
+    ]
 });
 
 
