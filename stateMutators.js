@@ -13,38 +13,53 @@ const gameState = {
     fallingObjects: [],
 }
 
-const setBasketPos = (state, value) => {
+const setBasketPos = (state, basket, value) => {
     return {
         ...state,
-        basketPos: value,
+        basket: {
+            ...basket,
+            xPos: value
+        }
     }
 };
 
-const moveBasketLeft = (state, value) => {
+const moveBasketLeft = (state, basket, value) => {
     return {
         ...state,
-        basketPos: basketPos - value,
+        basket: {
+            ...basket,
+            xPos: xPos - value,
+        },
     }
 };
 
-const moveBasketRight = (state, value) => {
+const moveBasketRight = (state, basket, value) => {
     return {
         ...state,
-        basketPos: basketPos + value,
+        basket: {
+            ...basket,
+            xPos: xPos + value,
+        },
     }
 };
 
-const setBasketValue = (state, value) => {
+const setBasketValue = (state, basket, value) => {
     return {
         ...state,
-        basketValue: value,
+        basket: {
+            ...basket,
+            basketValue: value,
+        },
     }
 };
 
-const resetBasketValue = (state) => {
+const resetBasketValue = (state, basket) => {
     return {
         ...state,
-        basketValue: 0,
+        basket: {
+            ...basket,
+            basketValue: 0,
+        },
     }
 };
 
@@ -131,7 +146,7 @@ function FallingObject(posX, posY, numerator, denominator) {
 }
 
 const setFallingObjPosY = (fallingObj, value) => {
-    fallingObj.posY = value;
+    fallingObj.yPos = value;
 }
 
 
@@ -148,26 +163,32 @@ const setFallingObjDenominator = (fallingObj, value) => {
 const calcBasketValue = (state, basketValue, fallingObjectValue) => {
     return {
         ...state,
-        basketValue: basketValue + fallingObjectValue,
+        basket: {
+            ...basket,
+            basketValue: basketValue + fallingObjectValue},
     }
 };
 
 
 const calcScore = (state, basketValue, score) => (
-    basketValue === 1 ? {
+    basket.basketValue === 1 ? {
         ...state,
         score: ++score,
-        basketValue: 0,
+        basket: {
+            basketValue: 0,
+        }
     } : {
         ...state,
     }
 )
 
-const calcLives = (state, basketValue, livesRemaining) => (
-    basketValue > 1 ? {
+const calcLives = (state, basket, livesRemaining) => (
+    basket.basketValue > 1 ? {
         ...state,
         livesRemaining: --livesRemaining,
-        basketValue: 0,
+        basket: {
+            ...basket,
+            basketValue: 0,}
     } : {
         ...state,
     }
