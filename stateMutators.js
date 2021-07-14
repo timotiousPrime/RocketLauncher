@@ -8,81 +8,109 @@ const gameState = {
     fallingObjects: [],
 }
 
-const setBasketPos = (state, value) => ({
-    ...state,
-    basketPos: value,
-});
+const setBasketPos = (state, value) => {
+    return {
+        ...state,
+        basketPos: value,
+    }
+};
 
-const moveBasketLeft = (state, value) => ({
-    ...state,
+const moveBasketLeft = (state, value) => {
+    return {
+        ...state,
     basketPos: basketPos - value,
-});
+    }
+};
 
-const moveBasketRight = (state, value) => ({
-    ...state,
-    basketPos: basketPos + value,
-});
+const moveBasketRight = (state, value) => {
+    return {
+        ...state,
+        basketPos: basketPos + value,
+    }
+};
 
-const setBasketValue = (state, value) => ({
-    ...state,
-    basketValue: value,
-});
+const setBasketValue = (state, value) => {
+    return {
+        ...state,
+        basketValue: value,
+    }
+};
 
-const resetBasketValue = (state) => ({
-    ...state,
-    basketValue: 0,
-});
+const resetBasketValue = (state) => {
+    return {
+        ...state,
+        basketValue: 0,
+    }
+};
 
-const setScore = (state, value) => ({
-    ...state,
-    score: value,
-});
+const setScore = (state, value) => {
+    return {
+        ...state,
+        score: value,
+    }
+};
 
-const resetScore = (state) => ({
-    ...state,
-    score: 0,
-});
+const resetScore = (state) => {
+    return {
+        ...state,
+        score: 0,
+    }
+};
 
-const loseLife = (state, value) => ({
-    ...state,
-    livesRemaining: value,
-});
+const loseLife = (state, value) => {
+    return {
+        ...state,
+        livesRemaining: value,
+    }
+};
 
-const resetLivesRemaining = (state) => ({
-    ...state,
-    livesRemaining: 3,
-});
+const resetLivesRemaining = (state) => {
+    return {
+        ...state,
+        livesRemaining: 3,
+    }
+};
 
-const setGameLevel = (state, value) => ({
-    ...state,
-    gameLevel: value,
-});
+const setGameLevel = (state, value) => {
+    return {
+        ...state,
+        gameLevel: value,
+    }
+};
 
-const resetGameLevel = (state) => ({
-    ...state,
-    gameLevel: 0,
-});
+const resetGameLevel = (state) => {
+    return {
+        ...state,
+        gameLevel: 0,
+    }
+};
 
-const setGameMode = (state, value) => ({
-    ...state,
-    gameMode: value,
-});
+const setGameMode = (state, value) => {
+    return {
+        ...state,
+        gameMode: value,
+    }
+};
 
-const addFallingObject = (state, fallingObj) => ({
-    ...state,
-    fallingObjects: [
-        ...state.fallingObjects,
-        fallingObj,
-    ]
-});
+const addFallingObject = (state, fallingObj) => {
+    return {
+        ...state,
+        fallingObjects: [
+            ...state.fallingObjects,
+            fallingObj,
+        ]
+    }
+};
 
-const removeFallingObject = (state, fallingObjId) => ({
-    ...state,
-    fallingObjects: [
-        ...state.fallingObjects.slice[0, fallingObjId],
-        ...state.fallingObjects.slice[fallingObjId + 1],
-    ]
-});
+const removeFallingObject = (state, fallingObjId) => {
+    return {
+        ...state,
+        fallingObjects: [
+            ...state.fallingObjects.slice[0, fallingObjId],
+            ...state.fallingObjects.slice[fallingObjId + 1],
+        ]
+    }
+};
 
 
 // Object constructor for falling object
@@ -108,3 +136,39 @@ const setFallingObjDenominator = (fallingObj, value) => {
     fallingObj.denominator = value;
 }
 
+// Calculating Functions
+
+const calcBasketValue = (state, basketValue, fallingObjectValue) => {
+    return {
+        ...state,
+        basketValue: basketValue + fallingObjectValue,
+    }
+};
+
+
+const calcScore = (state, basketValue, score) => (
+    basketValue === 1 ? {
+        ...state,
+        score: ++score,
+        basketValue: 0,
+    } : {
+        ...state,
+    }
+)
+
+const calcLives = (state, basketValue, livesRemaining) => (
+    basketValue > 1 ? {
+        ...state,
+        livesRemaining: --livesRemaining,
+        basketValue: 0,
+    } : {
+        ...state,
+    }
+)
+
+const update = (state, basketValue, fallingObjectValue) => {
+    const newState = calcBasketValue(state, basketValue, fallingObjectValue);
+    const newState2 = calcScore(newState, newState.basketValue, newState.score);
+    const finalState = calcLives(newState2, newState2.basketValue, newState2.livesRemaining);
+    return finalState
+}
