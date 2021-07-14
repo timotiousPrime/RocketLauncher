@@ -28,7 +28,7 @@ const moveBasketLeft = (state, basket, value) => {
         ...state,
         basket: {
             ...basket,
-            xPos: xPos - value,
+            xPos: basket.xPos - value,
         },
     }
 };
@@ -38,7 +38,7 @@ const moveBasketRight = (state, basket, value) => {
         ...state,
         basket: {
             ...basket,
-            xPos: xPos + value,
+            xPos: basket.xPos + value,
         },
     }
 };
@@ -160,21 +160,22 @@ const setFallingObjDenominator = (fallingObj, value) => {
 
 // Calculating Functions
 
-const calcBasketValue = (state, basketValue, fallingObjectValue) => {
+const calcBasketValue = (state, basket, fallingObjectValue) => {
     return {
         ...state,
         basket: {
             ...basket,
-            basketValue: basketValue + fallingObjectValue},
+            basketValue: basket.basketValue + fallingObjectValue},
     }
 };
 
 
-const calcScore = (state, basketValue, score) => (
+const calcScore = (state, basket, score) => (
     basket.basketValue === 1 ? {
         ...state,
         score: ++score,
         basket: {
+            ...basket,
             basketValue: 0,
         }
     } : {
@@ -194,9 +195,9 @@ const calcLives = (state, basket, livesRemaining) => (
     }
 )
 
-const update = (state, basketValue, fallingObjectValue) => {
-    const newState = calcBasketValue(state, basketValue, fallingObjectValue);
-    const newState2 = calcScore(newState, newState.basketValue, newState.score);
-    const finalState = calcLives(newState2, newState2.basketValue, newState2.livesRemaining);
+const update = (state, basket, fallingObjectValue) => {
+    const newState = calcBasketValue(state, basket, fallingObjectValue);
+    const newState2 = calcScore(newState, newState.basket, newState.score);
+    const finalState = calcLives(newState2, newState2.basket, newState2.livesRemaining);
     return finalState
 }
