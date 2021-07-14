@@ -70,7 +70,10 @@ const setGameMode = (state, value) => ({
 
 const addFallingObject = (state, fallingObj) => ({
     ...state,
-    fallingObjects: state.fallingObjects.push(fallingObj)
+    fallingObjects: [
+        ...state.fallingObjects,
+        fallingObj,
+    ]
 });
 
 const removeFallingObject = (state, fallingObjId) => ({
