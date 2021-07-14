@@ -18,7 +18,7 @@ const setBasketPos = (state, value) => {
 const moveBasketLeft = (state, value) => {
     return {
         ...state,
-    basketPos: basketPos - value,
+        basketPos: basketPos - value,
     }
 };
 
