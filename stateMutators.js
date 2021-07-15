@@ -119,8 +119,8 @@ const removeFallingObject = (state, fallingObjId) => {
     return {
         ...state,
         fallingObjects: [
-            ...state.fallingObjects.slice[0, fallingObjId],
-            ...state.fallingObjects.slice[fallingObjId + 1],
+            ...state.fallingObjects.slice(0, fallingObjId),
+            ...state.fallingObjects.slice(fallingObjId + 1),
         ]
     }
 };
