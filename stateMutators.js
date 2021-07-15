@@ -146,17 +146,26 @@ function FallingObject(posX, posY, numerator, denominator) {
 }
 
 const setFallingObjPosY = (fallingObj, value) => {
-    fallingObj.yPos = value;
-}
+    return {
+        ...fallingObj,
+        yPos: value,
+    };
+};
 
 
 const setFallingObjNumerator = (fallingObj, value) => {
-    fallingObj.numerator = value;
-}
+    return {
+        ...fallingObj,
+        numerator: value,
+    };
+};
 
 const setFallingObjDenominator = (fallingObj, value) => {
-    fallingObj.denominator = value;
-}
+    return {
+        ...fallingObj,
+        denominator: value,
+    };
+};
 
 // Calculating Functions
 
