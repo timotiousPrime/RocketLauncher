@@ -13,7 +13,7 @@ const gameState = {
     fallingObjects: [],
 }
 
-const setBasketPos = (state, basket, value) => {
+const setBasketPos = (state, value) => {
     return {
         ...state,
         basket: {
@@ -23,7 +23,7 @@ const setBasketPos = (state, basket, value) => {
     }
 };
 
-const moveBasketLeft = (state, basket, value) => {
+const moveBasketLeft = (state, value) => {
     return {
         ...state,
         basket: {
@@ -33,7 +33,7 @@ const moveBasketLeft = (state, basket, value) => {
     }
 };
 
-const moveBasketRight = (state, basket, value) => {
+const moveBasketRight = (state, value) => {
     return {
         ...state,
         basket: {
@@ -43,7 +43,7 @@ const moveBasketRight = (state, basket, value) => {
     }
 };
 
-const setBasketValue = (state, basket, value) => {
+const setBasketValue = (state, value) => {
     return {
         ...state,
         basket: {
@@ -53,7 +53,7 @@ const setBasketValue = (state, basket, value) => {
     }
 };
 
-const resetBasketValue = (state, basket) => {
+const resetBasketValue = (state) => {
     return {
         ...state,
         basket: {
