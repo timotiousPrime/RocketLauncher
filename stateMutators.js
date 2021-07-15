@@ -77,13 +77,6 @@ const resetScore = (state) => {
     }
 };
 
-const loseLife = (state, value) => {
-    return {
-        ...state,
-        livesRemaining: value,
-    }
-};
-
 const resetLivesRemaining = (state) => {
     return {
         ...state,
