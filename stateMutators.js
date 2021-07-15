@@ -169,20 +169,20 @@ const setFallingObjDenominator = (fallingObj, value) => {
 
 // Calculating Functions
 
-const calcBasketValue = (state, basket, fallingObjectValue) => {
+const calcBasketValue = (state, fallingObj) => {
     return {
         ...state,
         basket: {
             ...basket,
-            basketValue: basket.basketValue + fallingObjectValue},
+            basketValue: basket.basketValue + fallingObj.value},
     }
 };
 
 
-const calcScore = (state, basket, score) => (
+const calcScore = (state) => (
     basket.basketValue === 1 ? {
         ...state,
-        score: ++score,
+        score: state.score + 1,
         basket: {
             ...basket,
             basketValue: 0,
@@ -192,10 +192,10 @@ const calcScore = (state, basket, score) => (
     }
 )
 
-const calcLives = (state, basket, livesRemaining) => (
+const calcLives = (state) => (
     basket.basketValue > 1 ? {
         ...state,
-        livesRemaining: --livesRemaining,
+        livesRemaining: state.livesRemaining - 1,
         basket: {
             ...basket,
             basketValue: 0,}
