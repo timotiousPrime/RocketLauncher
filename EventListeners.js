@@ -1,4 +1,3 @@
-// Why does this bring an error?
 // import { GAME_MODE } from "./constants";
 
 
@@ -19,30 +18,30 @@ document.addEventListener('keydown', (e) => {
 const playArea = document.querySelector('.play-area');
 
 playArea.addEventListener('mousemove', (e) => {
-    let basketCenter = e.clientX - ( basket.width / 2 )
-    let xPos = basketCenter + 'px';
-    basketDiv.style.left = xPos;
+    let xPos = e.clientX - ( basket.width / 2 )
+    console.log('mouse is on x pixel ' + xPos) // currently xPos is NaN because it doesn't know what basket is
     // setBasketPos(state, xPos) mutator
-
-
 })
 
 // listen when p/enter/space/esc is pressed
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'p' || 
-        e.key === ' ' || 
-        e.key === 'Escape' || 
-        e.key === 'Pause') {
+    if (GAME_MODE === 'running' && e.key === 'p' || 
+        GAME_MODE === 'running' && e.key === ' ' || 
+        GAME_MODE === 'running' && e.key === 'Escape' || 
+        GAME_MODE === 'running' && e.key === 'Pause') {
+            console.log('The game was running and has been paused with the ' + e.key + ' key')
             // setGameMode(state, 'pause')
+    }
+
+// Listen for when enter is pressed when game is paused, to resume game
+    if (GAME_MODE === 'paused' && e.key === 'Enter') {
+        console.log('The game was paused and has been resumed with the ' + e.key + ' key')
+        // setGameMode(state, 'running')
     }
 })
 
-// Listen for when enter is pressed when game is paused, to resume game
-document.addEventListener('keydown', (e) => {
-    if (GAME_MODE === 'paused' && e.key === 'Enter') {
-        setGameMode(state, 'running')
-    }
-})
+
+
 
 
 // listen for when play is clicked
