@@ -1,7 +1,7 @@
 import { GAME_MODE, EL_IDS } from './constants'
 
 // __This is the main render function which delegates control to the more-specific render functions.__
-function renderGame(state) {
+export function renderGame(state) {
     renderFallingObjects(state)
     renderLivesRemaining(state)
     renderBasketValue(state)
