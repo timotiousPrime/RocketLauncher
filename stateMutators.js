@@ -1,8 +1,10 @@
+import { FALLING_OBJ_SIZE, INIT_STATE } from './constants'
+
 export const setBasketPos = (state, value) => {
     return {
         ...state,
         basket: {
-            ...basket,
+            ...state.basket,
             xPos: value,
         },
     }
@@ -12,7 +14,7 @@ export const moveBasketLeft = (state, value) => {
     return {
         ...state,
         basket: {
-            ...basket,
+            ...state.basket,
             xPos: basket.xPos - value,
         },
     }
@@ -22,7 +24,7 @@ export const moveBasketRight = (state, value) => {
     return {
         ...state,
         basket: {
-            ...basket,
+            ...state.basket,
             xPos: basket.xPos + value,
         },
     }
@@ -32,7 +34,7 @@ export const setBasketValue = (state, value) => {
     return {
         ...state,
         basket: {
-            ...basket,
+            ...state.basket,
             basketValue: value,
         },
     }
@@ -42,8 +44,8 @@ export const resetBasketValue = (state) => {
     return {
         ...state,
         basket: {
-            ...basket,
-            basketValue: 0,
+            ...state.basket,
+            basketValue: INIT_STATE.basket.basketValue,
         },
     }
 }
@@ -58,14 +60,14 @@ export const setScore = (state, value) => {
 export const resetScore = (state) => {
     return {
         ...state,
-        score: 0,
+        score: INIT_STATE.score,
     }
 }
 
 export const resetLivesRemaining = (state) => {
     return {
         ...state,
-        livesRemaining: 3,
+        livesRemaining: INIT_STATE.livesRemaining,
     }
 }
 
@@ -79,7 +81,7 @@ export const setGameLevel = (state, value) => {
 export const resetGameLevel = (state) => {
     return {
         ...state,
-        gameLevel: 0,
+        gameLevel: INIT_STATE.gameLevel,
     }
 }
 
@@ -98,24 +100,36 @@ export const addFallingObject = (state, fallingObj) => {
 }
 
 export const removeFallingObject = (state, fallingObjId) => {
+    const index = state.fallingObjects.findIndex((obj) => obj.id === id)
+    if (index === -1) {
+        return state // A non-existent ID was passed in, hence do nothing
+    }
+
     return {
         ...state,
         fallingObjects: [
-            ...state.fallingObjects.slice(0, fallingObjId),
-            ...state.fallingObjects.slice(fallingObjId + 1),
+            ...state.fallingObjects.slice(0, index),
+            ...state.fallingObjects.slice(index + 1),
         ],
     }
 }
 
 // Object constructor for falling object
-export function FallingObject(posX, posY, numerator, denominator) {
+export function FallingObject({
+    posX,
+    posY,
+    numerator,
+    denominator,
+    id,
+    width = FALLING_OBJ_SIZE,
+    height = FALLING_OBJ_SIZE,
+}) {
     this.xPos = xPos
     this.yPos = yPos
     this.width = width
     this.height = height
     this.numerator = numerator
     this.denominator = denominator
-    this.value = numerator / denominator
     this.id = id
 }
 
@@ -146,7 +160,7 @@ export const calcBasketValue = (state, fallingObj) => {
     return {
         ...state,
         basket: {
-            ...basket,
+            ...state.basket,
             basketValue: basket.basketValue + fallingObj.value,
         },
     }
@@ -158,13 +172,11 @@ export const calcScore = (state) =>
               ...state,
               score: state.score + 1,
               basket: {
-                  ...basket,
-                  basketValue: 0,
+                  ...state.basket,
+                  basketValue: INIT_STATE.basket.basketValue,
               },
           }
-        : {
-              ...state,
-          }
+        : state
 
 export const calcLives = (state) =>
     basket.basketValue > 1
@@ -172,21 +184,14 @@ export const calcLives = (state) =>
               ...state,
               livesRemaining: state.livesRemaining - 1,
               basket: {
-                  ...basket,
+                  ...state.basket,
                   basketValue: 0,
               },
           }
-        : {
-              ...state,
-          }
+        : state
 
-export const update = (state, basket, fallingObjectValue) => {
-    const newState = calcBasketValue(state, basket, fallingObjectValue)
-    const newState2 = calcScore(newState, newState.basket, newState.score)
-    const finalState = calcLives(
-        newState2,
-        newState2.basket,
-        newState2.livesRemaining,
-    )
-    return finalState
+export const update = (state) => {
+    let nextState = calcBasketValue(state)
+    nextState = calcScore(nextState)
+    return calcLives(nextState)
 }
