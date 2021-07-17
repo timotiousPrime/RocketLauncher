@@ -1,5 +1,7 @@
 import { GAME_MODE, EL_IDS } from './constants'
 
+const toPx = (value) => `${value}px`
+
 // __This is the main render function which delegates control to the more-specific render functions.__
 export function renderGame(state) {
     renderFallingObjects(state)
@@ -39,9 +41,9 @@ function renderOverlay({ gameMode }) {
 
 function renderBasket({ basket }) {
     const basketDiv = document.getElementById(EL_IDS.basket)
-    basketDiv.style.left = basket.xPos
-    basketDiv.style.width = basket.width
-    basketDiv.style.height = basket.height
+    basketDiv.style.left = toPx(basket.xPos)
+    basketDiv.style.width = toPx(basket.width)
+    basketDiv.style.height = toPx(basket.height)
 }
 
 function renderBasketValue({ basket }) {}
@@ -75,10 +77,10 @@ function renderFallingObjects({ fallingObjects }) {
         numeratorEl.classList.add('falling-object-numerator')
         denominatorEl.classList.add('falling-object-denominator')
 
-        fallingObjectEl.style.left = fallingObject.xPos
-        fallingObjectEl.style.top = fallingObject.yPos
-        fallingObjectEl.style.width = fallingObject.width
-        fallingObjectEl.style.height = fallingObject.height
+        fallingObjectEl.style.left = toPx(fallingObject.xPos)
+        fallingObjectEl.style.top = toPx(fallingObject.yPos)
+        fallingObjectEl.style.width = toPx(fallingObject.width)
+        fallingObjectEl.style.height = toPx(fallingObject.height)
         numeratorEl.textContent = fallingObject.numerator
         denominatorElEl.textContent = fallingObject.denominator
 
