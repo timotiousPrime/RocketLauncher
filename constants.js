@@ -32,3 +32,5 @@ export const INIT_STATE = {
     fallingObjects: [],
     gameMode: 'running',
 }
+
+export const FALLING_OBJ_SIZE = 20

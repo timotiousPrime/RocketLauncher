@@ -1,205 +1,197 @@
-const gameState = {
-    basket: {
-        basketValue: 0,
-        xPos: 50,
-        yPos: 10,
-        width: 30,
-        height: 10
-    },
-    score: 0,
-    livesRemaining: 3,
-    gameLevel: 1,
-    gameMode: 'running',
-    fallingObjects: [],
+import { FALLING_OBJ_SIZE, INIT_STATE } from './constants'
+
+export const setBasketPos = (state, value) => {
+    return {
+        ...state,
+        basket: {
+            ...state.basket,
+            xPos: value,
+        },
+    }
 }
 
-const setBasketPos = (state, value) => {
+export const moveBasketLeft = (state, value) => {
     return {
         ...state,
         basket: {
-            ...basket,
-            xPos: value
-        }
-    }
-};
-
-const moveBasketLeft = (state, value) => {
-    return {
-        ...state,
-        basket: {
-            ...basket,
+            ...state.basket,
             xPos: basket.xPos - value,
         },
     }
-};
+}
 
-const moveBasketRight = (state, value) => {
+export const moveBasketRight = (state, value) => {
     return {
         ...state,
         basket: {
-            ...basket,
+            ...state.basket,
             xPos: basket.xPos + value,
         },
     }
-};
+}
 
-const setBasketValue = (state, value) => {
+export const setBasketValue = (state, value) => {
     return {
         ...state,
         basket: {
-            ...basket,
+            ...state.basket,
             basketValue: value,
         },
     }
-};
+}
 
-const resetBasketValue = (state) => {
+export const resetBasketValue = (state) => {
     return {
         ...state,
         basket: {
-            ...basket,
-            basketValue: 0,
+            ...state.basket,
+            basketValue: INIT_STATE.basket.basketValue,
         },
     }
-};
+}
 
-const setScore = (state, value) => {
+export const setScore = (state, value) => {
     return {
         ...state,
         score: value,
     }
-};
+}
 
-const resetScore = (state) => {
+export const resetScore = (state) => {
     return {
         ...state,
-        score: 0,
+        score: INIT_STATE.score,
     }
-};
+}
 
-const resetLivesRemaining = (state) => {
+export const resetLivesRemaining = (state) => {
     return {
         ...state,
-        livesRemaining: 3,
+        livesRemaining: INIT_STATE.livesRemaining,
     }
-};
+}
 
-const setGameLevel = (state, value) => {
+export const setGameLevel = (state, value) => {
     return {
         ...state,
         gameLevel: value,
     }
-};
+}
 
-const resetGameLevel = (state) => {
+export const resetGameLevel = (state) => {
     return {
         ...state,
-        gameLevel: 0,
+        gameLevel: INIT_STATE.gameLevel,
     }
-};
+}
 
-const setGameMode = (state, value) => {
+export const setGameMode = (state, value) => {
     return {
         ...state,
         gameMode: value,
     }
-};
-
-const addFallingObject = (state, fallingObj) => {
-    return {
-        ...state,
-        fallingObjects: [
-            ...state.fallingObjects,
-            fallingObj,
-        ]
-    }
-};
-
-const removeFallingObject = (state, fallingObjId) => {
-    return {
-        ...state,
-        fallingObjects: [
-            ...state.fallingObjects.slice(0, fallingObjId),
-            ...state.fallingObjects.slice(fallingObjId + 1),
-        ]
-    }
-};
-
-
-// Object constructor for falling object
-function FallingObject(posX, posY, numerator, denominator) {
-    this.xPos = xPos;
-    this.yPos = yPos;
-    this.width = width;
-    this.height = height;
-    this.numerator = numerator;
-    this.denominator = denominator;
-    this.value = numerator / denominator;
-    this.id = id;
 }
 
-const setFallingObjPosY = (fallingObj, value) => {
+export const addFallingObject = (state, fallingObj) => {
+    return {
+        ...state,
+        fallingObjects: [...state.fallingObjects, fallingObj],
+    }
+}
+
+export const removeFallingObject = (state, fallingObjId) => {
+    const index = state.fallingObjects.findIndex((obj) => obj.id === id)
+    if (index === -1) {
+        return state // A non-existent ID was passed in, hence do nothing
+    }
+
+    return {
+        ...state,
+        fallingObjects: [
+            ...state.fallingObjects.slice(0, index),
+            ...state.fallingObjects.slice(index + 1),
+        ],
+    }
+}
+
+// Object constructor for falling object
+export function FallingObject({
+    posX,
+    posY,
+    numerator,
+    denominator,
+    id,
+    width = FALLING_OBJ_SIZE,
+    height = FALLING_OBJ_SIZE,
+}) {
+    this.xPos = xPos
+    this.yPos = yPos
+    this.width = width
+    this.height = height
+    this.numerator = numerator
+    this.denominator = denominator
+    this.id = id
+}
+
+export const setFallingObjPosY = (fallingObj, value) => {
     return {
         ...fallingObj,
         yPos: value,
-    };
-};
+    }
+}
 
-
-const setFallingObjNumerator = (fallingObj, value) => {
+export const setFallingObjNumerator = (fallingObj, value) => {
     return {
         ...fallingObj,
         numerator: value,
-    };
-};
+    }
+}
 
-const setFallingObjDenominator = (fallingObj, value) => {
+export const setFallingObjDenominator = (fallingObj, value) => {
     return {
         ...fallingObj,
         denominator: value,
-    };
-};
+    }
+}
 
 // Calculating Functions
 
-const calcBasketValue = (state, fallingObj) => {
+export const calcBasketValue = (state, fallingObj) => {
     return {
         ...state,
         basket: {
-            ...basket,
-            basketValue: basket.basketValue + fallingObj.value},
+            ...state.basket,
+            basketValue: basket.basketValue + fallingObj.value,
+        },
     }
-};
+}
 
+export const calcScore = (state) =>
+    basket.basketValue === 1
+        ? {
+              ...state,
+              score: state.score + 1,
+              basket: {
+                  ...state.basket,
+                  basketValue: INIT_STATE.basket.basketValue,
+              },
+          }
+        : state
 
-const calcScore = (state) => (
-    basket.basketValue === 1 ? {
-        ...state,
-        score: state.score + 1,
-        basket: {
-            ...basket,
-            basketValue: 0,
-        }
-    } : {
-        ...state,
-    }
-)
+export const calcLives = (state) =>
+    basket.basketValue > 1
+        ? {
+              ...state,
+              livesRemaining: state.livesRemaining - 1,
+              basket: {
+                  ...state.basket,
+                  basketValue: 0,
+              },
+          }
+        : state
 
-const calcLives = (state) => (
-    basket.basketValue > 1 ? {
-        ...state,
-        livesRemaining: state.livesRemaining - 1,
-        basket: {
-            ...basket,
-            basketValue: 0,}
-    } : {
-        ...state,
-    }
-)
-
-const update = (state, basket, fallingObjectValue) => {
-    const newState = calcBasketValue(state, basket, fallingObjectValue);
-    const newState2 = calcScore(newState, newState.basket, newState.score);
-    const finalState = calcLives(newState2, newState2.basket, newState2.livesRemaining);
-    return finalState
+export const update = (state) => {
+    let nextState = calcBasketValue(state)
+    nextState = calcScore(nextState)
+    return calcLives(nextState)
 }
