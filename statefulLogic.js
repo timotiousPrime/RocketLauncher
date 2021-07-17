@@ -12,7 +12,7 @@ export class StatefulLogic {
         this.state = { ...INIT_STATE }
     }
 
-    mutate(mutatorFn, ...args = []) {
+    mutate(mutatorFn, ...args) {
         const nextState = mutatorFn(this.state, ...args)
         renderGame(nextState)
         this.state = nextState
