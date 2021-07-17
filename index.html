@@ -5,43 +5,92 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Rocket Launcher</title>
+        <link rel="stylesheet" href="stylesheet/variables.css" />
+        <link rel="stylesheet" href="stylesheet/animations.css" />
+        <link rel="stylesheet" href="stylesheet/reset.css" />
+        <link rel="stylesheet" href="stylesheet/main.css" />
+        <link rel="stylesheet" href="stylesheet/falling-object.css" />
     </head>
     <body>
-        <div class="main-game-container">
+        <div class="container">
             <div class="play-area">
-                <div class="target-box">
-                    <span id="target-value" />
-                    <span class="target-text">Target</span>
+                <div class="target">
+                    <span id="target-value"></span>
+                    <!-- <span class="target-text">Target</span> -->
                 </div>
-                <ul id="falling-objects"></ul>
-                <div id="basket" />
+                <span id="basket-value" class="basket-value">0.25</span>
+                <ul class="falling-object-container">
+                    <li
+                        class="falling-object-column js-falling-object-column"
+                    ></li>
+                    <li
+                        class="falling-object-column js-falling-object-column"
+                    ></li>
+                    <li
+                        class="falling-object-column js-falling-object-column"
+                    ></li>
+                    <li
+                        class="falling-object-column js-falling-object-column"
+                    ></li>
+                    <li
+                        class="falling-object-column js-falling-object-column"
+                    ></li>
+                    <li
+                        class="falling-object-column js-falling-object-column"
+                    ></li>
+                    <li
+                        class="falling-object-column js-falling-object-column"
+                    ></li>
+                    <li
+                        class="falling-object-column js-falling-object-column"
+                    ></li>
+                </ul>
+                <img id="basket" class="basket" src="assets/basket.svg" />
             </div>
 
             <div class="stats-box">
-                <div class="stats-row">
-                    <span class="label">Score:</span>
-                    <span id="score-value" class="value" />
+                <h1>Rocket launcher</h1>
+
+                <div class="stats-row-center">
+                    <span id="score-value" class="value">10</span>
+                    <span class="label">Score</span>
                 </div>
-                <div class="stats-row">
-                    <span class="label">Level:</span>
-                    <span id="level-value" class="value" />
+                <div class="stats-row-center">
+                    <span id="level-value" class="value">2</span>
+                    <span class="label">Level</span>
                 </div>
                 <div class="stats-row">
                     <span class="label">Lives:</span>
-                    <span id="lives-remaining-value" class="value" />
+                    <span id="lives-remaining-value" class="value">33</span>
                 </div>
-                <!-- <div class="stats-row">
-                    <a class="label">How to play</a>
-                </div> -->
+                <div class="text-block">
+                    <p class="title">Instructions</p>
+                    <p class="description">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Reprehenderit ipsa voluptatum quae adipisci
+                        doloremque autem officia dolor amet quas, dolore modi
+                        magni quis quo sunt rerum ducimus soluta. Sequi,
+                        suscipit!
+                    </p>
+                </div>
             </div>
         </div>
-        <div id="game-overlay">
-            <span id="overlay-text-start">Press Enter to play again</span>
-            <span id="overlay-text-pause">Press Enter to play again</span>
-            <span id="overlay-text-gameover">Press Enter to play again</span>
+        <div id="game-overlay" class="overlay">
+            <div class="overlay-content">
+                <span id="overlay-text-start" class="overlay-text"
+                    >Press Enter to play again</span
+                >
+                <span id="overlay-text-pause" class="overlay-text"
+                    >Press Enter to play again</span
+                >
+                <span id="overlay-text-gameover" class="overlay-text"
+                    >Press Enter to play again</span
+                >
+            </div>
         </div>
     </body>
-    <script src="./stateMutators.js"></script>
+    <script type="module" src="./stateMutators.js"></script>
     <script type="module" src="./EventListeners.js"></script>
-
+    <script type="module" src="./rendering.js"></script>
+    <script type="module" src="./main.js"></script>
 </html>

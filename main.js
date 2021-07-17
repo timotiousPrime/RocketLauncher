@@ -1,6 +1,6 @@
-import { renderGame } from './rendering'
-import { StatefulLogic } from './statefulLogic'
-import { INIT_STATE } from './constants'
+import { INIT_STATE } from './constants.js'
+import { renderGame } from './rendering.js'
+import { StatefulLogic } from './statefulLogic.js'
 
 function runGame() {
     const logic = new StatefulLogic({

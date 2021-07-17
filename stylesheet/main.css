@@ -1,0 +1,132 @@
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    -webkit-font-smoothing: antialiased;
+    background-image: url(../assets/bg.svg);
+    background-color: #98dff1;
+    background-position: center bottom;
+    background-size: calc(100% + 5px);
+    background-repeat: no-repeat;
+}
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.play-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.basket {
+    width: 100px;
+    height: auto;
+    position: absolute;
+    bottom: 10px;
+}
+.basket-value {
+    position: absolute;
+    opacity: 0.3;
+    font-size: 120px;
+    left: 50%;
+    top: 12%;
+    transform: translateX(-50%);
+    color: #00a9e2;
+}
+
+.stats-box {
+    width: 400px;
+    background-color: #696969;
+    color: #ffffff;
+    padding: 20px;
+}
+
+.stats-box h1 {
+    font-size: 50px;
+    line-height: 1.05;
+    text-align: center;
+}
+
+.stats-row-center {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stats-row-center .label {
+    display: block;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.stats-row-center .value {
+    display: block;
+    font-size: 35px;
+    line-height: normal;
+    color: #8ee3ff;
+}
+
+.stats-row {
+    margin-top: 20px;
+}
+.stats-row .label {
+    font-size: 18px;
+    text-transform: uppercase;
+}
+.text-block {
+    text-align: center;
+    margin-top: 24px;
+}
+.title {
+    font-size: 24px;
+    font-weight: 600;
+}
+.description {
+    font-size: 14px;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+.overlay-text {
+    display: none;
+}
+.overlay-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #ffffff;
+    font-size: 44px;
+}
