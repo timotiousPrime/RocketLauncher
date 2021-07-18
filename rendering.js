@@ -76,7 +76,7 @@ function renderFallingObjects({ fallingObjects }) {
         const denominatorEl = document.createElement('span')
 
         fallingObjectEl.classList.add('falling-object')
-        fallingObjectEl.id = fallingObjectEl.id
+        fallingObjectEl.id = fallingObject.id
         numeratorEl.classList.add('falling-object-numerator')
         denominatorEl.classList.add('falling-object-denominator')
 
