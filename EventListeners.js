@@ -1,4 +1,3 @@
-import { GAME_MODE } from "./constants";
 import * as mutatorFns from './stateMutators.js'
 
 export function setupEventListener(logic) {
@@ -19,7 +18,7 @@ export function setupEventListener(logic) {
     const playArea = document.querySelector('.play-area')
 
     playArea.addEventListener('mousemove', (e) => {
-        let xPos = e.clientX - basket.width / 2
+        let xPos = e.clientX - logic.state.basket.width / 2
         console.log('mouse is on x pixel ' + xPos) // currently xPos is NaN because it doesn't know what basket is
         logic.mutate(mutatorFns.setBasketPos, xPos)
     })
@@ -27,10 +26,10 @@ export function setupEventListener(logic) {
     // listen when p/enter/space/esc is pressed
     document.addEventListener('keydown', (e) => {
         if (
-            (GAME_MODE === 'running' && e.key === 'p') ||
-            (GAME_MODE === 'running' && e.key === ' ') ||
-            (GAME_MODE === 'running' && e.key === 'Escape') ||
-            (GAME_MODE === 'running' && e.key === 'Pause')
+            (logic.state.gameMode === 'running' && e.key === 'p') ||
+            (logic.state.gameMode === 'running' && e.key === ' ') ||
+            (logic.state.gameMode === 'running' && e.key === 'Escape') ||
+            (logic.state.gameMode === 'running' && e.key === 'Pause')
         ) {
             logic.mutate(mutatorFns.setGameMode, 'pause')
             // console.log(
@@ -41,7 +40,7 @@ export function setupEventListener(logic) {
         }
 
         // Listen for when enter is pressed when game is paused, to resume game
-        if (GAME_MODE === 'paused' && e.key === 'Enter') {
+        if (logic.state.gameMode === 'paused' && e.key === 'Enter') {
             logic.mutate(mutatorFns.setGameMode, 'running')
 
             // console.log(
