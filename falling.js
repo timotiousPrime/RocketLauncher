@@ -1,25 +1,59 @@
 // suggestion for default speed and rate
-const DEFAULT_SPEED = 200;
-const DEFAULT_RATE = 120;
-
+const DEFAULT_SPEED = 200
+const DEFAULT_RATE = 120
 /**
- * update the posY of the falling objects,
- * onFalling runs when posY changes
+ * update the yPos of the falling objects,
+ * onFalling runs when yPos changes
  *
- * @param {number} posY Vertical position of the object
+ * @param {number} yPos Vertical position of the object
  * @param {number} speed The falling speed in px/second, how fast does it fall down the screen
  * @param {number} rate The frame rate, frame per second, bigger number for smoother animations
- * @param {(newPosY) => {}} onFalling Revoke with a new posY pass in as a param
+ * @param {(newYPos) => {}} onFalling Revoke with a new yPos pass in as a param
  *
- * @return {() => void} clearInterval function
+ * @return {{
+ *  pause: () => void
+ *  resume: () => void
+ *  restart: () => void
+ *  stop: () => void
+ * }}
  */
-function fall(posY, speed, rate, onFalling) {
-  const interval = setInterval(() => {
-    const newPosY = posY + speed / rate;
-    onFalling(newPosY);
-  }, 1000 / rate);
+function fall(yPos, speed, rate, onFalling) {
+    let currentYPos = yPos
 
-  return () => {
-    clearInterval(interval);
-  };
+    const run = () => {
+        return setInterval(() => {
+            currentYPos = currentYPos + speed / rate
+            onFalling(currentYPos)
+        }, 1000 / rate)
+    }
+
+    let interval = run()
+
+    const actions = {
+        pause: () => {
+            clearInterval(interval)
+            interval = null
+        },
+        resume: () => {
+            if (interval === null) {
+                // if it's not already running
+                interval = run()
+            }
+        },
+        restart: () => {
+            clearInterval(interval)
+            currentYPos = yPos
+            interval = run()
+        },
+        stop: () => {
+            clearInterval(interval)
+            currentYPos = null
+            interval = null
+            actions.pause = () => {}
+            actions.resume = () => {}
+            actions.restart = () => {}
+            actions.stop = () => {}
+        },
+    }
+    return actions
 }

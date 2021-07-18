@@ -1,4 +1,4 @@
-import { GAME_MODE, EL_IDS } from './constants'
+import { EL_IDS, GAME_MODE } from './constants'
 
 const toPx = (value) => `${value}px`
 
@@ -88,4 +88,10 @@ function renderFallingObjects({ fallingObjects }) {
         fallingObjectEl.appendChild(denominatorEl)
         fallingObjectsContainer.appendChild(fallingObjectEl)
     })
+}
+
+function updateFallingObjectPosition(fallingObject) {
+    const fallingObjectEl = document.getElementById(fallingObject.id)
+
+    fallingObjectEl.style.top = toPx(fallingObject.yPos)
 }

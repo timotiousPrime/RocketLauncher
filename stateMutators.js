@@ -133,10 +133,23 @@ export function FallingObject({
     this.id = id
 }
 
-export const setFallingObjPosY = (fallingObj, value) => {
+export const setFallingObjPosY = (state, fallingObj, value) => {
+    const newFallingObjects = state.fallingObjects.map((obj) => {
+        if (obj.id === fallingObj.id) {
+            return {
+                ...obj,
+                yPos: value,
+            }
+        } else {
+            return {
+                ...obj,
+            }
+        }
+    })
+
     return {
-        ...fallingObj,
-        yPos: value,
+        ...state,
+        fallingObjects: newFallingObjects,
     }
 }
 
