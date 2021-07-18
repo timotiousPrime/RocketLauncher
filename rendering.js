@@ -1,4 +1,4 @@
-import { EL_IDS, GAME_MODE } from './constants'
+import { EL_IDS, GAME_MODE } from './constants.js'
 
 const toPx = (value) => `${value}px`
 
@@ -64,16 +64,19 @@ function renderLivesRemaining({ livesRemaining }) {
 }
 
 function renderFallingObjects({ fallingObjects }) {
-    const fallingObjectsContainer = document.getElementById(
+    const fallingObjectColumnEls = document.getElementById(
         EL_IDS.fallingObjectsList,
-    )
+    ).children
 
     fallingObjects.forEach((fallingObject) => {
-        const fallingObjectEl = document.createElement('li')
-        const numeratorEl = document.createElement('div')
-        const denominatorEl = document.createElement('div')
+        const fallingObjectColumnEl =
+            fallingObjectColumnEls[fallingObject.columnIndex]
+        const fallingObjectEl = document.createElement('span')
+        const numeratorEl = document.createElement('span')
+        const denominatorEl = document.createElement('span')
 
         fallingObjectEl.classList.add('falling-object')
+        fallingObjectEl.id = fallingObject.id
         numeratorEl.classList.add('falling-object-numerator')
         denominatorEl.classList.add('falling-object-denominator')
 
@@ -82,11 +85,11 @@ function renderFallingObjects({ fallingObjects }) {
         fallingObjectEl.style.width = toPx(fallingObject.width)
         fallingObjectEl.style.height = toPx(fallingObject.height)
         numeratorEl.textContent = fallingObject.numerator
-        denominatorElEl.textContent = fallingObject.denominator
+        denominatorEl.textContent = fallingObject.denominator
 
         fallingObjectEl.appendChild(numeratorEl)
         fallingObjectEl.appendChild(denominatorEl)
-        fallingObjectsContainer.appendChild(fallingObjectEl)
+        fallingObjectColumnEl.appendChild(fallingObjectEl)
     })
 }
 

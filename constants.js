@@ -7,6 +7,7 @@ export const GAME_MODE = {
 
 export const EL_IDS = {
     basket: 'basket',
+    basketValue: 'basket-value',
     scoreValue: 'score-value',
     levelValue: 'level-value',
     targetValue: 'target-value',
@@ -33,4 +34,12 @@ export const INIT_STATE = {
     gameMode: 'running',
 }
 
-export const FALLING_OBJ_SIZE = 20
+export const FALLING_OBJ_INIT_STATE = {
+    columnIndex: 0, // the index of the column that the object is currently in
+    xPos: '50%', // this is relative to the column that the object is in, so it's fixed
+    yPos: 100,
+    width: 62,
+    height: 34,
+    numerator: 0,
+    denominator: 1,
+}

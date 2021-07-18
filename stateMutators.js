@@ -1,4 +1,4 @@
-import { FALLING_OBJ_SIZE, INIT_STATE } from './constants'
+import { INIT_STATE } from './constants.js'
 
 export const setBasketPos = (state, value) => {
     return {
@@ -114,16 +114,22 @@ export const removeFallingObject = (state, fallingObjId) => {
     }
 }
 
-// Object constructor for falling object
+/**
+ * Object constructor for falling object
+ *
+ * @param {number} columnIndex The index of the falling object column, there are 8 of them, index from 0 to 7
+ */
 export function FallingObject({
-    posX,
-    posY,
+    columnIndex,
+    yPos,
     numerator,
     denominator,
     id,
-    width = FALLING_OBJ_SIZE,
-    height = FALLING_OBJ_SIZE,
+    xPos = FALLING_OBJ_INIT_STATE.xPos,
+    width = FALLING_OBJ_INIT_STATE.width,
+    height = FALLING_OBJ_INIT_STATE.height,
 }) {
+    this.columnIndex = columnIndex
     this.xPos = xPos
     this.yPos = yPos
     this.width = width
