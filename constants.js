@@ -16,7 +16,6 @@ export const EL_IDS = {
     overlayTextPause: 'overlay-text-pause',
     overlayTextGameOver: 'overlay-text-gameover',
     overlay: 'game-overlay',
-    fallingObjectColumn: '.js-falling-object-column',
 }
 
 export const INIT_STATE = {

@@ -64,9 +64,9 @@ function renderLivesRemaining({ livesRemaining }) {
 }
 
 function renderFallingObjects({ fallingObjects }) {
-    const fallingObjectColumnEls = document.querySelectorAll(
-        EL_IDS.fallingObjectColumn,
-    )
+    const fallingObjectColumnEls = document.getElementById(
+        EL_IDS.fallingObjectsList,
+    ).children
 
     fallingObjects.forEach((fallingObject) => {
         const fallingObjectColumnEl =
@@ -76,6 +76,7 @@ function renderFallingObjects({ fallingObjects }) {
         const denominatorEl = document.createElement('span')
 
         fallingObjectEl.classList.add('falling-object')
+        fallingObjectEl.id = fallingObjectEl.id
         numeratorEl.classList.add('falling-object-numerator')
         denominatorEl.classList.add('falling-object-denominator')
 
