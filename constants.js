@@ -11,6 +11,7 @@ export const EL_IDS = {
     scoreValue: 'score-value',
     levelValue: 'level-value',
     targetValue: 'target-value',
+    fallingObjectsList: 'falling-objects',
     livesRemaining: 'lives-remaining-value',
     overlayTextStart: 'overlay-text-start',
     overlayTextPause: 'overlay-text-pause',
