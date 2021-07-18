@@ -1,7 +1,7 @@
 import { GAME_MODE } from "./constants";
 import * as mutatorFns from './stateMutators.js'
 
-function setupEventListener(logic) {
+export function setupEventListener(logic) {
     // move basket when left or right key is pressed
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
