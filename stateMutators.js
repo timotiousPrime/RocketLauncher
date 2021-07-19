@@ -1,11 +1,11 @@
-import { INIT_STATE } from './constants.js'
+import { FALLING_OBJ_INIT_STATE, INIT_STATE } from './constants.js'
 
-export const setBasketPos = (state, value) => {
+export const updateBasket = (state, { ...props }) => {
     return {
         ...state,
         basket: {
             ...state.basket,
-            xPos: value,
+            ...props,
         },
     }
 }
@@ -15,7 +15,7 @@ export const moveBasketLeft = (state, value) => {
         ...state,
         basket: {
             ...state.basket,
-            xPos: basket.xPos - value,
+            xPos: state.basket.xPos - value,
         },
     }
 }
@@ -25,7 +25,7 @@ export const moveBasketRight = (state, value) => {
         ...state,
         basket: {
             ...state.basket,
-            xPos: basket.xPos + value,
+            xPos: state.basket.xPos + value,
         },
     }
 }
@@ -95,12 +95,15 @@ export const setGameMode = (state, value) => {
 export const addFallingObject = (state, fallingObj) => {
     return {
         ...state,
-        fallingObjects: [...state.fallingObjects, fallingObj],
+        fallingObjects: [...state.fallingObjects, { ...fallingObj }],
     }
 }
 
-export const removeFallingObject = (state, fallingObjId) => {
-    const index = state.fallingObjects.findIndex((obj) => obj.id === id)
+export const removeFallingObject = (state, fallingObj) => {
+    const index = state.fallingObjects.findIndex(
+        (obj) => obj.id === fallingObj.id,
+    )
+    console.log(index)
     if (index === -1) {
         return state // A non-existent ID was passed in, hence do nothing
     }
@@ -137,6 +140,8 @@ export function FallingObject({
     this.numerator = numerator
     this.denominator = denominator
     this.id = id
+    this.value =
+        Math.round((numerator / denominator + Number.EPSILON) * 100) / 100
 }
 
 export const setFallingObjPosY = (state, fallingObj, value) => {
@@ -180,7 +185,7 @@ export const calcBasketValue = (state, fallingObj) => {
         ...state,
         basket: {
             ...state.basket,
-            basketValue: basket.basketValue + fallingObj.value,
+            basketValue: state.basket.basketValue + fallingObj.value,
         },
     }
 }
@@ -209,8 +214,8 @@ export const calcLives = (state) =>
           }
         : state
 
-export const update = (state) => {
-    let nextState = calcBasketValue(state)
+export const update = (state, fallingObject) => {
+    let nextState = calcBasketValue(state, fallingObject)
     nextState = calcScore(nextState)
     return calcLives(nextState)
 }

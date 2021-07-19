@@ -1,6 +1,19 @@
 // suggestion for default speed and rate
+import { isColliding } from './collisionAlgo.js'
+import * as mutatorFns from './stateMutators.js'
 const DEFAULT_SPEED = 200
 const DEFAULT_RATE = 120
+
+// random from 0 to 7
+function randomColumnIndex() {
+    return Math.floor(Math.random() * 8)
+}
+
+// generate random number
+function randomInRange(start, end) {
+    return Math.floor(Math.random() * (end - start) + start)
+}
+
 /**
  * update the yPos of the falling objects,
  * onFalling runs when yPos changes
@@ -30,6 +43,7 @@ function fall(yPos, speed, rate, onFalling) {
     let interval = run()
 
     const actions = {
+        stopped: false,
         pause: () => {
             clearInterval(interval)
             interval = null
@@ -53,7 +67,98 @@ function fall(yPos, speed, rate, onFalling) {
             actions.resume = () => {}
             actions.restart = () => {}
             actions.stop = () => {}
+            actions.stopped = true
         },
     }
     return actions
+}
+
+let currentId = 0
+function generateObject(logic) {
+    // TODO: generate number based on logic.state.gameLevel
+    const n = [randomInRange(1, 5), randomInRange(1, 5)].sort()
+    currentId += 1
+
+    return new mutatorFns.FallingObject({
+        columnIndex: randomColumnIndex(),
+        yPos: 100,
+        numerator: n[0],
+        denominator: n[1],
+        id: currentId,
+    })
+}
+
+export function rain(logic) {
+    const fallingLogics = []
+    let interval
+    const run = () =>
+        setInterval(() => {
+            const obj = generateObject(logic)
+
+            logic.mutate(mutatorFns.addFallingObject, obj)
+
+            const fallingObjectEl = document.getElementById(obj.id)
+            if (fallingObjectEl) {
+                const xPosPx = fallingObjectEl.getBoundingClientRect().x
+                obj.xPosPx = xPosPx
+            }
+
+            // TODO: speed based on logic.state.gameLevel
+            const speed = 300
+
+            const fallingLogic = fall(obj.yPos, speed, 60, (newYPos) => {
+                obj.yPos = newYPos
+                logic.mutate(mutatorFns.setFallingObjPosY, obj, newYPos)
+                if (isColliding(logic.state.basket, obj)) {
+                    fallingLogic.stop()
+                    logic.mutate(mutatorFns.removeFallingObject, obj)
+                    logic.mutate(mutatorFns.update, obj)
+                    if (fallingObjectEl) {
+                        fallingObjectEl.remove()
+                    }
+                }
+                if (obj.yPos > window.innerHeight) {
+                    if (fallingObjectEl) {
+                        fallingObjectEl.remove()
+                    }
+                }
+            })
+            fallingLogics.push(fallingLogic)
+        }, 2000)
+
+    interval = run()
+
+    return {
+        pause: () => {
+            clearInterval(interval)
+            interval = null
+            fallingLogics.forEach((obj) => {
+                obj.pause()
+            })
+        },
+        resume: () => {
+            if (interval === null) {
+                // if it's not already running
+                interval = run()
+                fallingLogics.forEach((obj) => {
+                    obj.resume()
+                })
+            }
+        },
+        restart: () => {
+            clearInterval(interval)
+            fallingLogics.forEach((obj) => {
+                obj.stop()
+            })
+            fallingLogics = []
+            interval = run()
+        },
+        stop: () => {
+            clearInterval(interval)
+            fallingLogics.forEach((obj) => {
+                obj.stop()
+            })
+            fallingLogics = []
+        },
+    }
 }
