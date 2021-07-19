@@ -125,32 +125,26 @@ export const toggleMute = (state) => ({
 export const addFallingObject = (state, fallingObj) => {
     return {
         ...state,
-        fallingObjects: [...state.fallingObjects, { ...fallingObj }],
+        fallingObjects: {
+            ...state.fallingObjects,
+            [fallingObj.id]: { ...fallingObj },
+        },
     }
 }
 
 export const resetFallingObjects = (state) => {
     return {
         ...state,
-        fallingObjects: [],
+        fallingObjects: INIT_STATE.fallingObjects,
     }
 }
 
-export const removeFallingObject = (state, fallingObj) => {
-    const index = state.fallingObjects.findIndex(
-        (obj) => obj.id === fallingObj.id,
-    )
-    // console.log(index)
-    if (index === -1) {
-        return state // A non-existent ID was passed in, hence do nothing
-    }
+export const removeFallingObject = (state, { id }) => {
+    const { [id]: toRemove, ...remainingFallingObjs } = state.fallingObjects
 
     return {
         ...state,
-        fallingObjects: [
-            ...state.fallingObjects.slice(0, index),
-            ...state.fallingObjects.slice(index + 1),
-        ],
+        fallingObjects: remainingFallingObjs,
     }
 }
 
@@ -181,37 +175,20 @@ export function FallingObject({
         Math.round((numerator / denominator + Number.EPSILON) * 100) / 100
 }
 
-export const setFallingObjPosY = (state, fallingObj, value) => {
-    const newFallingObjects = state.fallingObjects.map((obj) => {
-        if (obj.id === fallingObj.id) {
-            return {
-                ...obj,
-                yPos: value,
-            }
-        } else {
-            return {
-                ...obj,
-            }
-        }
-    })
+export const setFallingObjPosY = (state, { id }, value) => {
+    if (!state.fallingObjects[id]) {
+        return state
+    }
 
     return {
         ...state,
-        fallingObjects: newFallingObjects,
-    }
-}
-
-export const setFallingObjNumerator = (fallingObj, value) => {
-    return {
-        ...fallingObj,
-        numerator: value,
-    }
-}
-
-export const setFallingObjDenominator = (fallingObj, value) => {
-    return {
-        ...fallingObj,
-        denominator: value,
+        fallingObjects: {
+            ...state.fallingObjects,
+            [id]: {
+                ...state.fallingObjects[id],
+                yPos: value,
+            },
+        },
     }
 }
 

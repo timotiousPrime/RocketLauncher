@@ -86,7 +86,7 @@ function renderFallingObjects({ fallingObjects }) {
         document.getElementById(EL_IDS.fallingObjectsList).children,
     )
 
-    fallingObjects.forEach((fallingObject) => {
+    Object.values(fallingObjects).forEach((fallingObject) => {
         let fallingObjectEl = document.getElementById(fallingObject.id)
         if (fallingObjectEl) {
             fallingObjectEl.style.top = toPx(fallingObject.yPos)
