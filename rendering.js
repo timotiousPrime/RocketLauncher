@@ -17,7 +17,7 @@ function renderOverlay({ gameMode }) {
     let textElId
     let displayMode = 'block'
 
-    switch (state.gameMode) {
+    switch (gameMode) {
         case GAME_MODE.PAUSED:
             textElId = EL_IDS.overlayTextPause
             break
@@ -46,7 +46,10 @@ function renderBasket({ basket }) {
     basketDiv.style.height = toPx(basket.height)
 }
 
-function renderBasketValue({ basket }) {}
+function renderBasketValue({ basket }) {
+    const basketEl = document.getElementById(EL_IDS.basketValue)
+    basketEl.innerText = basket.basketValue
+}
 
 function renderScore({ score }) {
     const scoreEl = document.getElementById(EL_IDS.scoreValue)
@@ -64,31 +67,36 @@ function renderLivesRemaining({ livesRemaining }) {
 }
 
 function renderFallingObjects({ fallingObjects }) {
-    const fallingObjectColumnEls = document.getElementById(
-        EL_IDS.fallingObjectsList,
-    ).children
+    const fallingObjectColumnEls = Array.from(
+        document.getElementById(EL_IDS.fallingObjectsList).children,
+    )
 
     fallingObjects.forEach((fallingObject) => {
+        let fallingObjectEl = document.getElementById(fallingObject.id)
+        if (fallingObjectEl) {
+            fallingObjectEl.style.top = toPx(fallingObject.yPos)
+            return
+        }
+
         const fallingObjectColumnEl =
             fallingObjectColumnEls[fallingObject.columnIndex]
-        const fallingObjectEl = document.createElement('span')
+
+        fallingObjectEl = document.createElement('span')
         const numeratorEl = document.createElement('span')
         const denominatorEl = document.createElement('span')
-
         fallingObjectEl.classList.add('falling-object')
         fallingObjectEl.id = fallingObject.id
         numeratorEl.classList.add('falling-object-numerator')
         denominatorEl.classList.add('falling-object-denominator')
-
-        fallingObjectEl.style.left = toPx(fallingObject.xPos)
-        fallingObjectEl.style.top = toPx(fallingObject.yPos)
-        fallingObjectEl.style.width = toPx(fallingObject.width)
-        fallingObjectEl.style.height = toPx(fallingObject.height)
         numeratorEl.textContent = fallingObject.numerator
         denominatorEl.textContent = fallingObject.denominator
 
         fallingObjectEl.appendChild(numeratorEl)
         fallingObjectEl.appendChild(denominatorEl)
         fallingObjectColumnEl.appendChild(fallingObjectEl)
+
+        fallingObjectEl.style.left = toPx(fallingObject.xPos)
+        fallingObjectEl.style.width = toPx(fallingObject.width)
+        fallingObjectEl.style.height = toPx(fallingObject.height)
     })
 }

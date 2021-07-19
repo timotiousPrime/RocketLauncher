@@ -14,8 +14,9 @@ export class StatefulLogic {
     }
 
     mutate(mutatorFn, ...args) {
-        const nextState = mutatorFn(this.state, ...args)
-        this.onStateUpdate(nextState)
+        const oldState = { ...this.state }
+        const nextState = mutatorFn(oldState, ...args)
+        this.onStateUpdate(oldState, nextState)
         this.state = nextState
     }
 }
