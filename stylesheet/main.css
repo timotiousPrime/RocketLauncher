@@ -41,6 +41,7 @@ body {
 }
 
 .basket {
+    z-index: 10;
     width: 100px;
     height: auto;
     position: absolute;
@@ -55,6 +56,24 @@ body {
     top: 12%;
     transform: translateX(-50%);
     color: #00a9e2;
+}
+
+/* The rocket image won't display unless it is in a div */
+.rocketContainer {
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
+    width: 200px;
+    height: 250px;
+}
+
+.rocket {
+    z-index: 1;
+    position: absolute;
+    bottom: 0;
+    right: 5px;
+    width: 120px;
+    height: auto;
 }
 
 .stats-box {
