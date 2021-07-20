@@ -3,44 +3,22 @@ import * as mutatorFns from './stateMutators.js'
 
 export function setupEventListener(logic) {
     // move basket when left or right key is pressed
+
+    const playArea = document.querySelector('.play-area')
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
-            const playArea = document.getElementsByClassName('play-area')
-            if (logic.state.basket.xPos <= 80) {
-                logic.mutate(mutatorFns.moveBasketLeft, logic.state.basket.xPos)
-            } else {
-                logic.mutate(mutatorFns.moveBasketLeft, 80)
-            }
-            // console.log('Left key was pressed')
+            logic.mutate(mutatorFns.moveBasketLeft, 15)
         }
 
         if (e.key === 'ArrowRight') {
-            console.log(logic.state.basket.xPos + logic.state.basket.width)
-            console.log(playArea.clientWidth - 80)
-            console.log(playArea.clientWidth - logic.state.basket.xPos)
-
-            if (
-                logic.state.basket.xPos + logic.state.basket.width >=
-                playArea.clientWidth - 80
-            ) {
-                logic.mutate(
-                    mutatorFns.moveBasketRight,
-                    playArea.clientWidth -
-                        (logic.state.basket.xPos + logic.state.basket.width),
-                )
-            } else {
-                logic.mutate(mutatorFns.moveBasketRight, 80)
-            }
-            // console.log('Right key was pressed')
+            logic.mutate(mutatorFns.moveBasketRight, 15)
         }
     })
 
     // move basket when mouse is used
-    const playArea = document.querySelector('.play-area')
-
     playArea.addEventListener('mousemove', (e) => {
-        let xPos = e.clientX - logic.state.basket.width / 2
-        // console.log('mouse is on x pixel ' + xPos) // currently xPos is NaN because it doesn't know what basket is
+        let xPos = (e.x / playArea.clientWidth) * 100
         logic.mutate(mutatorFns.updateBasket, { xPos })
     })
 
