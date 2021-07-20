@@ -41,7 +41,17 @@ function renderOverlay({ gameMode }) {
 
 function renderBasket({ basket }) {
     const basketDiv = document.getElementById(EL_IDS.basket)
-    basketDiv.style.left = toPx(basket.xPos)
+    const playArea = document.querySelector('.play-area')
+
+    let leftOffSetPx =
+        (basket.xPos / 100) * playArea.clientWidth - basket.width / 2
+    if (leftOffSetPx < 0) {
+        leftOffSetPx = 0
+    } else if (leftOffSetPx >= playArea.clientWidth) {
+        leftOffSetPx = playArea.clientWidth - basket.width
+    }
+
+    basketDiv.style.left = toPx(leftOffSetPx) // setting the xPos to a percentage
     basketDiv.style.width = toPx(basket.width)
     basketDiv.style.height = toPx(basket.height)
 }
