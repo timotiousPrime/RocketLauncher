@@ -1,33 +1,54 @@
 import { FALLING_OBJ_INIT_STATE, INIT_STATE } from './constants.js'
 
 export const updateBasket = (state, { ...props }) => {
+    let xPos = props.xPos
+    if (xPos <= 0) {
+        xPos = 0
+    } else if (xPos >= 99) {
+        xPos = 99
+    }
     return {
         ...state,
         basket: {
             ...state.basket,
             ...props,
+            xPos,
         },
     }
 }
 
 export const moveBasketLeft = (state, value) => {
+    const xPos = state.basket.xPos - value
+    if (xPos >= 0) {
+        return {
+            ...state,
+            basket: {
+                ...state.basket,
+                xPos: xPos,
+            },
+        }
+    }
     return {
         ...state,
         basket: {
             ...state.basket,
-            xPos: state.basket.xPos - value,
+            xPos: 0,
         },
     }
 }
 
 export const moveBasketRight = (state, value) => {
-    return {
-        ...state,
-        basket: {
-            ...state.basket,
-            xPos: state.basket.xPos + value,
-        },
+    const xPos = state.basket.xPos + value
+    if (xPos <= 99) {
+        return {
+            ...state,
+            basket: {
+                ...state.basket,
+                xPos: xPos,
+            },
+        }
     }
+    return state
 }
 
 export const setBasketValue = (state, value) => {
