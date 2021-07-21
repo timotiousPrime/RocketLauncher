@@ -53,6 +53,16 @@ export function setupEventListener(logic) {
             // )
         }
     })
+
+    // listen for when restart is clicked is clicked
+    const restartBtn = document.querySelector('.restartBtn')
+
+    restartBtn.addEventListener('click', () => {
+        logic.mutate(mutatorFns.resetBasketValue)
+        logic.mutate(mutatorFns.resetScore)
+        logic.mutate(mutatorFns.resetGameLevel)
+        logic.mutate(mutatorFns.resetLivesRemaining)
+    })
 }
 
 // listen for when play is clicked
@@ -60,3 +70,4 @@ export function setupEventListener(logic) {
 
 // listen for when pause is clicked
 // will add when buttons for this functionality are added
+
