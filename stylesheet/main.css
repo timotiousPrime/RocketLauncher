@@ -97,6 +97,47 @@ body {
     font-size: 18px;
     text-transform: uppercase;
 }
+
+.btnContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 10vh;
+}
+
+.btn {
+    position: relative;
+}
+
+.btn > img {
+    position: relative;
+    height: 8vh;
+}
+
+.btn > .btnBackgroundDiv {
+    height: 8vh;
+}
+
+.btn > .btnBackgroundDiv > img {
+    height: 100%;
+}
+
+.btn > .insideBtnDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 1px;
+}
+
+.insideBtn {
+    height: 5vh;
+}
+
 .text-block {
     text-align: center;
     margin-top: 24px;
