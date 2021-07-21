@@ -1,6 +1,7 @@
 import { EL_IDS, GAME_MODE } from './constants.js'
 
 const toPx = (value) => `${value}px`
+const toPercent = (value) => `${value}%`
 
 // __This is the main render function which delegates control to the more-specific render functions.__
 export function renderGame(state) {
@@ -43,15 +44,27 @@ function renderBasket({ basket }) {
     const basketDiv = document.getElementById(EL_IDS.basket)
     const playArea = document.querySelector('.play-area')
 
-    let leftOffSetPx =
-        (basket.xPos / 100) * playArea.clientWidth - basket.width / 2
-    if (leftOffSetPx < 0) {
-        leftOffSetPx = 0
-    } else if (leftOffSetPx >= playArea.clientWidth) {
-        leftOffSetPx = playArea.clientWidth - basket.width
+    // basket width in % value
+    // console.log(((basket.width)/playArea.clientWidth)*100)
+    let halfOfBasket = basket.width / playArea.clientWidth * 100 / 2
+
+    // let leftOffSetPx =
+    //     (basket.xPos / 100) * playArea.clientWidth - basket.width / 2
+    // if (leftOffSetPx < 0) {
+    //     leftOffSetPx = 0
+    // } else if (leftOffSetPx >= playArea.clientWidth) {
+    //     leftOffSetPx = playArea.clientWidth - basket.width
+    // }
+
+    // Gets the of the basket in % value
+    let leftOffSetPercent = basket.xPos - halfOfBasket
+    if (leftOffSetPercent < 0 ) {
+        leftOffSetPercent = 0
+    } else if (leftOffSetPercent >= 100 - halfOfBasket*2) {
+        leftOffSetPercent = 100 - halfOfBasket*2
     }
 
-    basketDiv.style.left = toPx(leftOffSetPx) // setting the xPos to a percentage
+    basketDiv.style.left = toPercent(leftOffSetPercent) // setting the xPos to a percentage
     basketDiv.style.width = toPx(basket.width)
     basketDiv.style.height = toPx(basket.height)
 }
