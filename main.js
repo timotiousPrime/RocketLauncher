@@ -1,9 +1,10 @@
 import { GAME_MODE, INIT_STATE } from './constants.js'
-import { setupInitialDOMRelatedState } from './dom.js'
+import { onWindowVisibilityChange, setupInitialDOMRelatedState } from './dom.js'
 import { setupEventListener } from './EventListeners.js'
 import { rain } from './falling.js'
 import { renderGame } from './rendering.js'
 import { StatefulLogic } from './statefulLogic.js'
+import * as mutatorFns from './stateMutators.js'
 
 function runGame() {
     let rainLogic
@@ -24,8 +25,6 @@ function runGame() {
                         break
                 }
             }
-            if (rainLogic) {
-            }
             renderGame(state)
         },
         getInitState: () => ({ ...INIT_STATE }),
@@ -35,6 +34,14 @@ function runGame() {
     setupEventListener(logic)
 
     setupInitialDOMRelatedState(logic)
+
+    onWindowVisibilityChange((isVisible) => {
+        if (isVisible) {
+            logic.mutate(mutatorFns.setGameMode, GAME_MODE.RUNNING)
+        } else {
+            logic.mutate(mutatorFns.setGameMode, GAME_MODE.PAUSED)
+        }
+    })
 
     // TODO: Start rain
     rainLogic = rain(logic)

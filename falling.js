@@ -1,3 +1,4 @@
+// @ts-check
 // suggestion for default speed and rate
 import { isColliding } from './collisionAlgo.js'
 import * as mutatorFns from './stateMutators.js'
@@ -74,9 +75,29 @@ function fall(yPos, speed, rate, onFalling) {
 }
 
 let currentId = 0
+const levelToMaxDenominatorMapper = {
+    1: 5,
+    2: 8,
+    3: 12,
+    4: 16,
+    5: 20,
+    6: 24,
+    7: 50,
+    8: 100,
+    9: 150,
+    10: 200,
+}
 function generateObject(logic) {
     // TODO: generate number based on logic.state.gameLevel
-    const n = [randomInRange(1, 5), randomInRange(1, 5)].sort()
+
+    logic.state.gameLevel
+    let maxDenominator = levelToMaxDenominatorMapper[logic.state.gameLevel]
+    let maxNominator = maxDenominator / 2
+
+    const n = [
+        randomInRange(1, maxNominator),
+        randomInRange(1, maxDenominator),
+    ].sort()
     currentId += 1
 
     return new mutatorFns.FallingObject({
@@ -89,8 +110,9 @@ function generateObject(logic) {
 }
 
 export function rain(logic) {
-    const fallingLogics = []
+    let fallingLogics = []
     let interval
+    let speed = 700
     const run = () =>
         setInterval(() => {
             const obj = generateObject(logic)
@@ -103,24 +125,29 @@ export function rain(logic) {
                 obj.xPosPx = xPosPx
             }
 
-            // TODO: speed based on logic.state.gameLevel
-            const speed = 300
+            speed = logic.state.gameLevel * 20 + 300
 
-            const fallingLogic = fall(obj.yPos, speed, 60, (newYPos) => {
+            const fallingLogic = fall(obj.yPos, speed, 30, (newYPos) => {
                 obj.yPos = newYPos
                 logic.mutate(mutatorFns.setFallingObjPosY, obj, newYPos)
-                if (isColliding(logic.state.basket, obj)) {
+                const isCollide = isColliding(logic.state.basket, obj)
+
+                if (isCollide || obj.yPos > window.innerHeight) {
                     fallingLogic.stop()
                     logic.mutate(mutatorFns.removeFallingObject, obj)
-                    logic.mutate(mutatorFns.update, obj)
                     if (fallingObjectEl) {
                         fallingObjectEl.remove()
+                    }
+                    const index = fallingLogics.indexOf(fallingLogic)
+                    if (index !== -1) {
+                        fallingLogics = [
+                            ...fallingLogics.slice(0, index),
+                            ...fallingLogics.slice(index + 1),
+                        ]
                     }
                 }
-                if (obj.yPos > window.innerHeight) {
-                    if (fallingObjectEl) {
-                        fallingObjectEl.remove()
-                    }
+                if (isCollide) {
+                    logic.mutate(mutatorFns.update, obj)
                 }
             })
             fallingLogics.push(fallingLogic)

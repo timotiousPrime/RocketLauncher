@@ -7,3 +7,26 @@ export function setupInitialDOMRelatedState(logic) {
     const { x, y, width, height } = basketEl.getBoundingClientRect()
     logic.mutate(mutatorFns.updateBasket, { xPos: x, yPos: y, width, height })
 }
+
+/**
+ * @return {(isVisible: boolean) => void
+ */
+export function onWindowVisibilityChange(callback) {
+    let hidden
+    let visibilityChange
+    if (typeof document.hidden !== 'undefined') {
+        // Opera 12.10 and Firefox 18 and later support
+        hidden = 'hidden'
+        visibilityChange = 'visibilitychange'
+    } else if (typeof document.msHidden !== 'undefined') {
+        hidden = 'msHidden'
+        visibilityChange = 'msvisibilitychange'
+    } else if (typeof document.webkitHidden !== 'undefined') {
+        hidden = 'webkitHidden'
+        visibilityChange = 'webkitvisibilitychange'
+    }
+
+    document.addEventListener('visibilitychange', () => {
+        callback(!document[hidden])
+    })
+}

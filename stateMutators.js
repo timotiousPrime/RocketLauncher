@@ -1,4 +1,10 @@
+// @ts-check
+
 import { FALLING_OBJ_INIT_STATE, INIT_STATE } from './constants.js'
+
+function to2DecimalPlaces(num) {
+    return Math.round((num + Number.EPSILON) * 100) / 100
+}
 
 export const updateBasket = (state, { ...props }) => {
     return {
@@ -103,7 +109,6 @@ export const removeFallingObject = (state, fallingObj) => {
     const index = state.fallingObjects.findIndex(
         (obj) => obj.id === fallingObj.id,
     )
-    console.log(index)
     if (index === -1) {
         return state // A non-existent ID was passed in, hence do nothing
     }
@@ -117,10 +122,17 @@ export const removeFallingObject = (state, fallingObj) => {
     }
 }
 
+export const resetFallingObjects = (state) => {
+    return {
+        ...state,
+        fallingObjects: [],
+    }
+}
+
 /**
  * Object constructor for falling object
  *
- * @param {number} columnIndex The index of the falling object column, there are 8 of them, index from 0 to 7
+ * @param columnIndex The index of the falling object column, there are 8 of them, index from 0 to 7
  */
 export function FallingObject({
     columnIndex,
@@ -140,8 +152,8 @@ export function FallingObject({
     this.numerator = numerator
     this.denominator = denominator
     this.id = id
-    this.value =
-        Math.round((numerator / denominator + Number.EPSILON) * 100) / 100
+    this.xPosPx = xPos
+    this.value = to2DecimalPlaces(numerator / denominator)
 }
 
 export const setFallingObjPosY = (state, fallingObj, value) => {
@@ -181,17 +193,18 @@ export const setFallingObjDenominator = (fallingObj, value) => {
 // Calculating Functions
 
 export const calcBasketValue = (state, fallingObj) => {
+    let value = to2DecimalPlaces(state.basket.basketValue + fallingObj.value)
     return {
         ...state,
         basket: {
             ...state.basket,
-            basketValue: state.basket.basketValue + fallingObj.value,
+            basketValue: value,
         },
     }
 }
 
 export const calcScore = (state) =>
-    basket.basketValue === 1
+    state.basket.basketValue === 1 || state.basket.basketValue === 0.99
         ? {
               ...state,
               score: state.score + 1,
@@ -203,7 +216,7 @@ export const calcScore = (state) =>
         : state
 
 export const calcLives = (state) =>
-    basket.basketValue > 1
+    state.basket.basketValue > 1
         ? {
               ...state,
               livesRemaining: state.livesRemaining - 1,
@@ -214,8 +227,53 @@ export const calcLives = (state) =>
           }
         : state
 
+export const calcLevel = (state) => {
+    let level = state.gameLevel
+    const score = state.score
+
+    if (score >= 10 && score < 20) {
+        level = 2
+    }
+    if (score >= 20 && score < 35) {
+        level = 3
+    }
+    if (score >= 35 && score < 55) {
+        level = 4
+    }
+    if (score >= 55 && score < 80) {
+        level = 5
+    }
+    if (score >= 70 && score < 100) {
+        level = 6
+    }
+    if (score >= 100 && score < 135) {
+        level = 7
+    }
+    if (score >= 135 && score < 175) {
+        level = 8
+    }
+    if (score >= 175 && score < 220) {
+        level = 9
+    }
+    if (score >= 220) {
+        level = 10
+    }
+
+    return {
+        ...state,
+        gameLevel: level,
+    }
+}
 export const update = (state, fallingObject) => {
     let nextState = calcBasketValue(state, fallingObject)
     nextState = calcScore(nextState)
-    return calcLives(nextState)
+    console.log(nextState)
+    nextState = calcLives(nextState)
+    nextState = calcLevel(nextState)
+
+    if ([0.99, 1].includes(nextState.basket.basketValue)) {
+        nextState = setBasketValue(nextState, 0)
+    }
+
+    return nextState
 }
