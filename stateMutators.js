@@ -124,7 +124,7 @@ export const removeFallingObject = (state, fallingObj) => {
     const index = state.fallingObjects.findIndex(
         (obj) => obj.id === fallingObj.id,
     )
-    console.log(index)
+    // console.log(index)
     if (index === -1) {
         return state // A non-existent ID was passed in, hence do nothing
     }
