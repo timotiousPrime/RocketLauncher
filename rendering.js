@@ -42,7 +42,7 @@ function renderOverlay({ gameMode }) {
 
 function renderBasket({ basket }) {
     const basketDiv = document.getElementById(EL_IDS.basket)
-    const playArea = document.querySelector('.play-area')
+    const playArea = document.getElementById(EL_IDS.playArea)
 
     // basket width in % value
     // console.log(((basket.width)/playArea.clientWidth)*100)

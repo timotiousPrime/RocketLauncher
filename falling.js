@@ -1,6 +1,8 @@
 // suggestion for default speed and rate
 import { isColliding } from './collisionAlgo.js'
 import * as mutatorFns from './stateMutators.js'
+import { EL_IDS, FALLING_OBJ_INIT_STATE } from './constants.js'
+
 const DEFAULT_SPEED = 200
 const DEFAULT_RATE = 120
 
@@ -89,6 +91,7 @@ function generateObject(logic) {
 }
 
 export function rain(logic) {
+    const playArea = document.getElementById(EL_IDS.playArea)
     const fallingLogics = []
     let interval
     const run = () =>
