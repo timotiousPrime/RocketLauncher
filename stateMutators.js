@@ -99,6 +99,13 @@ export const addFallingObject = (state, fallingObj) => {
     }
 }
 
+export const resetFallingObjects = (state) => {
+    return {
+        ...state,
+        fallingObjects: [],
+    }
+}
+
 export const removeFallingObject = (state, fallingObj) => {
     const index = state.fallingObjects.findIndex(
         (obj) => obj.id === fallingObj.id,
@@ -218,4 +225,12 @@ export const update = (state, fallingObject) => {
     let nextState = calcBasketValue(state, fallingObject)
     nextState = calcScore(nextState)
     return calcLives(nextState)
+}
+
+export const restartGame = (state) => {
+    let nextState = resetBasketValue(state)
+    nextState = resetScore(nextState)
+    nextState = resetGameLevel(nextState)
+    nextState = resetLivesRemaining(nextState)
+    return resetFallingObjects(nextState)
 }

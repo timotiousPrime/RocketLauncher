@@ -55,13 +55,17 @@ export function setupEventListener(logic) {
     })
 
     // listen for when restart is clicked is clicked
-    const restartBtn = document.querySelector('.restartBtn')
+    const restartBtn = document.getElementById('restart')
 
     restartBtn.addEventListener('click', () => {
-        logic.mutate(mutatorFns.resetBasketValue)
-        logic.mutate(mutatorFns.resetScore)
-        logic.mutate(mutatorFns.resetGameLevel)
-        logic.mutate(mutatorFns.resetLivesRemaining)
+    const fallingObjs = document.querySelectorAll('.falling-object')
+    
+        fallingObjs.forEach( (fallingObj) => {
+            fallingObj.remove()
+        })
+        
+    logic.mutate(mutatorFns.restartGame)
+
     })
 }
 
