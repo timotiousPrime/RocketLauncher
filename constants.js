@@ -18,6 +18,7 @@ export const EL_IDS = {
     overlayTextGameOver: 'overlay-text-gameover',
     overlay: 'game-overlay',
     playArea: 'play-area',
+    restartBtn: 'restart-btn',
 }
 
 export const INIT_STATE = {

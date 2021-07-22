@@ -32,38 +32,24 @@ export function setupEventListener(logic) {
             (logic.state.gameMode === GAME_MODE.RUNNING && e.key === 'Pause')
         ) {
             logic.mutate(mutatorFns.setGameMode, GAME_MODE.PAUSED)
-
-            // console.log(
-            //     'The game was running and has been paused with the ' +
-            //         e.key +
-            //         ' key',
-            // )
         }
 
         // Listen for when enter is pressed when game is paused, to resume game
         if (logic.state.gameMode === GAME_MODE.PAUSED && e.key === 'Enter') {
             logic.mutate(mutatorFns.setGameMode, GAME_MODE.RUNNING)
-
-            // console.log(
-            //     'The game was paused and has been resumed with the ' +
-            //         e.key +
-            //         ' key',
-            // )
         }
     })
 
-    // listen for when restart is clicked is clicked
-    const restartBtn = document.getElementById('restart')
+    // listen for when restart is clicked
+    const restartBtn = document.getElementById(EL_IDS.restartBtn)
 
     restartBtn.addEventListener('click', () => {
-    const fallingObjs = document.querySelectorAll('.falling-object')
-    
-        fallingObjs.forEach( (fallingObj) => {
+        const fallingObjs = document.querySelectorAll('.falling-object')
+        fallingObjs.forEach((fallingObj) => {
             fallingObj.remove()
         })
-        
-    logic.mutate(mutatorFns.restartGame)
 
+        logic.mutate(mutatorFns.restartGame)
     })
 }
 
@@ -72,4 +58,3 @@ export function setupEventListener(logic) {
 
 // listen for when pause is clicked
 // will add when buttons for this functionality are added
-
