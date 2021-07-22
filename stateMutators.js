@@ -17,38 +17,34 @@ export const updateBasket = (state, { ...props }) => {
     }
 }
 
-export const moveBasketLeft = (state, value) => {
-    const xPos = state.basket.xPos - value
-    if (xPos >= 0) {
-        return {
-            ...state,
-            basket: {
-                ...state.basket,
-                xPos: xPos,
-            },
-        }
+export const moveBasketLeft = (state) => {
+    let xPos = state.basket.xPos - 100 / 8
+    if (xPos < 0) {
+        xPos = 0
     }
+
     return {
         ...state,
         basket: {
             ...state.basket,
-            xPos: 0,
+            xPos,
         },
     }
 }
 
-export const moveBasketRight = (state, value) => {
-    const xPos = state.basket.xPos + value
-    if (xPos <= 99) {
-        return {
-            ...state,
-            basket: {
-                ...state.basket,
-                xPos: xPos,
-            },
-        }
+export const moveBasketRight = (state) => {
+    let xPos = state.basket.xPos + 100 / 8
+    if (xPos > 99) {
+        xPos = 99
     }
-    return state
+
+    return {
+        ...state,
+        basket: {
+            ...state.basket,
+            xPos,
+        },
+    }
 }
 
 export const setBasketValue = (state, value) => {
