@@ -19,6 +19,7 @@ export const EL_IDS = {
     overlay: 'game-overlay',
     playArea: 'play-area',
     restartBtn: 'restart-btn',
+    pauseBtn: 'pause-btn',
 }
 
 export const INIT_STATE = {

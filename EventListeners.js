@@ -51,6 +51,12 @@ export function setupEventListener(logic) {
 
         logic.mutate(mutatorFns.restartGame)
     })
+
+    const pauseBtn = document.getElementById(EL_IDS.pauseBtn)
+
+    pauseBtn.addEventListener('click', () => {
+        logic.mutate(mutatorFns.toggleGamePause)
+    })
 }
 
 // listen for when play is clicked

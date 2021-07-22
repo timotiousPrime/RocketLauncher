@@ -1,4 +1,4 @@
-import { FALLING_OBJ_INIT_STATE, INIT_STATE } from './constants.js'
+import { FALLING_OBJ_INIT_STATE, INIT_STATE, GAME_MODE } from './constants.js'
 
 export const updateBasket = (state, { ...props }) => {
     let xPos = props.xPos
@@ -108,6 +108,14 @@ export const setGameMode = (state, value) => {
         gameMode: value,
     }
 }
+
+export const toggleGamePause = (state) => ({
+    ...state,
+    gameMode:
+        state.gameMode === GAME_MODE.PAUSED
+            ? GAME_MODE.RUNNING
+            : GAME_MODE.PAUSED,
+})
 
 export const addFallingObject = (state, fallingObj) => {
     return {
