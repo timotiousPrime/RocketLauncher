@@ -1,4 +1,5 @@
 import { EL_IDS, GAME_MODE } from './constants.js'
+import { pxToPercent } from './utils.js'
 
 const toPx = (value) => `${value}px`
 const toPercent = (value) => `${value}%`
@@ -44,24 +45,15 @@ function renderBasket({ basket }) {
     const basketDiv = document.getElementById(EL_IDS.basket)
     const playArea = document.getElementById(EL_IDS.playArea)
 
-    // basket width in % value
-    // console.log(((basket.width)/playArea.clientWidth)*100)
-    let halfOfBasket = basket.width / playArea.clientWidth * 100 / 2
-
-    // let leftOffSetPx =
-    //     (basket.xPos / 100) * playArea.clientWidth - basket.width / 2
-    // if (leftOffSetPx < 0) {
-    //     leftOffSetPx = 0
-    // } else if (leftOffSetPx >= playArea.clientWidth) {
-    //     leftOffSetPx = playArea.clientWidth - basket.width
-    // }
+    // Basket width in % value
+    let halfOfBasket = pxToPercent(basket.width, playArea.clientWidth) / 2
 
     // Gets the of the basket in % value
-    let leftOffSetPercent = basket.xPos - halfOfBasket
-    if (leftOffSetPercent < 0 ) {
+    let leftOffSetPercent = basket.xPos
+    if (leftOffSetPercent < 0) {
         leftOffSetPercent = 0
-    } else if (leftOffSetPercent >= 100 - halfOfBasket*2) {
-        leftOffSetPercent = 100 - halfOfBasket*2
+    } else if (leftOffSetPercent >= 100 - halfOfBasket * 2) {
+        leftOffSetPercent = 100 - halfOfBasket * 2
     }
 
     basketDiv.style.left = toPercent(leftOffSetPercent) // setting the xPos to a percentage
@@ -118,7 +110,6 @@ function renderFallingObjects({ fallingObjects }) {
         fallingObjectEl.appendChild(denominatorEl)
         fallingObjectColumnEl.appendChild(fallingObjectEl)
 
-        fallingObjectEl.style.left = toPx(fallingObject.xPos)
         fallingObjectEl.style.width = toPx(fallingObject.width)
         fallingObjectEl.style.height = toPx(fallingObject.height)
     })

@@ -1,5 +1,6 @@
 import { GAME_MODE, EL_IDS } from './constants.js'
 import * as mutatorFns from './stateMutators.js'
+import { pxToPercent } from './utils.js'
 
 export function setupEventListener(logic) {
     const playArea = document.getElementById(EL_IDS.playArea)
@@ -17,7 +18,7 @@ export function setupEventListener(logic) {
 
     // move basket when mouse is used
     playArea.addEventListener('mousemove', (e) => {
-        let xPos = (e.x / playArea.clientWidth) * 100
+        let xPos = pxToPercent(e.x, playArea.clientWidth)
         logic.mutate(mutatorFns.updateBasket, { xPos })
     })
 
