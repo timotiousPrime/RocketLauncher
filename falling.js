@@ -1,6 +1,9 @@
 // suggestion for default speed and rate
+import { percentToPx } from './utils.js'
 import { isColliding } from './collisionAlgo.js'
 import * as mutatorFns from './stateMutators.js'
+import { EL_IDS, FALLING_OBJ_INIT_STATE } from './constants.js'
+
 const DEFAULT_SPEED = 200
 const DEFAULT_RATE = 120
 
@@ -74,7 +77,7 @@ function fall(yPos, speed, rate, onFalling) {
 }
 
 let currentId = 0
-function generateObject(logic) {
+function generateObject() {
     // TODO: generate number based on logic.state.gameLevel
     const n = [randomInRange(1, 5), randomInRange(1, 5)].sort()
     currentId += 1
@@ -89,12 +92,13 @@ function generateObject(logic) {
 }
 
 export function rain(logic) {
+    const playArea = document.getElementById(EL_IDS.playArea)
     const fallingLogics = []
     let interval
+
     const run = () =>
         setInterval(() => {
-            const obj = generateObject(logic)
-
+            const obj = generateObject()
             logic.mutate(mutatorFns.addFallingObject, obj)
 
             const fallingObjectEl = document.getElementById(obj.id)
@@ -107,9 +111,17 @@ export function rain(logic) {
             const speed = 300
 
             const fallingLogic = fall(obj.yPos, speed, 60, (newYPos) => {
+                const basket = {
+                    ...logic.state.basket,
+                    xPosPx: percentToPx(
+                        logic.state.basket.xPos,
+                        playArea.clientWidth,
+                    ),
+                }
+
                 obj.yPos = newYPos
                 logic.mutate(mutatorFns.setFallingObjPosY, obj, newYPos)
-                if (isColliding(logic.state.basket, obj)) {
+                if (isColliding(basket, obj)) {
                     fallingLogic.stop()
                     logic.mutate(mutatorFns.removeFallingObject, obj)
                     logic.mutate(mutatorFns.update, obj)

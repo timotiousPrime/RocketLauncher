@@ -1,26 +1,24 @@
-import { GAME_MODE } from './constants.js'
+import { GAME_MODE, EL_IDS } from './constants.js'
 import * as mutatorFns from './stateMutators.js'
+import { pxToPercent } from './utils.js'
 
 export function setupEventListener(logic) {
+    const playArea = document.getElementById(EL_IDS.playArea)
+
     // move basket when left or right key is pressed
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
-            logic.mutate(mutatorFns.moveBasketLeft, 80)
-            // console.log('Left key was pressed')
+            logic.mutate(mutatorFns.moveBasketLeft)
         }
 
         if (e.key === 'ArrowRight') {
-            logic.mutate(mutatorFns.moveBasketRight, 80)
-            // console.log('Right key was pressed')
+            logic.mutate(mutatorFns.moveBasketRight)
         }
     })
 
     // move basket when mouse is used
-    const playArea = document.querySelector('.play-area')
-
     playArea.addEventListener('mousemove', (e) => {
-        let xPos = e.clientX - logic.state.basket.width / 2
-        // console.log('mouse is on x pixel ' + xPos) // currently xPos is NaN because it doesn't know what basket is
+        let xPos = pxToPercent(e.x, playArea.clientWidth)
         logic.mutate(mutatorFns.updateBasket, { xPos })
     })
 

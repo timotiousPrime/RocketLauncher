@@ -1,6 +1,8 @@
 import { EL_IDS, GAME_MODE } from './constants.js'
+import { pxToPercent } from './utils.js'
 
 const toPx = (value) => `${value}px`
+const toPercent = (value) => `${value}%`
 
 // __This is the main render function which delegates control to the more-specific render functions.__
 export function renderGame(state) {
@@ -41,7 +43,20 @@ function renderOverlay({ gameMode }) {
 
 function renderBasket({ basket }) {
     const basketDiv = document.getElementById(EL_IDS.basket)
-    basketDiv.style.left = toPx(basket.xPos)
+    const playArea = document.getElementById(EL_IDS.playArea)
+
+    // Basket width in % value
+    let halfOfBasket = pxToPercent(basket.width, playArea.clientWidth) / 2
+
+    // Gets the of the basket in % value
+    let leftOffSetPercent = basket.xPos
+    if (leftOffSetPercent < 0) {
+        leftOffSetPercent = 0
+    } else if (leftOffSetPercent >= 100 - halfOfBasket * 2) {
+        leftOffSetPercent = 100 - halfOfBasket * 2
+    }
+
+    basketDiv.style.left = toPercent(leftOffSetPercent) // setting the xPos to a percentage
     basketDiv.style.width = toPx(basket.width)
     basketDiv.style.height = toPx(basket.height)
 }
@@ -95,7 +110,6 @@ function renderFallingObjects({ fallingObjects }) {
         fallingObjectEl.appendChild(denominatorEl)
         fallingObjectColumnEl.appendChild(fallingObjectEl)
 
-        fallingObjectEl.style.left = toPx(fallingObject.xPos)
         fallingObjectEl.style.width = toPx(fallingObject.width)
         fallingObjectEl.style.height = toPx(fallingObject.height)
     })

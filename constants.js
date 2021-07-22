@@ -17,11 +17,13 @@ export const EL_IDS = {
     overlayTextPause: 'overlay-text-pause',
     overlayTextGameOver: 'overlay-text-gameover',
     overlay: 'game-overlay',
+    playArea: 'play-area',
 }
 
 export const INIT_STATE = {
     basket: {
         basketValue: 0,
+        xPosPx: 0,
         xPos: 50,
         yPos: 0,
         width: 100,

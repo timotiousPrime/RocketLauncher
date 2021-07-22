@@ -1,31 +1,48 @@
 import { FALLING_OBJ_INIT_STATE, INIT_STATE } from './constants.js'
 
 export const updateBasket = (state, { ...props }) => {
+    let xPos = props.xPos
+    if (xPos <= 0) {
+        xPos = 0
+    } else if (xPos >= 99) {
+        xPos = 99
+    }
     return {
         ...state,
         basket: {
             ...state.basket,
             ...props,
+            xPos,
         },
     }
 }
 
-export const moveBasketLeft = (state, value) => {
+export const moveBasketLeft = (state) => {
+    let xPos = state.basket.xPos - 100 / 8
+    if (xPos < 0) {
+        xPos = 0
+    }
+
     return {
         ...state,
         basket: {
             ...state.basket,
-            xPos: state.basket.xPos - value,
+            xPos,
         },
     }
 }
 
-export const moveBasketRight = (state, value) => {
+export const moveBasketRight = (state) => {
+    let xPos = state.basket.xPos + 100 / 8
+    if (xPos > 99) {
+        xPos = 99
+    }
+
     return {
         ...state,
         basket: {
             ...state.basket,
-            xPos: state.basket.xPos + value,
+            xPos,
         },
     }
 }
@@ -110,7 +127,7 @@ export const removeFallingObject = (state, fallingObj) => {
     const index = state.fallingObjects.findIndex(
         (obj) => obj.id === fallingObj.id,
     )
-    console.log(index)
+    // console.log(index)
     if (index === -1) {
         return state // A non-existent ID was passed in, hence do nothing
     }
