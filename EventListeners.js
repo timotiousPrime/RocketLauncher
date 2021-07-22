@@ -42,7 +42,6 @@ export function setupEventListener(logic) {
 
     // listen for when restart is clicked
     const restartBtn = document.getElementById(EL_IDS.restartBtn)
-
     restartBtn.addEventListener('click', () => {
         const fallingObjs = document.querySelectorAll('.falling-object')
         fallingObjs.forEach((fallingObj) => {
@@ -53,9 +52,13 @@ export function setupEventListener(logic) {
     })
 
     const pauseBtn = document.getElementById(EL_IDS.pauseBtn)
-
     pauseBtn.addEventListener('click', () => {
         logic.mutate(mutatorFns.toggleGamePause)
+    })
+
+    const muteBtn = document.getElementById(EL_IDS.muteBtn)
+    muteBtn.addEventListener('click', () => {
+        logic.mutate(mutatorFns.toggleMute)
     })
 }
 

@@ -117,6 +117,11 @@ export const toggleGamePause = (state) => ({
             : GAME_MODE.PAUSED,
 })
 
+export const toggleMute = (state) => ({
+    ...state,
+    muteSounds: !state.muteSounds,
+})
+
 export const addFallingObject = (state, fallingObj) => {
     return {
         ...state,

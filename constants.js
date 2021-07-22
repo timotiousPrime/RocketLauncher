@@ -20,6 +20,7 @@ export const EL_IDS = {
     playArea: 'play-area',
     restartBtn: 'restart-btn',
     pauseBtn: 'pause-btn',
+    muteBtn: 'mute-btn',
 }
 
 export const INIT_STATE = {
@@ -36,6 +37,7 @@ export const INIT_STATE = {
     livesRemaining: 3,
     fallingObjects: [],
     gameMode: 'running',
+    muteSounds: false,
 }
 
 export const FALLING_OBJ_INIT_STATE = {
