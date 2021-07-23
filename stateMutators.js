@@ -295,4 +295,11 @@ export const update = (state, fallingObject) => {
     return nextState
 }
 
-export const restartGame = (state) => ({ ...INIT_STATE })
+export const restartGame = (state) => {
+    let nextState = resetBasketValue(state)
+    nextState = resetScore(nextState)
+    nextState = resetGameLevel(nextState)
+    nextState = resetLivesRemaining(nextState)
+    nextState = setGameMode(nextState, GAME_MODE.RUNNING)
+    return resetFallingObjects(nextState)
+}

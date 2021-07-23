@@ -9,14 +9,22 @@ import * as mutatorFns from './stateMutators.js'
 function runGame() {
     let rainLogic
     const logic = new StatefulLogic({
-        onStateUpdate: (oldState, state) => {
-            if (rainLogic && oldState.gameMode !== state.gameMode) {
+        onStateUpdate: (prevState, state) => {
+            const restartOrResumeRain = () => {
+                if (prevState.gameMode === GAME_MODE.GAME_OVER) {
+                    rainLogic.restart()
+                } else if (prevState.gameMode === GAME_MODE.PAUSED) {
+                    rainLogic.resume()
+                }
+            }
+
+            if (rainLogic && prevState.gameMode !== state.gameMode) {
                 switch (state.gameMode) {
                     case GAME_MODE.PAUSED:
                         rainLogic.pause()
                         break
                     case GAME_MODE.RUNNING:
-                        rainLogic.resume()
+                        restartOrResumeRain()
                         break
                     case GAME_MODE.GAME_OVER:
                         rainLogic.stop()
@@ -30,7 +38,6 @@ function runGame() {
         getInitState: () => ({ ...INIT_STATE }),
     })
 
-    // TODO: Set up event hanlders
     setupEventListener(logic)
 
     setupInitialDOMRelatedState(logic)
@@ -43,7 +50,6 @@ function runGame() {
         }
     })
 
-    // TODO: Start rain
     rainLogic = rain(logic)
 }
 
