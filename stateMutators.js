@@ -281,7 +281,7 @@ export const calcLevel = (state) => {
         gameLevel: level,
     }
 }
-export const update = (state, fallingObject) => {
+export const catchFallingObject = (state, fallingObject) => {
     let nextState = calcBasketValue(state, fallingObject)
     nextState = calcScore(nextState)
     console.log(nextState)

@@ -160,7 +160,7 @@ export function rain(logic) {
                     }
                 }
                 if (hasCollided) {
-                    logic.mutate(mutatorFns.update, obj)
+                    logic.mutate(mutatorFns.catchFallingObject, obj)
                 }
             })
             fallingLogics.push(fallingLogic)
