@@ -45,3 +45,10 @@ export function resetRocket() {
     if (!explodeEl) return
     explodeEl.classList.remove('run')
 }
+
+export function removeCurrentFallingObjects() {
+    const fallingObjects = document.getElementsByClassName('falling-object')
+    Array.from(fallingObjects).forEach((obj) => {
+        obj.remove()
+    })
+}

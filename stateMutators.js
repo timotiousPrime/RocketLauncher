@@ -1,4 +1,4 @@
-import { FALLING_OBJ_INIT_STATE, INIT_STATE, GAME_MODE } from './constants.js'
+import { FALLING_OBJ_INIT_STATE, GAME_MODE, INIT_STATE } from './constants.js'
 
 function to2DecimalPlaces(num) {
     return Math.round((num + Number.EPSILON) * 100) / 100
@@ -231,6 +231,7 @@ export const calcLives = (state) => {
         return {
             ...state,
             gameMode: GAME_MODE.GAME_OVER,
+            fallingObjects: {},
         }
     }
 
