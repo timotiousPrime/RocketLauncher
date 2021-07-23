@@ -75,6 +75,8 @@ body {
     right: 5px;
     width: auto;
     height: auto;
+    transition: all 0.2s ease;
+    opacity: 1;
 }
 
 .stats-box {
@@ -165,20 +167,17 @@ button:hover {
     left: 18%;
 }
 
-
 .pauseBtn > img {
     position: absolute;
     z-index: 6;
     left: 16%;
 }
 
-
 .muteBtn > img {
     position: absolute;
     z-index: 6;
     left: 12%;
 }
-
 
 .insideBtn {
     height: 5vh;
