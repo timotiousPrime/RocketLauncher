@@ -63,12 +63,17 @@ function renderBasket({ basket }) {
 
 function renderBasketValue({ basket }) {
     const basketEl = document.getElementById(EL_IDS.basketValue)
-    basketEl.innerText = basket.basketValue
+    if (+basketEl.innerText !== +basket.basketValue) {
+        basketEl.innerText = basket.basketValue
+    }
 }
 
 function renderScore({ score }) {
     const scoreEl = document.getElementById(EL_IDS.scoreValue)
-    scoreEl.textContent = score
+    if (+scoreEl.textContent !== +score) {
+        console.log('score ', score)
+        scoreEl.textContent = score
+    }
 }
 
 function renderLevel({ gameLevel }) {
