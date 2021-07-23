@@ -15,30 +15,27 @@ export function renderGame(state) {
     renderLevel(state)
 }
 
-function renderOverlay({ gameMode }) {
-    let textElId
-    let displayMode = 'block'
-
-    switch (gameMode) {
-        case GAME_MODE.PAUSED:
-            textElId = EL_IDS.overlayTextPause
-            break
-        case GAME_MODE.GAME_OVER:
-            textElId = EL_IDS.overlayTextGameOver
-            break
-        case GAME_MODE.INIT:
-            textElId = EL_IDS.overlayTextStart
-            break
-        case GAME_MODE.RUNNING:
-        default:
-            textElId = EL_IDS.overlayTextStart
-            displayMode = 'none'
+function renderOverlay(state) {
+    const overlay = document.getElementById(EL_IDS.overlay)
+    if (overlay) {
+        overlay.style.display =
+            state.gameMode !== GAME_MODE.RUNNING ? 'block' : 'none'
     }
 
-    const overlay = document.getElementById(EL_IDS.overlay)
-    const text = document.getElementById(textElId)
-    overlay.style.display = displayMode
-    text.style.display = displayMode
+    const overlayTextEls = {
+        [GAME_MODE.INIT]: document.getElementById(EL_IDS.overlayTextStart),
+        [GAME_MODE.PAUSED]: document.getElementById(EL_IDS.overlayTextPause),
+        [GAME_MODE.GAME_OVER]: document.getElementById(
+            EL_IDS.overlayTextGameOver,
+        ),
+    }
+
+    for (const [gameMode, textEl] of Object.entries(overlayTextEls)) {
+        if (!textEl) {
+            continue
+        }
+        textEl.style.display = state.gameMode === gameMode ? 'block' : 'none'
+    }
 }
 
 function renderBasket({ basket }) {
@@ -63,12 +60,17 @@ function renderBasket({ basket }) {
 
 function renderBasketValue({ basket }) {
     const basketEl = document.getElementById(EL_IDS.basketValue)
-    basketEl.innerText = basket.basketValue
+    if (+basketEl.innerText !== +basket.basketValue) {
+        basketEl.innerText = basket.basketValue
+    }
 }
 
 function renderScore({ score }) {
     const scoreEl = document.getElementById(EL_IDS.scoreValue)
-    scoreEl.textContent = score
+    if (+scoreEl.textContent !== +score) {
+        console.log('score ', score)
+        scoreEl.textContent = score
+    }
 }
 
 function renderLevel({ gameLevel }) {
@@ -86,7 +88,7 @@ function renderFallingObjects({ fallingObjects }) {
         document.getElementById(EL_IDS.fallingObjectsList).children,
     )
 
-    fallingObjects.forEach((fallingObject) => {
+    Object.values(fallingObjects).forEach((fallingObject) => {
         let fallingObjectEl = document.getElementById(fallingObject.id)
         if (fallingObjectEl) {
             fallingObjectEl.style.top = toPx(fallingObject.yPos)

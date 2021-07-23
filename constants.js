@@ -35,8 +35,8 @@ export const INIT_STATE = {
     score: 0,
     gameLevel: 1,
     livesRemaining: 3,
-    fallingObjects: [],
-    gameMode: 'running',
+    fallingObjects: {},
+    gameMode: GAME_MODE.RUNNING,
     muteSounds: false,
 }
 

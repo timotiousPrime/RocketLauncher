@@ -1,21 +1,30 @@
 import { GAME_MODE, INIT_STATE } from './constants.js'
-import { setupInitialDOMRelatedState } from './dom.js'
+import { onWindowVisibilityChange, setupInitialDOMRelatedState } from './dom.js'
 import { setupEventListener } from './EventListeners.js'
 import { rain } from './falling.js'
 import { renderGame } from './rendering.js'
 import { StatefulLogic } from './statefulLogic.js'
+import * as mutatorFns from './stateMutators.js'
 
 function runGame() {
     let rainLogic
     const logic = new StatefulLogic({
-        onStateUpdate: (oldState, state) => {
-            if (rainLogic && oldState.gameMode !== state.gameMode) {
+        onStateUpdate: (prevState, state) => {
+            const restartOrResumeRain = () => {
+                if (prevState.gameMode === GAME_MODE.GAME_OVER) {
+                    rainLogic.restart()
+                } else if (prevState.gameMode === GAME_MODE.PAUSED) {
+                    rainLogic.resume()
+                }
+            }
+
+            if (rainLogic && prevState.gameMode !== state.gameMode) {
                 switch (state.gameMode) {
                     case GAME_MODE.PAUSED:
                         rainLogic.pause()
                         break
                     case GAME_MODE.RUNNING:
-                        rainLogic.resume()
+                        restartOrResumeRain()
                         break
                     case GAME_MODE.GAME_OVER:
                         rainLogic.stop()
@@ -24,19 +33,23 @@ function runGame() {
                         break
                 }
             }
-            if (rainLogic) {
-            }
             renderGame(state)
         },
         getInitState: () => ({ ...INIT_STATE }),
     })
 
-    // TODO: Set up event hanlders
     setupEventListener(logic)
 
     setupInitialDOMRelatedState(logic)
 
-    // TODO: Start rain
+    onWindowVisibilityChange((isVisible) => {
+        if (isVisible) {
+            logic.mutate(mutatorFns.setGameMode, GAME_MODE.RUNNING)
+        } else {
+            logic.mutate(mutatorFns.setGameMode, GAME_MODE.PAUSED)
+        }
+    })
+
     rainLogic = rain(logic)
 }
 

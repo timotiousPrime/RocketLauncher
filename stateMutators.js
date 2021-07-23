@@ -1,5 +1,9 @@
 import { FALLING_OBJ_INIT_STATE, INIT_STATE, GAME_MODE } from './constants.js'
 
+function to2DecimalPlaces(num) {
+    return Math.round((num + Number.EPSILON) * 100) / 100
+}
+
 export const updateBasket = (state, { ...props }) => {
     let xPos = props.xPos
     if (xPos <= 0) {
@@ -125,39 +129,33 @@ export const toggleMute = (state) => ({
 export const addFallingObject = (state, fallingObj) => {
     return {
         ...state,
-        fallingObjects: [...state.fallingObjects, { ...fallingObj }],
+        fallingObjects: {
+            ...state.fallingObjects,
+            [fallingObj.id]: { ...fallingObj },
+        },
     }
 }
 
 export const resetFallingObjects = (state) => {
     return {
         ...state,
-        fallingObjects: [],
+        fallingObjects: INIT_STATE.fallingObjects,
     }
 }
 
-export const removeFallingObject = (state, fallingObj) => {
-    const index = state.fallingObjects.findIndex(
-        (obj) => obj.id === fallingObj.id,
-    )
-    // console.log(index)
-    if (index === -1) {
-        return state // A non-existent ID was passed in, hence do nothing
-    }
+export const removeFallingObject = (state, { id }) => {
+    const { [id]: toRemove, ...remainingFallingObjs } = state.fallingObjects
 
     return {
         ...state,
-        fallingObjects: [
-            ...state.fallingObjects.slice(0, index),
-            ...state.fallingObjects.slice(index + 1),
-        ],
+        fallingObjects: remainingFallingObjs,
     }
 }
 
 /**
  * Object constructor for falling object
  *
- * @param {number} columnIndex The index of the falling object column, there are 8 of them, index from 0 to 7
+ * @param columnIndex The index of the falling object column, there are 8 of them, index from 0 to 7
  */
 export function FallingObject({
     columnIndex,
@@ -177,58 +175,42 @@ export function FallingObject({
     this.numerator = numerator
     this.denominator = denominator
     this.id = id
-    this.value =
-        Math.round((numerator / denominator + Number.EPSILON) * 100) / 100
+    this.xPosPx = xPos
+    this.value = to2DecimalPlaces(numerator / denominator)
 }
 
-export const setFallingObjPosY = (state, fallingObj, value) => {
-    const newFallingObjects = state.fallingObjects.map((obj) => {
-        if (obj.id === fallingObj.id) {
-            return {
-                ...obj,
-                yPos: value,
-            }
-        } else {
-            return {
-                ...obj,
-            }
-        }
-    })
+export const setFallingObjPosY = (state, { id }, value) => {
+    if (!state.fallingObjects[id]) {
+        return state
+    }
 
     return {
         ...state,
-        fallingObjects: newFallingObjects,
-    }
-}
-
-export const setFallingObjNumerator = (fallingObj, value) => {
-    return {
-        ...fallingObj,
-        numerator: value,
-    }
-}
-
-export const setFallingObjDenominator = (fallingObj, value) => {
-    return {
-        ...fallingObj,
-        denominator: value,
+        fallingObjects: {
+            ...state.fallingObjects,
+            [id]: {
+                ...state.fallingObjects[id],
+                yPos: value,
+            },
+        },
     }
 }
 
 // Calculating Functions
 
 export const calcBasketValue = (state, fallingObj) => {
+    let value = to2DecimalPlaces(state.basket.basketValue + fallingObj.value)
     return {
         ...state,
         basket: {
             ...state.basket,
-            basketValue: state.basket.basketValue + fallingObj.value,
+            basketValue: value,
         },
     }
 }
 
 export const calcScore = (state) =>
-    basket.basketValue === 1
+    state.basket.basketValue === 1 || state.basket.basketValue === 0.99
         ? {
               ...state,
               score: state.score + 1,
@@ -239,22 +221,78 @@ export const calcScore = (state) =>
           }
         : state
 
-export const calcLives = (state) =>
-    basket.basketValue > 1
-        ? {
-              ...state,
-              livesRemaining: state.livesRemaining - 1,
-              basket: {
-                  ...state.basket,
-                  basketValue: 0,
-              },
-          }
-        : state
+export const calcLives = (state) => {
+    if (state.basket.basketValue <= 1) {
+        return state
+    }
 
-export const update = (state, fallingObject) => {
+    const livesRemaining = state.livesRemaining - 1
+    if (livesRemaining < 1) {
+        return {
+            ...state,
+            gameMode: GAME_MODE.GAME_OVER,
+        }
+    }
+
+    return {
+        ...state,
+        livesRemaining,
+        basket: {
+            ...state.basket,
+            basketValue: 0,
+        },
+    }
+}
+
+export const calcLevel = (state) => {
+    let level = state.gameLevel
+    const score = state.score
+
+    if (score >= 10 && score < 20) {
+        level = 2
+    }
+    if (score >= 20 && score < 35) {
+        level = 3
+    }
+    if (score >= 35 && score < 55) {
+        level = 4
+    }
+    if (score >= 55 && score < 80) {
+        level = 5
+    }
+    if (score >= 70 && score < 100) {
+        level = 6
+    }
+    if (score >= 100 && score < 135) {
+        level = 7
+    }
+    if (score >= 135 && score < 175) {
+        level = 8
+    }
+    if (score >= 175 && score < 220) {
+        level = 9
+    }
+    if (score >= 220) {
+        level = 10
+    }
+
+    return {
+        ...state,
+        gameLevel: level,
+    }
+}
+export const catchFallingObject = (state, fallingObject) => {
     let nextState = calcBasketValue(state, fallingObject)
     nextState = calcScore(nextState)
-    return calcLives(nextState)
+    console.log(nextState)
+    nextState = calcLives(nextState)
+    nextState = calcLevel(nextState)
+
+    if ([0.99, 1].includes(nextState.basket.basketValue)) {
+        nextState = resetBasketValue(nextState)
+    }
+
+    return nextState
 }
 
 export const restartGame = (state) => {
@@ -262,5 +300,6 @@ export const restartGame = (state) => {
     nextState = resetScore(nextState)
     nextState = resetGameLevel(nextState)
     nextState = resetLivesRemaining(nextState)
+    nextState = setGameMode(nextState, GAME_MODE.RUNNING)
     return resetFallingObjects(nextState)
 }
