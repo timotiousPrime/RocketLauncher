@@ -221,17 +221,28 @@ export const calcScore = (state) =>
           }
         : state
 
-export const calcLives = (state) =>
-    state.basket.basketValue > 1
-        ? {
-              ...state,
-              livesRemaining: state.livesRemaining - 1,
-              basket: {
-                  ...state.basket,
-                  basketValue: 0,
-              },
-          }
-        : state
+export const calcLives = (state) => {
+    if (state.basket.basketValue <= 1) {
+        return state
+    }
+
+    const livesRemaining = state.livesRemaining - 1
+    if (livesRemaining < 1) {
+        return {
+            ...state,
+            gameMode: GAME_MODE.GAME_OVER,
+        }
+    }
+
+    return {
+        ...state,
+        livesRemaining,
+        basket: {
+            ...state.basket,
+            basketValue: 0,
+        },
+    }
+}
 
 export const calcLevel = (state) => {
     let level = state.gameLevel
@@ -278,7 +289,7 @@ export const update = (state, fallingObject) => {
     nextState = calcLevel(nextState)
 
     if ([0.99, 1].includes(nextState.basket.basketValue)) {
-        nextState = setBasketValue(nextState, 0)
+        nextState = resetBasketValue(nextState)
     }
 
     return nextState
