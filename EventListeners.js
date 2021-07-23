@@ -38,6 +38,11 @@ export function setupEventListener(logic) {
         if (logic.state.gameMode === GAME_MODE.PAUSED && e.key === 'Enter') {
             logic.mutate(mutatorFns.setGameMode, GAME_MODE.RUNNING)
         }
+
+        // Listen for when enter is pressed when game is stopped, to start game
+        if (logic.state.gameMode === GAME_MODE.GAME_OVER && e.key === 'Enter') {
+            logic.mutate(mutatorFns.restartGame)
+        }
     })
 
     // listen for when restart is clicked
