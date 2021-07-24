@@ -1,5 +1,9 @@
 import { GAME_MODE, INIT_STATE } from './constants.js'
-import { onWindowVisibilityChange, setupInitialDOMRelatedState } from './dom.js'
+import {
+    onWindowVisibilityChange,
+    removeCurrentFallingObjects,
+    setupInitialDOMRelatedState,
+} from './dom.js'
 import { setupEventListener } from './EventListeners.js'
 import { rain } from './falling.js'
 import { renderGame } from './rendering.js'
@@ -28,6 +32,7 @@ function runGame() {
                         break
                     case GAME_MODE.GAME_OVER:
                         rainLogic.stop()
+                        removeCurrentFallingObjects()
                         break
                     default:
                         break
