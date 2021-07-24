@@ -30,3 +30,18 @@ export function onWindowVisibilityChange(callback) {
         callback(!document[hidden])
     })
 }
+
+let explodeEl = null
+document.addEventListener('DOMContentLoaded', function () {
+    explodeEl = document.getElementById('explode')
+})
+
+export function explode() {
+    if (!explodeEl) return
+    explodeEl.classList.add('run')
+}
+
+export function resetRocket() {
+    if (!explodeEl) return
+    explodeEl.classList.remove('run')
+}
