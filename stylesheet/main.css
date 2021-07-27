@@ -1,3 +1,7 @@
+:root {
+    --stats-box-width: 35vh;
+}
+
 html {
     height: 100%;
 }
@@ -80,7 +84,7 @@ body {
 }
 
 .stats-box {
-    width: 33vw;
+    width: var(--stats-box-width);
     background-color: #696969;
     color: #ffffff;
     padding: 20px;
@@ -202,6 +206,7 @@ button:hover {
     left: 0;
     right: 0;
     bottom: 0;
+    width: calc(100% - var(--stats-box-width));
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
 }
