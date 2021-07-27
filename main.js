@@ -48,9 +48,7 @@ function runGame() {
     setupInitialDOMRelatedState(logic)
 
     onWindowVisibilityChange((isVisible) => {
-        if (isVisible) {
-            logic.mutate(mutatorFns.setGameMode, GAME_MODE.RUNNING)
-        } else {
+        if (!isVisible) {
             logic.mutate(mutatorFns.setGameMode, GAME_MODE.PAUSED)
         }
     })
