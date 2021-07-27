@@ -3,7 +3,7 @@
     height: 120px;
     width: 120px;
     background: url(../assets/explode.png);
-    animation-duration: 1.5s;
+    animation-duration: 1s;
     animation-timing-function: steps(10);
     background-size: auto 100%;
     bottom: -20px;
@@ -21,6 +21,7 @@
     opacity: 0;
     transition-delay: 0.7s;
 }
+
 @keyframes sprite {
     from {
         background-position: 0px;

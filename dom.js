@@ -32,8 +32,10 @@ export function onWindowVisibilityChange(callback) {
 }
 
 let explodeEl = null
+let rocketEl = null
 document.addEventListener('DOMContentLoaded', function () {
     explodeEl = document.getElementById('explode')
+    rocketEl = document.getElementById('rocket')
 })
 
 export function explode() {
@@ -44,6 +46,12 @@ export function explode() {
 export function resetRocket() {
     if (!explodeEl) return
     explodeEl.classList.remove('run')
+    rocketEl.classList.remove('launch')
+}
+export function rocketLaunch() {
+    if (!rocketEl) return
+    rocketEl.classList.remove('launch')
+    rocketEl.classList.add('launch')
 }
 
 export function removeCurrentFallingObjects() {

@@ -1,7 +1,10 @@
 import { GAME_MODE, INIT_STATE } from './constants.js'
 import {
+    explode,
     onWindowVisibilityChange,
     removeCurrentFallingObjects,
+    resetRocket,
+    rocketLaunch,
     setupInitialDOMRelatedState,
 } from './dom.js'
 import { setupEventListener } from './EventListeners.js'
@@ -37,6 +40,21 @@ function runGame() {
                     default:
                         break
                 }
+            }
+            if (rainLogic && prevState.score !== state.score) {
+                console.log(prevState.score, state.score)
+                if (prevState.score < state.score) {
+                    rocketLaunch()
+                    setTimeout(() => {
+                        resetRocket()
+                    }, 1200)
+                }
+            }
+            if (rainLogic && prevState.livesRemaining > state.livesRemaining) {
+                explode()
+                setTimeout(() => {
+                    resetRocket()
+                }, 1200)
             }
             renderGame(state)
         },
