@@ -15,10 +15,16 @@ function runGame() {
     const logic = new StatefulLogic({
         onStateUpdate: (prevState, state) => {
             const restartOrResumeRain = () => {
-                if (prevState.gameMode === GAME_MODE.GAME_OVER) {
-                    rainLogic.restart()
-                } else if (prevState.gameMode === GAME_MODE.PAUSED) {
-                    rainLogic.resume()
+                switch (prevState.gameMode) {
+                    case GAME_MODE.GAME_OVER:
+                        rainLogic.restart()
+                        break
+                    case GAME_MODE.PAUSED:
+                    case GAME_MODE.INIT:
+                        rainLogic.start()
+                        break
+                    default:
+                        break
                 }
             }
 
