@@ -1,4 +1,4 @@
-import { EL_IDS, GAME_MODE } from './constants.js'
+import { EL_IDS, GAME_MODE, IMG } from './constants.js'
 import { pxToPercent } from './utils.js'
 
 const toPx = (value) => `${value}px`
@@ -10,6 +10,7 @@ export function renderGame(state) {
     renderLivesRemaining(state)
     renderBasketValue(state)
     renderOverlay(state)
+    renderButtons(state)
     renderBasket(state)
     renderScore(state)
     renderLevel(state)
@@ -35,6 +36,27 @@ function renderOverlay(state) {
             continue
         }
         textEl.style.display = state.gameMode === gameMode ? 'block' : 'none'
+    }
+}
+
+function renderButtons({ gameMode }) {
+    const restartBtn = document.getElementById(EL_IDS.restartBtn)
+    const [restartBtnImg] = restartBtn.children
+    const pauseBtn = document.getElementById(EL_IDS.pauseBtn)
+    const [pauseBtnImg] = pauseBtn.children
+
+    if (gameMode === GAME_MODE.INIT) {
+        pauseBtn.disabled = true
+        restartBtnImg.src = IMG.playBtn
+    } else {
+        pauseBtn.disabled = false
+        restartBtnImg.src = IMG.replayBtn
+    }
+
+    if (gameMode === GAME_MODE.PAUSED) {
+        pauseBtnImg.src = IMG.playBtn
+    } else {
+        pauseBtnImg.src = IMG.pauseBtn
     }
 }
 

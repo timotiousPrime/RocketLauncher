@@ -5,6 +5,13 @@ export const GAME_MODE = {
     GAME_OVER: 'game-over',
 }
 
+export const IMG_PREFIX_DIR = './assets/'
+export const IMG = {
+    playBtn: IMG_PREFIX_DIR + 'play.png',
+    pauseBtn: IMG_PREFIX_DIR + 'pause.png',
+    replayBtn: IMG_PREFIX_DIR + 'replay.png',
+}
+
 export const EL_IDS = {
     basket: 'basket',
     basketValue: 'basket-value',
