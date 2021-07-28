@@ -1,3 +1,7 @@
+:root {
+    --stats-box-width: 35vh;
+}
+
 html {
     height: 100%;
 }
@@ -85,7 +89,7 @@ body {
 }
 
 .stats-box {
-    width: 33vw;
+    width: var(--stats-box-width);
     background-color: #696969;
     color: #ffffff;
     padding: 20px;
@@ -145,6 +149,10 @@ button {
     cursor: pointer;
 }
 
+button:disabled {
+    cursor: default;
+}
+
 button::before {
     content: '';
     z-index: 5;
@@ -155,15 +163,29 @@ button::before {
     border: 4px solid #87ceeb;
 }
 
+button:disabled::before {
+    background: grey;
+}
+
 button:hover {
     transform: scale(1.2);
     transition: all 160ms;
+}
+
+button:hover:disabled {
+    transform: none;
 }
 
 .btn:active {
     box-shadow: 0px 0px 20px 4px #c4c43164;
     border: solid 4px #eeee2a;
     transition: 0ms;
+}
+
+.btn:active:disabled {
+    box-shadow: none;
+    border: solid 4px red;
+    transition: none;
 }
 
 .restartBtn > img {
@@ -207,6 +229,7 @@ button:hover {
     left: 0;
     right: 0;
     bottom: 0;
+    width: calc(100% - var(--stats-box-width));
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
 }

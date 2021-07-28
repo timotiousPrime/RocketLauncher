@@ -116,7 +116,7 @@ function generateObject(logic) {
 export function rain(logic) {
     const playArea = document.getElementById(EL_IDS.playArea)
     let fallingLogics = []
-    let interval
+    let interval = null
     let speed = 700
 
     const run = () =>
@@ -166,8 +166,6 @@ export function rain(logic) {
             fallingLogics.push(fallingLogic)
         }, 2000)
 
-    interval = run()
-
     return {
         pause: () => {
             clearInterval(interval)
@@ -176,7 +174,7 @@ export function rain(logic) {
                 obj.pause()
             })
         },
-        resume: () => {
+        start: () => {
             if (interval === null) {
                 // if it's not already running
                 interval = run()

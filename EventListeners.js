@@ -25,17 +25,17 @@ export function setupEventListener(logic) {
     // listen when p/enter/space/esc is pressed
     document.addEventListener('keydown', (e) => {
         if (
-            (logic.state.gameMode === GAME_MODE.RUNNING && e.key === 'p') ||
-            (logic.state.gameMode === GAME_MODE.RUNNING && e.key === ' ') ||
-            (logic.state.gameMode === GAME_MODE.RUNNING &&
-                e.key === 'Escape') ||
-            (logic.state.gameMode === GAME_MODE.RUNNING && e.key === 'Pause')
+            logic.state.gameMode === GAME_MODE.RUNNING &&
+            ['p', ' ', 'Escape', 'Pause'].includes(e.key)
         ) {
             logic.mutate(mutatorFns.setGameMode, GAME_MODE.PAUSED)
         }
 
         // Listen for when enter is pressed when game is paused, to resume game
-        if (logic.state.gameMode === GAME_MODE.PAUSED && e.key === 'Enter') {
+        if (
+            [GAME_MODE.PAUSED, GAME_MODE.INIT].includes(logic.state.gameMode) &&
+            e.key === 'Enter'
+        ) {
             logic.mutate(mutatorFns.setGameMode, GAME_MODE.RUNNING)
         }
 
@@ -48,17 +48,27 @@ export function setupEventListener(logic) {
     // listen for when restart is clicked
     const restartBtn = document.getElementById(EL_IDS.restartBtn)
     restartBtn.addEventListener('click', () => {
-        const fallingObjs = document.querySelectorAll('.falling-object')
-        fallingObjs.forEach((fallingObj) => {
-            fallingObj.remove()
-        })
+        // Button functions as a "New game" button before game starts
+        if (logic.state.gameMode === GAME_MODE.INIT) {
+            logic.mutate(mutatorFns.setGameMode, GAME_MODE.RUNNING)
+        } else {
+            const fallingObjs = document.querySelectorAll('.falling-object')
+            fallingObjs.forEach((fallingObj) => {
+                fallingObj.remove()
+            })
 
-        logic.mutate(mutatorFns.restartGame)
+            logic.mutate(mutatorFns.restartGame)
+        }
     })
 
     const pauseBtn = document.getElementById(EL_IDS.pauseBtn)
     pauseBtn.addEventListener('click', () => {
-        logic.mutate(mutatorFns.toggleGamePause)
+        // Button is a no-op unless game is running
+        if (
+            [GAME_MODE.RUNNING, GAME_MODE.PAUSED].includes(logic.state.gameMode)
+        ) {
+            logic.mutate(mutatorFns.toggleGamePause)
+        }
     })
 
     const muteBtn = document.getElementById(EL_IDS.muteBtn)
