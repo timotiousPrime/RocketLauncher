@@ -61,11 +61,11 @@ export function removeCurrentFallingObjects() {
     })
 }
 
-export function playBackgroundMusic(boolean) {
+export function playBackgroundMusic(isMuted) {
     const bgMusic = document.getElementById('bgMusic')
     if (!bgMusic) return
-    bgMusic.muted = boolean
-    bgMusic.currentTime = 0
+    bgMusic.muted = isMuted
+    // bgMusic.currentTime = 0
     bgMusic.loop = true
     bgMusic.play()
     bgMusic.classList.add('musicPlaying')
