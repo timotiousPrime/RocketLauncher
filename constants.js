@@ -10,6 +10,8 @@ export const IMG = {
     playBtn: IMG_PREFIX_DIR + 'play.png',
     pauseBtn: IMG_PREFIX_DIR + 'pause.png',
     replayBtn: IMG_PREFIX_DIR + 'replay.png',
+    musicOnBtn: IMG_PREFIX_DIR + 'music_on.png',
+    musicOffBtn: IMG_PREFIX_DIR + 'music_off.png',
 }
 
 export const EL_IDS = {

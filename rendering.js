@@ -39,11 +39,13 @@ function renderOverlay(state) {
     }
 }
 
-function renderButtons({ gameMode }) {
+function renderButtons({ gameMode, muteSounds }) {
     const restartBtn = document.getElementById(EL_IDS.restartBtn)
     const [restartBtnImg] = restartBtn.children
     const pauseBtn = document.getElementById(EL_IDS.pauseBtn)
     const [pauseBtnImg] = pauseBtn.children
+    const muteBtn = document.getElementById(EL_IDS.muteBtn)
+    const [muteBtnImg] = muteBtn.children
 
     if (gameMode === GAME_MODE.INIT) {
         pauseBtn.disabled = true
@@ -57,6 +59,12 @@ function renderButtons({ gameMode }) {
         pauseBtnImg.src = IMG.playBtn
     } else {
         pauseBtnImg.src = IMG.pauseBtn
+    }
+
+    if (muteSounds) {
+        muteBtnImg.src = IMG.musicOnBtn
+    } else {
+        muteBtnImg.src = IMG.musicOffBtn
     }
 }
 
