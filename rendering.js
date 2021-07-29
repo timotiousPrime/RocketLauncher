@@ -1,5 +1,6 @@
 import { EL_IDS, GAME_MODE, IMG } from './constants.js'
 import { pxToPercent } from './utils.js'
+import { playBackgroundMusic } from './dom.js'
 
 const toPx = (value) => `${value}px`
 const toPercent = (value) => `${value}%`
@@ -63,8 +64,10 @@ function renderButtons({ gameMode, muteSounds }) {
 
     if (muteSounds) {
         muteBtnImg.src = IMG.musicOnBtn
+        playBackgroundMusic(false)
     } else {
         muteBtnImg.src = IMG.musicOffBtn
+        playBackgroundMusic(true)
     }
 }
 
