@@ -62,7 +62,7 @@ export function removeCurrentFallingObjects() {
 }
 
 export function playBackgroundMusic(isMuted) {
-    const bgMusic = document.getElementById('bgMusic')
+    const bgMusic = document.getElementById(EL_IDS.bgMusic)
     if (!bgMusic) return
     bgMusic.muted = isMuted
     // bgMusic.currentTime = 0
