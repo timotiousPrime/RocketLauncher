@@ -47,7 +47,7 @@ export const INIT_STATE = {
     livesRemaining: 3,
     fallingObjects: {},
     gameMode: GAME_MODE.INIT,
-    muteSounds: false,
+    playSounds: false,
 }
 
 export const FALLING_OBJ_INIT_STATE = {
