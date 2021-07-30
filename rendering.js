@@ -40,7 +40,7 @@ function renderOverlay(state) {
     }
 }
 
-function renderButtons({ gameMode, muteSounds }) {
+function renderButtons({ gameMode, playSounds }) {
     const restartBtn = document.getElementById(EL_IDS.restartBtn)
     const [restartBtnImg] = restartBtn.children
     const pauseBtn = document.getElementById(EL_IDS.pauseBtn)
@@ -62,7 +62,7 @@ function renderButtons({ gameMode, muteSounds }) {
         pauseBtnImg.src = IMG.pauseBtn
     }
 
-    if (muteSounds) {
+    if (playSounds) {
         muteBtnImg.src = IMG.musicOnBtn
         playBackgroundMusic(false)
     } else {
