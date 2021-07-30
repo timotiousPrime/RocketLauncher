@@ -76,9 +76,3 @@ export function setupEventListener(logic) {
         logic.mutate(mutatorFns.toggleMute)
     })
 }
-
-// listen for when play is clicked
-// will add when buttons for this functionality are added
-
-// listen for when pause is clicked
-// will add when buttons for this functionality are added
