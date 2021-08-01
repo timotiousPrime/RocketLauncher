@@ -30,6 +30,7 @@ export const EL_IDS = {
     restartBtn: 'restart-btn',
     pauseBtn: 'pause-btn',
     muteBtn: 'mute-btn',
+    bgMusic: 'background-audio'
 }
 
 export const INIT_STATE = {
@@ -46,7 +47,7 @@ export const INIT_STATE = {
     livesRemaining: 3,
     fallingObjects: {},
     gameMode: GAME_MODE.INIT,
-    muteSounds: false,
+    playSounds: false,
 }
 
 export const FALLING_OBJ_INIT_STATE = {

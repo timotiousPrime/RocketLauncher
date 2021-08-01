@@ -31,9 +31,17 @@ export function setupEventListener(logic) {
             logic.mutate(mutatorFns.setGameMode, GAME_MODE.PAUSED)
         }
 
+        // Listen for when enter is pressed to begin game
+        if (
+            GAME_MODE.INIT === logic.state.gameMode &&
+            e.key === 'Enter'
+        ) {
+            logic.mutate(mutatorFns.startGame)
+        }
+        
         // Listen for when enter is pressed when game is paused, to resume game
         if (
-            [GAME_MODE.PAUSED, GAME_MODE.INIT].includes(logic.state.gameMode) &&
+            GAME_MODE.PAUSED === logic.state.gameMode &&
             e.key === 'Enter'
         ) {
             logic.mutate(mutatorFns.setGameMode, GAME_MODE.RUNNING)
@@ -45,12 +53,13 @@ export function setupEventListener(logic) {
         }
     })
 
+    // Fix this 
     // listen for when restart is clicked
     const restartBtn = document.getElementById(EL_IDS.restartBtn)
     restartBtn.addEventListener('click', () => {
         // Button functions as a "New game" button before game starts
         if (logic.state.gameMode === GAME_MODE.INIT) {
-            logic.mutate(mutatorFns.setGameMode, GAME_MODE.RUNNING)
+            logic.mutate(mutatorFns.startGame)
         } else {
             const fallingObjs = document.querySelectorAll('.falling-object')
             fallingObjs.forEach((fallingObj) => {
@@ -59,6 +68,8 @@ export function setupEventListener(logic) {
 
             logic.mutate(mutatorFns.restartGame)
         }
+
+        restartBtn.blur() // prevents the focus on the button
     })
 
     const pauseBtn = document.getElementById(EL_IDS.pauseBtn)
@@ -69,16 +80,12 @@ export function setupEventListener(logic) {
         ) {
             logic.mutate(mutatorFns.toggleGamePause)
         }
+        pauseBtn.blur() // prevents the focus on the button
     })
 
     const muteBtn = document.getElementById(EL_IDS.muteBtn)
     muteBtn.addEventListener('click', () => {
         logic.mutate(mutatorFns.toggleMute)
+        muteBtn.blur() // prevents the focus on the button
     })
 }
-
-// listen for when play is clicked
-// will add when buttons for this functionality are added
-
-// listen for when pause is clicked
-// will add when buttons for this functionality are added

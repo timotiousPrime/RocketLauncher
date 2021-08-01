@@ -60,3 +60,13 @@ export function removeCurrentFallingObjects() {
         obj.remove()
     })
 }
+
+export function playBackgroundMusic(isMuted) {
+    const bgMusic = document.getElementById(EL_IDS.bgMusic)
+    if (!bgMusic) return
+    bgMusic.muted = isMuted
+    // bgMusic.currentTime = 0
+    bgMusic.loop = true
+    bgMusic.play()
+    bgMusic.classList.add('musicPlaying')
+}

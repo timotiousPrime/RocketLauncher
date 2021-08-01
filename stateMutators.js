@@ -123,7 +123,7 @@ export const toggleGamePause = (state) => ({
 
 export const toggleMute = (state) => ({
     ...state,
-    muteSounds: !state.muteSounds,
+    playSounds: !state.playSounds,
 })
 
 export const addFallingObject = (state, fallingObj) => {
@@ -303,4 +303,12 @@ export const restartGame = (state) => {
     nextState = resetLivesRemaining(nextState)
     nextState = setGameMode(nextState, GAME_MODE.RUNNING)
     return resetFallingObjects(nextState)
+}
+
+export const startGame = (state) => {
+    return {
+        ...state,
+        gameMode: GAME_MODE.RUNNING,
+        playSounds: true,
+    }
 }
