@@ -1,15 +1,20 @@
-import { FALLING_OBJ_INIT_STATE, GAME_MODE, INIT_STATE } from './constants.js'
+import {
+    FALLING_OBJ_INIT_STATE,
+    GAME_MODE,
+    INIT_STATE,
+    PLAY_COLUMNS,
+} from './constants.js'
+import { getClosestColumn, to2DecimalPlaces } from './utils.js'
 
-function to2DecimalPlaces(num) {
-    return Math.round((num + Number.EPSILON) * 100) / 100
-}
+const columnWidthPerc = 100 / PLAY_COLUMNS
+const basketXPosMax = columnWidthPerc * (PLAY_COLUMNS - 1) // Max should be the second last column, as 0 is the first
 
 export const updateBasket = (state, { ...props }) => {
     let xPos = props.xPos
     if (xPos <= 0) {
         xPos = 0
-    } else if (xPos >= 99) {
-        xPos = 99
+    } else if (xPos >= basketXPosMax) {
+        xPos = basketXPosMax
     }
     return {
         ...state,
@@ -22,11 +27,13 @@ export const updateBasket = (state, { ...props }) => {
 }
 
 export const moveBasketLeft = (state) => {
-    let xPos = state.basket.xPos - 100 / 8
+    let xPos = getClosestColumn(state.basket.xPos - columnWidthPerc, {
+        goingLeft: true,
+        columnCount: PLAY_COLUMNS,
+    })
     if (xPos < 0) {
         xPos = 0
     }
-
     return {
         ...state,
         basket: {
@@ -37,11 +44,13 @@ export const moveBasketLeft = (state) => {
 }
 
 export const moveBasketRight = (state) => {
-    let xPos = state.basket.xPos + 100 / 8
-    if (xPos > 99) {
-        xPos = 99
+    let xPos = getClosestColumn(state.basket.xPos + columnWidthPerc, {
+        goingLeft: false,
+        columnCount: PLAY_COLUMNS,
+    })
+    if (xPos >= basketXPosMax) {
+        xPos = basketXPosMax
     }
-
     return {
         ...state,
         basket: {

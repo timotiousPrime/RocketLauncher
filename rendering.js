@@ -75,15 +75,18 @@ function renderBasket({ basket }) {
     const basketDiv = document.getElementById(EL_IDS.basket)
     const playArea = document.getElementById(EL_IDS.playArea)
 
-    // Basket width in % value
-    let halfOfBasket = pxToPercent(basket.width, playArea.clientWidth) / 2
+    // Basket width in % of play area
+    const basketWidthPerc =
+        pxToPercent(basket.width, playArea.clientWidth - basket.width) / 2
 
-    // Gets the of the basket in % value
-    let leftOffSetPercent = basket.xPos
+    // Gets the left offset the basket in % of play are
+    let leftOffSetPercent = basket.xPos + basketWidthPerc / 2 + 0.3 // The 0.3% offset is for styling purposes
+
+    // Don't allow rendering outside of visible play area
     if (leftOffSetPercent < 0) {
         leftOffSetPercent = 0
-    } else if (leftOffSetPercent >= 100 - halfOfBasket * 2) {
-        leftOffSetPercent = 100 - halfOfBasket * 2
+    } else if (leftOffSetPercent >= 100 - basketWidthPerc) {
+        leftOffSetPercent = 100 - basketWidthPerc
     }
 
     basketDiv.style.left = toPercent(leftOffSetPercent) // setting the xPos to a percentage
