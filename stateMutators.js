@@ -159,10 +159,10 @@ export const removeFallingObject = (state, { id }) => {
  */
 export function FallingObject({
     columnIndex,
-    yPos,
     numerator,
     denominator,
     id,
+    yPos = FALLING_OBJ_INIT_STATE.yPos,
     xPos = FALLING_OBJ_INIT_STATE.xPos,
     width = FALLING_OBJ_INIT_STATE.width,
     height = FALLING_OBJ_INIT_STATE.height,

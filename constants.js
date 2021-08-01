@@ -30,7 +30,7 @@ export const EL_IDS = {
     restartBtn: 'restart-btn',
     pauseBtn: 'pause-btn',
     muteBtn: 'mute-btn',
-    bgMusic: 'background-audio'
+    bgMusic: 'background-audio',
 }
 
 export const INIT_STATE = {
@@ -43,7 +43,7 @@ export const INIT_STATE = {
         height: 20,
     },
     score: 0,
-    gameLevel: 1,
+    gameLevel: 0,
     livesRemaining: 3,
     fallingObjects: {},
     gameMode: GAME_MODE.INIT,
@@ -60,4 +60,84 @@ export const FALLING_OBJ_INIT_STATE = {
     numerator: 0,
     denominator: 1,
     value: 0,
+}
+
+// TODO: add more than 3 levels
+export const LEVEL_VARS = [
+    {
+        fallingSpeed: 1,
+        generationFrequency: 1,
+        possibleTargets: [1],
+        possibleDenominators: [2, 3, 4],
+        // Ensure all values add up to 100
+        fractionDifficultyDistribution: {
+            1: 100,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+        },
+    },
+    {
+        fallingSpeed: 1,
+        generationFrequency: 1,
+        possibleTargets: [1.25, 1.33, 1.5, 1.66, 1.75, 2],
+        possibleDenominators: [2, 3, 4, 6],
+        fractionDifficultyDistribution: {
+            1: 60,
+            2: 30,
+            3: 10,
+            4: 0,
+            5: 0,
+        },
+    },
+    {
+        fallingSpeed: 1.3,
+        generationFrequency: 1.2,
+        possibleTargets: [
+            1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
+        ],
+        possibleDenominators: [3, 4, 5, 6, 7],
+        fractionDifficultyDistribution: {
+            1: 30,
+            2: 40,
+            3: 30,
+            4: 0,
+            5: 0,
+        },
+    },
+]
+
+// TODO: fill this out properly
+// Note the tuple structure is [numerator, denominator]
+export const FRACTION_PAIRS_BY_DIFFICULTY = {
+    1: [
+        [1, 2],
+        [1, 3],
+        [1, 4],
+        [2, 4],
+        [1, 5],
+        [3, 6],
+        [2, 8],
+        [4, 8],
+    ],
+    2: [
+        [2, 5],
+        [2, 6],
+        [2, 8],
+        [4, 8],
+    ],
+    3: [
+        [2, 3],
+        [3, 4],
+        [3, 5],
+    ],
+    4: [
+        [1, 6],
+        [5, 6],
+    ],
+    5: [
+        [1, 7],
+        [2, 7],
+    ],
 }

@@ -3,7 +3,12 @@
 import { percentToPx } from './utils.js'
 import { isColliding } from './collisionAlgo.js'
 import * as mutatorFns from './stateMutators.js'
-import { EL_IDS, FALLING_OBJ_INIT_STATE } from './constants.js'
+import {
+    EL_IDS,
+    FALLING_OBJ_INIT_STATE,
+    FRACTION_PAIRS_BY_DIFFICULTY,
+    LEVEL_VARS,
+} from './constants.js'
 
 const DEFAULT_SPEED = 200
 const DEFAULT_RATE = 120
@@ -16,6 +21,20 @@ function randomColumnIndex() {
 // generate random number
 function randomInRange(start, end) {
     return Math.floor(Math.random() * (end - start) + start)
+}
+
+function randomDifficulty(difficultyDistribution) {
+    // Creates an array of 100 values, with N for each difficulty where N is the distribution %
+    const arrayOfDifficulties = [
+        ...new Array(difficultyDistribution[1]).fill(1),
+        ...new Array(difficultyDistribution[2]).fill(2),
+        ...new Array(difficultyDistribution[3]).fill(3),
+        ...new Array(difficultyDistribution[4]).fill(4),
+        ...new Array(difficultyDistribution[5]).fill(5),
+    ]
+
+    // Picks one of the 100 values to determine the difficulty of this single fraction choice
+    return arrayOfDifficulties[randomInRange(0, arrayOfDifficulties.length)]
 }
 
 /**
@@ -91,24 +110,25 @@ const levelToMaxDenominatorMapper = {
     10: 200,
 }
 
-function generateObject(logic) {
-    // TODO: generate number based on logic.state.gameLevel
+function generateObject({ gameLevel }) {
+    const { possibleDenominators, fractionDifficultyDistribution } =
+        LEVEL_VARS[gameLevel]
 
-    logic.state.gameLevel
-    let maxDenominator = levelToMaxDenominatorMapper[logic.state.gameLevel]
-    let maxNominator = maxDenominator / 2
+    const difficulty = randomDifficulty(fractionDifficultyDistribution)
+    let fractionPool = FRACTION_PAIRS_BY_DIFFICULTY[difficulty]
 
-    const n = [
-        randomInRange(1, maxNominator),
-        randomInRange(1, maxDenominator),
-    ].sort()
+    // Ensure we only consider fractions within the level's bounds
+    fractionPool = fractionPool.filter((fractionPair) =>
+        possibleDenominators.includes(fractionPair[1]),
+    )
+
+    const fractionChoice = fractionPool[randomInRange(0, fractionPool.length)]
     currentId += 1
 
     return new mutatorFns.FallingObject({
         columnIndex: randomColumnIndex(),
-        yPos: 100,
-        numerator: n[0],
-        denominator: n[1],
+        numerator: fractionChoice[0],
+        denominator: fractionChoice[1],
         id: currentId,
     })
 }
@@ -121,7 +141,7 @@ export function rain(logic) {
 
     const run = () =>
         setInterval(() => {
-            const obj = generateObject(logic)
+            const obj = generateObject(logic.state)
             logic.mutate(mutatorFns.addFallingObject, obj)
 
             const fallingObjectEl = document.getElementById(obj.id)
