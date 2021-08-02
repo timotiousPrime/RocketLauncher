@@ -30,7 +30,15 @@ export const EL_IDS = {
     restartBtn: 'restart-btn',
     pauseBtn: 'pause-btn',
     muteBtn: 'mute-btn',
-    bgMusic: 'background-audio'
+    bgMusic: 'background-audio',
+    basketSound: 'basket-audio',
+    rocketTakeOffSound: 'rocket-launch-audio',
+    spawnFallingObjectSound: 'spawn-falling-object-audio',
+    catchFallingObjectSound: 'catch-falling-object-audio',
+    lifeLostSound: 'life-lost-audio',
+    levelUpSound: 'level-up-audio',
+    gameOverMusic: 'game-over-audio',
+
 }
 
 export const INIT_STATE = {
