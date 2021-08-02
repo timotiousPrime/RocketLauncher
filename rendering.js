@@ -68,6 +68,12 @@ function renderButtons({ gameMode, playSounds }) {
     } else {
         muteBtnImg.src = IMG.musicOffBtn
         playBackgroundMusic(true)
+    } 
+    
+    if ( (playSounds) && gameMode === GAME_MODE.GAME_OVER) {
+        gameOverSound(false)
+    } else {
+        gameOverSound(true)
     }
 }
 
