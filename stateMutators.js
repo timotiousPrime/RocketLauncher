@@ -1,4 +1,5 @@
 import { FALLING_OBJ_INIT_STATE, GAME_MODE, INIT_STATE } from './constants.js'
+import { SpawnFallingObjectSound } from './dom.js'
 
 function to2DecimalPlaces(num) {
     return Math.round((num + Number.EPSILON) * 100) / 100
@@ -127,6 +128,7 @@ export const toggleMute = (state) => ({
 })
 
 export const addFallingObject = (state, fallingObj) => {
+    SpawnFallingObjectSound(!state.playSounds)
     return {
         ...state,
         fallingObjects: {
