@@ -42,6 +42,8 @@ export const INIT_STATE = {
         width: 100,
         height: 20,
     },
+    playAreaWidth: 0,
+    columnsXPos: [],
     score: 0,
     gameLevel: 1,
     livesRemaining: 3,

@@ -1,16 +1,22 @@
-import {
-    FALLING_OBJ_INIT_STATE,
-    GAME_MODE,
-    INIT_STATE,
-    PLAY_COLUMNS,
-} from './constants.js'
-import { getClosestColumn, to2DecimalPlaces } from './utils.js'
+import { FALLING_OBJ_INIT_STATE, GAME_MODE, INIT_STATE } from './constants.js'
+import { pxToPercent, to2DecimalPlaces } from './utils.js'
 
-const columnWidthPerc = 100 / PLAY_COLUMNS
-const basketXPosMax = columnWidthPerc * (PLAY_COLUMNS - 1) // Max should be the second last column, as 0 is the first
-
+export const setPlayAreaWidth = (state, width) => {
+    return {
+        ...state,
+        playAreaWidth: width,
+    }
+}
+export const setColumnsXPos = (state, columnsXPos) => {
+    return {
+        ...state,
+        columnsXPos,
+    }
+}
 export const updateBasket = (state, { ...props }) => {
     let xPos = props.xPos
+    let basketXPosMax =
+        100 - pxToPercent(state.basket.width, state.playAreaWidth) / 2 // xPos is the center of the basket
     if (xPos <= 0) {
         xPos = 0
     } else if (xPos >= basketXPosMax) {
@@ -27,10 +33,11 @@ export const updateBasket = (state, { ...props }) => {
 }
 
 export const moveBasketLeft = (state) => {
-    let xPos = getClosestColumn(state.basket.xPos - columnWidthPerc, {
-        goingLeft: true,
-        columnCount: PLAY_COLUMNS,
-    })
+    let xPos =
+        state.columnsXPos
+            .slice()
+            .reverse()
+            .find((x) => x < state.basket.xPos) || 0
     if (xPos < 0) {
         xPos = 0
     }
@@ -44,13 +51,9 @@ export const moveBasketLeft = (state) => {
 }
 
 export const moveBasketRight = (state) => {
-    let xPos = getClosestColumn(state.basket.xPos + columnWidthPerc, {
-        goingLeft: false,
-        columnCount: PLAY_COLUMNS,
-    })
-    if (xPos >= basketXPosMax) {
-        xPos = basketXPosMax
-    }
+    let xPos =
+        state.columnsXPos.find((x) => x > state.basket.xPos) ||
+        state.columnsXPos[state.columnsXPos.length - 1]
     return {
         ...state,
         basket: {

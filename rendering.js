@@ -1,6 +1,6 @@
 import { EL_IDS, GAME_MODE, IMG } from './constants.js'
-import { pxToPercent } from './utils.js'
 import { playBackgroundMusic } from './dom.js'
+import { pxToPercent } from './utils.js'
 
 const toPx = (value) => `${value}px`
 const toPercent = (value) => `${value}%`
@@ -76,17 +76,17 @@ function renderBasket({ basket }) {
     const playArea = document.getElementById(EL_IDS.playArea)
 
     // Basket width in % of play area
-    const basketWidthPerc =
-        pxToPercent(basket.width, playArea.clientWidth - basket.width) / 2
+    const basketHalfWidthPerc =
+        pxToPercent(basket.width, playArea.clientWidth) / 2
 
     // Gets the left offset the basket in % of play are
-    let leftOffSetPercent = basket.xPos + basketWidthPerc / 2 + 0.3 // The 0.3% offset is for styling purposes
+    let leftOffSetPercent = basket.xPos - basketHalfWidthPerc // xPos is the center of the basket in percentage
 
     // Don't allow rendering outside of visible play area
     if (leftOffSetPercent < 0) {
         leftOffSetPercent = 0
-    } else if (leftOffSetPercent >= 100 - basketWidthPerc) {
-        leftOffSetPercent = 100 - basketWidthPerc
+    } else if (leftOffSetPercent >= 100 - basketHalfWidthPerc * 2) {
+        leftOffSetPercent = 100 - basketHalfWidthPerc * 2
     }
 
     basketDiv.style.left = toPercent(leftOffSetPercent) // setting the xPos to a percentage
