@@ -41,9 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
 export function explode(isMuted) {
     if (!explodeEl) return
     explodeEl.classList.add('run')
-    if (!isMuted) {
-        rocketExplodeSound(isMuted)
-    }
 }
 
 export function resetRocket() {
@@ -55,9 +52,6 @@ export function rocketLaunch(isMuted) {
     if (!rocketEl) return
     rocketEl.classList.remove('launch')
     rocketEl.classList.add('launch')
-    if (!isMuted) {
-        rocketTakeOffSound(isMuted)
-    }
 }
 
 export function removeCurrentFallingObjects() {
@@ -77,30 +71,6 @@ export function playBackgroundMusic(isMuted) {
     bgMusic.classList.add('musicPlaying')
 }
 
-export function movingBasketSound(isMuted) {
-    const basketSound = document.getElementById(EL_IDS.basketSound)
-    if (!basketSound) return
-    basketSound.muted = isMuted
-    basketSound.currentTime = 0
-    basketSound.play()
-}
-
-export function rocketTakeOffSound(isMuted) {
-    const rocketTakeOffSound = document.getElementById(EL_IDS.rocketTakeOffSound)
-    if (!rocketTakeOffSound) return
-    rocketTakeOffSound.muted = isMuted
-    rocketTakeOffSound.currentTime = 0
-    rocketTakeOffSound.play()
-}
-
-export function rocketExplodeSound(isMuted) {
-    const lifeLostSound = document.getElementById(EL_IDS.lifeLostSound)
-    if (!lifeLostSound) return
-    lifeLostSound.muted = isMuted
-    lifeLostSound.currentTime = 0
-    lifeLostSound.play()
-}
-
 
 export function levelUpSound(isMuted) {
     const levelUpSound = document.getElementById(EL_IDS.levelUpSound)
@@ -110,26 +80,11 @@ export function levelUpSound(isMuted) {
     levelUpSound.play()
 }
 
-export function SpawnFallingObjectSound(isMuted) {
-    const spawnFallingObjectSound = document.getElementById(EL_IDS.spawnFallingObjectSound)
-    if (!spawnFallingObjectSound) return
-    spawnFallingObjectSound.muted = isMuted
-    spawnFallingObjectSound.currentTime = 0
-    spawnFallingObjectSound.play()
-}
-
-export function catchFallingObjectSound(isMuted) {
-    const catchFallingObjectSound = document.getElementById(EL_IDS.catchFallingObjectSound)
-    if (!catchFallingObjectSound) return
-    catchFallingObjectSound.muted = isMuted
-    catchFallingObjectSound.currentTime = 0
-    catchFallingObjectSound.play()
-}
-
-export function gameOverSound(isMuted) {
-    const gameOverMusic = document.getElementById(EL_IDS.gameOverMusic)
-    if (!gameOverMusic) return
-    gameOverMusic.muted = isMuted
-    gameOverMusic.currentTime = 0
-    gameOverMusic.play()
+export function playSoundEffect(element, isMuted) {
+    const soundElement = document.getElementById(element)
+    if (!soundElement) return 
+    soundElement.muted = isMuted
+    soundElement.currentTime = 0
+    soundElement.play()
+    console.log(`${element} was played`)
 }
