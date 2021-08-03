@@ -97,18 +97,6 @@ function fall(yPos, speed, rate, onFalling) {
 }
 
 let currentId = 0
-const levelToMaxDenominatorMapper = {
-    1: 5,
-    2: 8,
-    3: 12,
-    4: 16,
-    5: 20,
-    6: 24,
-    7: 50,
-    8: 100,
-    9: 150,
-    10: 200,
-}
 
 function generateObject({ gameLevel }) {
     const { possibleDenominators, fractionDifficultyDistribution } =

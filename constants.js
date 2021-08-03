@@ -62,11 +62,10 @@ export const FALLING_OBJ_INIT_STATE = {
     value: 0,
 }
 
-// TODO: add more than 3 levels
 export const LEVEL_VARS = [
     {
-        fallingSpeed: 1,
-        generationFrequency: 1,
+        fallingSpeedMultiplier: 1,
+        generationSpeedMultiplier: 1,
         possibleTargets: [1],
         possibleDenominators: [2, 3, 4],
         // Ensure all values add up to 100
@@ -79,8 +78,8 @@ export const LEVEL_VARS = [
         },
     },
     {
-        fallingSpeed: 1,
-        generationFrequency: 1,
+        fallingSpeedMultiplier: 1.6,
+        generationSpeedMultiplier: 1.4,
         possibleTargets: [1.25, 1.33, 1.5, 1.66, 1.75, 2],
         possibleDenominators: [2, 3, 4, 6],
         fractionDifficultyDistribution: {
@@ -92,8 +91,8 @@ export const LEVEL_VARS = [
         },
     },
     {
-        fallingSpeed: 1.3,
-        generationFrequency: 1.2,
+        fallingSpeedMultiplier: 1.9,
+        generationSpeedMultiplier: 1.6,
         possibleTargets: [
             1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
         ],
@@ -104,6 +103,36 @@ export const LEVEL_VARS = [
             3: 30,
             4: 0,
             5: 0,
+        },
+    },
+    {
+        fallingSpeedMultiplier: 2.2,
+        generationSpeedMultiplier: 1.8,
+        possibleTargets: [
+            1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
+        ],
+        possibleDenominators: [3, 4, 5, 6, 7],
+        fractionDifficultyDistribution: {
+            1: 15,
+            2: 20,
+            3: 35,
+            4: 20,
+            5: 10,
+        },
+    },
+    {
+        fallingSpeedMultiplier: 2.5,
+        generationSpeedMultiplier: 2,
+        possibleTargets: [
+            1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
+        ],
+        possibleDenominators: [3, 4, 5, 6, 7],
+        fractionDifficultyDistribution: {
+            1: 0,
+            2: 35,
+            3: 30,
+            4: 20,
+            5: 15,
         },
     },
 ]
