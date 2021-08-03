@@ -1,6 +1,14 @@
 import { EL_IDS, GAME_MODE, IMG } from './constants.js'
 import { pxToPercent } from './utils.js'
-import { playBackgroundMusic } from './dom.js'
+import { playBackgroundMusic,
+         gameOverSound,
+         levelUpSound,
+         rocketTakeOffSound,
+         rocketExplodeSound,
+         movingBasketSound,
+         SpawnFallingObjectSound,
+         catchFallingObjectSound,
+        } from './dom.js'
 
 const toPx = (value) => `${value}px`
 const toPercent = (value) => `${value}%`
@@ -15,6 +23,7 @@ export function renderGame(state) {
     renderBasket(state)
     renderScore(state)
     renderLevel(state)
+    renderSounds(state)
 }
 
 function renderOverlay(state) {
@@ -37,6 +46,29 @@ function renderOverlay(state) {
             continue
         }
         textEl.style.display = state.gameMode === gameMode ? 'block' : 'none'
+    }
+}
+
+function renderSounds({gameMode, playSounds}) {
+
+    if (playSounds) {
+        playBackgroundMusic(false)
+
+        if (gameMode === GAME_MODE.GAME_OVER) {
+            playBackgroundMusic(true)
+            rocketExplodeSound(false)
+            gameOverSound(false)
+        }
+
+    } else {
+        playBackgroundMusic(true)
+        gameOverSound(true)
+        levelUpSound(true)
+        rocketTakeOffSound(true)
+        rocketExplodeSound(true)
+        movingBasketSound(true)
+        SpawnFallingObjectSound(true)
+        catchFallingObjectSound(true)
     }
 }
 
@@ -64,16 +96,8 @@ function renderButtons({ gameMode, playSounds }) {
 
     if (playSounds) {
         muteBtnImg.src = IMG.musicOnBtn
-        playBackgroundMusic(false)
     } else {
         muteBtnImg.src = IMG.musicOffBtn
-        playBackgroundMusic(true)
-    } 
-    
-    if ( (playSounds) && gameMode === GAME_MODE.GAME_OVER) {
-        gameOverSound(false)
-    } else {
-        gameOverSound(true)
     }
 }
 
@@ -107,7 +131,6 @@ function renderBasketValue({ basket }) {
 function renderScore({ score }) {
     const scoreEl = document.getElementById(EL_IDS.scoreValue)
     if (+scoreEl.textContent !== +score) {
-        console.log('score ', score)
         scoreEl.textContent = score
     }
 }
