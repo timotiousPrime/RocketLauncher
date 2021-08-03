@@ -108,7 +108,6 @@ export const LEVEL_VARS = [
     },
 ]
 
-// TODO: fill this out properly
 // Note the tuple structure is [numerator, denominator]
 export const FRACTION_PAIRS_BY_DIFFICULTY = {
     1: [
@@ -125,19 +124,37 @@ export const FRACTION_PAIRS_BY_DIFFICULTY = {
         [2, 5],
         [2, 6],
         [2, 8],
-        [4, 8],
+        [3, 9],
     ],
     3: [
         [2, 3],
         [3, 4],
         [3, 5],
+        [4, 5],
+        [4, 6],
+        [1, 8],
+        [6, 8],
+        [1, 9],
+        [6, 9],
     ],
     4: [
         [1, 6],
         [5, 6],
+        [3, 8],
+        [2, 9],
     ],
     5: [
         [1, 7],
         [2, 7],
+        [3, 7],
+        [4, 7],
+        [5, 7],
+        [6, 7],
+        [5, 8],
+        [7, 8],
+        [4, 9],
+        [5, 9],
+        [7, 9],
+        [8, 9],
     ],
 }
