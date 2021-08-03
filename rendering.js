@@ -1,14 +1,6 @@
 import { EL_IDS, GAME_MODE, IMG } from './constants.js'
 import { pxToPercent } from './utils.js'
-import { playBackgroundMusic,
-         gameOverSound,
-         levelUpSound,
-         rocketTakeOffSound,
-         rocketExplodeSound,
-         movingBasketSound,
-         SpawnFallingObjectSound,
-         catchFallingObjectSound,
-        } from './dom.js'
+import { playBackgroundMusic } from './dom.js'
 
 const toPx = (value) => `${value}px`
 const toPercent = (value) => `${value}%`
@@ -56,19 +48,10 @@ function renderSounds({gameMode, playSounds}) {
 
         if (gameMode === GAME_MODE.GAME_OVER) {
             playBackgroundMusic(true)
-            rocketExplodeSound(false)
-            gameOverSound(false)
         }
 
     } else {
         playBackgroundMusic(true)
-        gameOverSound(true)
-        levelUpSound(true)
-        rocketTakeOffSound(true)
-        rocketExplodeSound(true)
-        movingBasketSound(true)
-        SpawnFallingObjectSound(true)
-        catchFallingObjectSound(true)
     }
 }
 
