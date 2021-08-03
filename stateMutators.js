@@ -1,5 +1,8 @@
-import { FALLING_OBJ_INIT_STATE, GAME_MODE, INIT_STATE } from './constants.js'
-import { SpawnFallingObjectSound } from './dom.js'
+import { FALLING_OBJ_INIT_STATE, 
+         GAME_MODE, 
+         INIT_STATE, 
+         EL_IDS } from './constants.js'
+import { playSoundEffect, playBackgroundMusic } from './dom.js'
 
 function to2DecimalPlaces(num) {
     return Math.round((num + Number.EPSILON) * 100) / 100
@@ -28,6 +31,8 @@ export const moveBasketLeft = (state) => {
         xPos = 0
     }
 
+    playSoundEffect(EL_IDS.basketSound, !state.playSounds)
+
     return {
         ...state,
         basket: {
@@ -42,6 +47,8 @@ export const moveBasketRight = (state) => {
     if (xPos > 99) {
         xPos = 99
     }
+
+    playSoundEffect(EL_IDS.basketSound, !state.playSounds)
 
     return {
         ...state,
@@ -73,6 +80,7 @@ export const resetBasketValue = (state) => {
 }
 
 export const setScore = (state, value) => {
+    playSoundEffect(EL_IDS.rocketTakeOffSound, !state.playSounds)
     return {
         ...state,
         score: value,
@@ -128,7 +136,7 @@ export const toggleMute = (state) => ({
 })
 
 export const addFallingObject = (state, fallingObj) => {
-    SpawnFallingObjectSound(!state.playSounds)
+    playSoundEffect( EL_IDS.spawnFallingObjectSound, !state.playSounds)
     return {
         ...state,
         fallingObjects: {
@@ -211,25 +219,37 @@ export const calcBasketValue = (state, fallingObj) => {
     }
 }
 
-export const calcScore = (state) =>
-    state.basket.basketValue === 1 || state.basket.basketValue === 0.99
-        ? {
-              ...state,
-              score: state.score + 1,
-              basket: {
-                  ...state.basket,
-                  basketValue: INIT_STATE.basket.basketValue,
+export const calcScore = (state) => {
+    if (state.basket.basketValue === 1 || state.basket.basketValue === 0.99) {
+        playSoundEffect(EL_IDS.rocketTakeOffSound, !state.playSounds)
+        return {
+            ...state,
+            score: state.score + 1,
+            basket: {
+                ...state.basket,
+                basketValue: INIT_STATE.basket.basketValue,
               },
           }
-        : state
+    } else {
+        return state
+    } 
+}
 
 export const calcLives = (state) => {
+
+    if (state.basket.basketValue > 1) {
+        playSoundEffect(EL_IDS.lifeLostSound, !state.playSounds)
+    }
+
     if (state.basket.basketValue <= 1) {
         return state
     }
 
     const livesRemaining = state.livesRemaining - 1
     if (livesRemaining < 1) {
+        playSoundEffect(EL_IDS.gameOverMusic, !state.playSounds)
+        // I'm not sure why this doesn't stop the background music
+        // playBackgroundMusic(state.playSounds)
         return {
             ...state,
             gameMode: GAME_MODE.GAME_OVER,
