@@ -48,7 +48,6 @@ function runGame() {
                 }
             }
             if (rainLogic && prevState.score !== state.score) {
-                console.log(prevState.score, state.score)
                 if (prevState.score < state.score) {
                     rocketLaunch()
                     setTimeout(() => {
