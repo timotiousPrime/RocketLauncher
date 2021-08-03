@@ -38,9 +38,12 @@ document.addEventListener('DOMContentLoaded', function () {
     rocketEl = document.getElementById('rocket')
 })
 
-export function explode() {
+export function explode(isMuted) {
     if (!explodeEl) return
     explodeEl.classList.add('run')
+    if (!isMuted) {
+        rocketExplodeSound(isMuted)
+    }
 }
 
 export function resetRocket() {
@@ -48,10 +51,13 @@ export function resetRocket() {
     explodeEl.classList.remove('run')
     rocketEl.classList.remove('launch')
 }
-export function rocketLaunch() {
+export function rocketLaunch(isMuted) {
     if (!rocketEl) return
     rocketEl.classList.remove('launch')
     rocketEl.classList.add('launch')
+    if (!isMuted) {
+        rocketTakeOffSound(isMuted)
+    }
 }
 
 export function removeCurrentFallingObjects() {
