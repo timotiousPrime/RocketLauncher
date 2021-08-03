@@ -96,7 +96,7 @@ export const LEVEL_VARS = [
         possibleTargets: [
             1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
         ],
-        possibleDenominators: [3, 4, 5, 6, 7],
+        possibleDenominators: [3, 4, 5, 6, 7, 8],
         fractionDifficultyDistribution: {
             1: 30,
             2: 40,
@@ -111,7 +111,7 @@ export const LEVEL_VARS = [
         possibleTargets: [
             1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
         ],
-        possibleDenominators: [3, 4, 5, 6, 7],
+        possibleDenominators: [3, 4, 5, 6, 7, 8, 9],
         fractionDifficultyDistribution: {
             1: 15,
             2: 20,
@@ -126,7 +126,7 @@ export const LEVEL_VARS = [
         possibleTargets: [
             1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
         ],
-        possibleDenominators: [3, 4, 5, 6, 7],
+        possibleDenominators: [3, 4, 5, 6, 7, 8, 9],
         fractionDifficultyDistribution: {
             1: 0,
             2: 35,
