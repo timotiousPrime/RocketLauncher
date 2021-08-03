@@ -98,16 +98,15 @@ function fall(yPos, speed, rate, onFalling) {
 
 let currentId = 0
 
-function generateObject({ gameLevel }) {
-    const { possibleDenominators, fractionDifficultyDistribution } =
-        LEVEL_VARS[gameLevel]
-
-    const difficulty = randomDifficulty(fractionDifficultyDistribution)
+function generateObject(levelVars) {
+    const difficulty = randomDifficulty(
+        levelVars.fractionDifficultyDistribution,
+    )
     let fractionPool = FRACTION_PAIRS_BY_DIFFICULTY[difficulty]
 
     // Ensure we only consider fractions within the level's bounds
     fractionPool = fractionPool.filter((fractionPair) =>
-        possibleDenominators.includes(fractionPair[1]),
+        levelVars.possibleDenominators.includes(fractionPair[1]),
     )
 
     const fractionChoice = fractionPool[randomInRange(0, fractionPool.length)]
@@ -121,26 +120,38 @@ function generateObject({ gameLevel }) {
     })
 }
 
+const baseFallingPxPerSec = 300
+const baseGenerationSpeedMs = 1500
+
 export function rain(logic) {
     const playArea = document.getElementById(EL_IDS.playArea)
+    let savedGenerationSpeedMs = baseGenerationSpeedMs
     let fallingLogics = []
-    let interval = null
-    let speed = 700
+    let timeoutId = null
 
-    const run = () =>
-        setInterval(() => {
-            const obj = generateObject(logic.state)
-            logic.mutate(mutatorFns.addFallingObject, obj)
+    function recursiveRain() {
+        const levelVars = LEVEL_VARS[logic.state.gameLevel]
+        const generationSpeed =
+            baseGenerationSpeedMs / levelVars.generationSpeedMultiplier
 
-            const fallingObjectEl = document.getElementById(obj.id)
-            if (fallingObjectEl) {
-                const xPosPx = fallingObjectEl.getBoundingClientRect().x
-                obj.xPosPx = xPosPx
-            }
+        if (savedGenerationSpeedMs !== generationSpeed) {
+            savedGenerationSpeedMs = generationSpeed
+        }
 
-            speed = logic.state.gameLevel * 20 + 300
+        const obj = generateObject(levelVars)
+        logic.mutate(mutatorFns.addFallingObject, obj)
 
-            const fallingLogic = fall(obj.yPos, speed, 60, (newYPos) => {
+        const fallingObjectEl = document.getElementById(obj.id)
+        if (fallingObjectEl) {
+            const xPosPx = fallingObjectEl.getBoundingClientRect().x
+            obj.xPosPx = xPosPx
+        }
+
+        const fallingLogic = fall(
+            obj.yPos,
+            baseFallingPxPerSec * levelVars.fallingSpeedMultiplier,
+            60,
+            (newYPos) => {
                 const basket = {
                     ...logic.state.basket,
                     xPosPx: percentToPx(
@@ -170,41 +181,49 @@ export function rain(logic) {
                 if (hasCollided) {
                     logic.mutate(mutatorFns.catchFallingObject, obj)
                 }
-            })
-            fallingLogics.push(fallingLogic)
-        }, 2000)
+            },
+        )
+
+        fallingLogics.push(fallingLogic)
+        if (timeoutId !== null) {
+            run()
+        }
+    }
+
+    const run = () => {
+        timeoutId = setTimeout(recursiveRain, savedGenerationSpeedMs)
+    }
 
     return {
         pause: () => {
-            clearInterval(interval)
-            interval = null
+            clearTimeout(timeoutId)
+            timeoutId = null
             fallingLogics.forEach((obj) => {
                 obj.pause()
             })
         },
         start: () => {
-            if (interval === null) {
-                // if it's not already running
-                interval = run()
+            if (timeoutId === null) {
+                run()
                 fallingLogics.forEach((obj) => {
                     obj.resume()
                 })
             }
         },
         restart: () => {
-            clearInterval(interval)
             fallingLogics.forEach((obj) => {
                 obj.stop()
             })
             fallingLogics = []
-            interval = run()
+            savedGenerationSpeedMs = baseGenerationSpeedMs
+            run()
         },
         stop: () => {
-            clearInterval(interval)
             fallingLogics.forEach((obj) => {
                 obj.stop()
             })
             fallingLogics = []
+            savedGenerationSpeedMs = baseGenerationSpeedMs
         },
     }
 }
