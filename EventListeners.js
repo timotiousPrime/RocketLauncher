@@ -1,7 +1,6 @@
 import { GAME_MODE, EL_IDS } from './constants.js'
 import * as mutatorFns from './stateMutators.js'
 import { pxToPercent } from './utils.js'
-import { movingBasketSound } from './dom.js'
 
 export function setupEventListener(logic) {
     const playArea = document.getElementById(EL_IDS.playArea)
@@ -10,12 +9,10 @@ export function setupEventListener(logic) {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
             logic.mutate(mutatorFns.moveBasketLeft)
-            movingBasketSound(false)
         }
 
         if (e.key === 'ArrowRight') {
             logic.mutate(mutatorFns.moveBasketRight)
-            movingBasketSound(false)
         }
     })
 
