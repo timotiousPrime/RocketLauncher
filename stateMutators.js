@@ -285,7 +285,6 @@ export const calcLevel = (state) => {
 export const catchFallingObject = (state, fallingObject) => {
     let nextState = calcBasketValue(state, fallingObject)
     nextState = calcScore(nextState)
-    console.log(nextState)
     nextState = calcLives(nextState)
     nextState = calcLevel(nextState)
 
