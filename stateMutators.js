@@ -2,7 +2,7 @@ import { FALLING_OBJ_INIT_STATE,
          GAME_MODE, 
          INIT_STATE, 
          EL_IDS } from './constants.js'
-import { playSoundEffect, playBackgroundMusic } from './dom.js'
+import { playSoundEffect } from './dom.js'
 
 function to2DecimalPlaces(num) {
     return Math.round((num + Number.EPSILON) * 100) / 100
@@ -247,9 +247,6 @@ export const calcLives = (state) => {
 
     const livesRemaining = state.livesRemaining - 1
     if (livesRemaining < 1) {
-        playSoundEffect(EL_IDS.gameOverMusic, !state.playSounds)
-        // I'm not sure why this doesn't stop the background music
-        // playBackgroundMusic(state.playSounds)
         return {
             ...state,
             gameMode: GAME_MODE.GAME_OVER,

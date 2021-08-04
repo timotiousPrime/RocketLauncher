@@ -41,18 +41,8 @@ function renderOverlay(state) {
     }
 }
 
-function renderSounds({gameMode, playSounds}) {
-
-    if (playSounds) {
-        playBackgroundMusic(false)
-
-        if (gameMode === GAME_MODE.GAME_OVER) {
-            playBackgroundMusic(true)
-        }
-
-    } else {
-        playBackgroundMusic(true)
-    }
+function renderSounds({ gameMode, playSounds }) {
+    playBackgroundMusic(!playSounds, gameMode === GAME_MODE.GAME_OVER)
 }
 
 function renderButtons({ gameMode, playSounds }) {

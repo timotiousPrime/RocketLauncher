@@ -61,30 +61,34 @@ export function removeCurrentFallingObjects() {
     })
 }
 
-export function playBackgroundMusic(isMuted) {
+export function playBackgroundMusic(isMuted, isGameOver) {
     const bgMusic = document.getElementById(EL_IDS.bgMusic)
-    if (!bgMusic) return
-    bgMusic.muted = isMuted
-    // bgMusic.currentTime = 0
+    const gameOverMusic = document.getElementById(EL_IDS.gameOverMusic)
+    if (!bgMusic || !gameOverMusic) return
+
+    const nextGameOverMuted = isMuted || !isGameOver
+    const nextBgMusicMuted = isMuted || isGameOver
+
+    if (gameOverMusic.muted !== nextGameOverMuted) {
+        gameOverMusic.currentTime = 0
+    }
+
+    if (bgMusic.muted !== nextBgMusicMuted) {
+        bgMusic.currentTime = 0
+    }
+
+    gameOverMusic.muted = nextGameOverMuted
+    bgMusic.muted = nextBgMusicMuted
+
     bgMusic.loop = true
+    gameOverMusic.play()
     bgMusic.play()
-    bgMusic.classList.add('musicPlaying')
-}
-
-
-export function levelUpSound(isMuted) {
-    const levelUpSound = document.getElementById(EL_IDS.levelUpSound)
-    if (!levelUpSound) return
-    levelUpSound.muted = isMuted
-    levelUpSound.currentTime = 0
-    levelUpSound.play()
 }
 
 export function playSoundEffect(element, isMuted) {
     const soundElement = document.getElementById(element)
-    if (!soundElement) return 
+    if (!soundElement) return
     soundElement.muted = isMuted
     soundElement.currentTime = 0
     soundElement.play()
-    console.log(`${element} was played`)
 }
