@@ -15,6 +15,7 @@ export function renderGame(state) {
     renderBasket(state)
     renderScore(state)
     renderLevel(state)
+    renderSounds(state)
 }
 
 function renderOverlay(state) {
@@ -38,6 +39,10 @@ function renderOverlay(state) {
         }
         textEl.style.display = state.gameMode === gameMode ? 'block' : 'none'
     }
+}
+
+function renderSounds({ gameMode, playSounds }) {
+    playBackgroundMusic(!playSounds, gameMode === GAME_MODE.GAME_OVER)
 }
 
 function renderButtons({ gameMode, playSounds }) {
@@ -64,10 +69,8 @@ function renderButtons({ gameMode, playSounds }) {
 
     if (playSounds) {
         muteBtnImg.src = IMG.musicOnBtn
-        playBackgroundMusic(false)
     } else {
         muteBtnImg.src = IMG.musicOffBtn
-        playBackgroundMusic(true)
     }
 }
 
@@ -104,7 +107,6 @@ function renderBasketValue({ basket }) {
 function renderScore({ score }) {
     const scoreEl = document.getElementById(EL_IDS.scoreValue)
     if (+scoreEl.textContent !== +score) {
-        console.log('score ', score)
         scoreEl.textContent = score
     }
 }
