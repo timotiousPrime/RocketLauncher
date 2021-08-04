@@ -299,6 +299,10 @@ export const calcLevel = (state) => {
         level = 10
     }
 
+    if (level !== state.gameLevel) {
+        playSoundEffect(EL_IDS.levelUpSound, !state.playSounds)
+    }
+
     return {
         ...state,
         gameLevel: level,
