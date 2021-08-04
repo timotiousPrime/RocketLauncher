@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
     rocketEl = document.getElementById('rocket')
 })
 
-export function explode(isMuted) {
+export function explode() {
     if (!explodeEl) return
     explodeEl.classList.add('run')
 }
@@ -48,7 +48,7 @@ export function resetRocket() {
     explodeEl.classList.remove('run')
     rocketEl.classList.remove('launch')
 }
-export function rocketLaunch(isMuted) {
+export function rocketLaunch() {
     if (!rocketEl) return
     rocketEl.classList.remove('launch')
     rocketEl.classList.add('launch')
