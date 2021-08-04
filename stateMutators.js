@@ -1,5 +1,15 @@
-import { FALLING_OBJ_INIT_STATE, GAME_MODE, INIT_STATE } from './constants.js'
-import { pxToPercent, to2DecimalPlaces } from './utils.js'
+import {
+    FALLING_OBJ_INIT_STATE,
+    GAME_MODE,
+    INIT_STATE,
+    LEVEL_VARS,
+} from './constants.js'
+import {
+    pxToPercent,
+    to2DecimalPlaces,
+    doesValueMeetTarget,
+    randomInRange,
+} from './utils.js'
 
 export const setPlayAreaWidth = (state, width) => {
     return {
@@ -221,20 +231,23 @@ export const calcBasketValue = (state, fallingObj) => {
     }
 }
 
-export const calcScore = (state) =>
-    state.basket.basketValue === 1 || state.basket.basketValue === 0.99
-        ? {
-              ...state,
-              score: state.score + 1,
-              basket: {
-                  ...state.basket,
-                  basketValue: INIT_STATE.basket.basketValue,
-              },
-          }
-        : state
+export const calcScore = (state) => {
+    if (!doesValueMeetTarget(state.basket.basketValue, state.levelTarget)) {
+        return state
+    }
+
+    return {
+        ...state,
+        score: state.score + 1,
+        basket: {
+            ...state.basket,
+            basketValue: INIT_STATE.basket.basketValue,
+        },
+    }
+}
 
 export const calcLives = (state) => {
-    if (state.basket.basketValue <= 1) {
+    if (state.basket.basketValue < state.levelTarget) {
         return state
     }
 
@@ -252,19 +265,20 @@ export const calcLives = (state) => {
         livesRemaining,
         basket: {
             ...state.basket,
-            basketValue: 0,
+            basketValue: INIT_STATE.basket.basketValue,
         },
     }
 }
 
 export const calcLevel = (state) => {
     let level = state.gameLevel
+    let levelTarget = state.levelTarget
     const score = state.score
 
-    if (score >= 10 && score < 20) {
+    if (score >= 1 && score < 20) {
         level = 2
     }
-    if (score >= 20 && score < 35) {
+    if (score >= 3 && score < 35) {
         level = 3
     }
     if (score >= 35 && score < 55) {
@@ -289,8 +303,15 @@ export const calcLevel = (state) => {
         level = 10
     }
 
+    if (level !== state.gameLevel) {
+        const { possibleTargets } = LEVEL_VARS[level]
+
+        levelTarget = possibleTargets[randomInRange(0, possibleTargets.length)]
+    }
+
     return {
         ...state,
+        levelTarget,
         gameLevel: level,
     }
 }
@@ -300,7 +321,9 @@ export const catchFallingObject = (state, fallingObject) => {
     nextState = calcLives(nextState)
     nextState = calcLevel(nextState)
 
-    if ([0.99, 1].includes(nextState.basket.basketValue)) {
+    if (
+        doesValueMeetTarget(nextState.basket.basketValue, nextState.levelTarget)
+    ) {
         nextState = resetBasketValue(nextState)
     }
 

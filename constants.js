@@ -1,5 +1,10 @@
 export const PLAY_COLUMNS = 8
 
+/**
+ * How far away from the target still counts to score.
+ */
+export const TARGET_NOISE_THRESHOLD = 0.05
+
 export const GAME_MODE = {
     INIT: 'init',
     RUNNING: 'running',
@@ -48,6 +53,7 @@ export const INIT_STATE = {
     columnsXPos: [],
     score: 0,
     gameLevel: 0,
+    levelTarget: 1,
     livesRemaining: 3,
     fallingObjects: {},
     gameMode: GAME_MODE.INIT,

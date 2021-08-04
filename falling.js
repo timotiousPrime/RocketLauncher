@@ -1,42 +1,22 @@
 // @ts-check
 // suggestion for default speed and rate
-import { percentToPx } from './utils.js'
+import {
+    percentToPx,
+    randomColumnIndex,
+    randomDifficulty,
+    randomInRange,
+} from './utils.js'
 import { isColliding } from './collisionAlgo.js'
 import * as mutatorFns from './stateMutators.js'
 import {
     FRACTION_PAIRS_BY_DIFFICULTY,
     FALLING_OBJ_INIT_STATE,
-    PLAY_COLUMNS,
     LEVEL_VARS,
     EL_IDS,
 } from './constants.js'
 
 const DEFAULT_SPEED = 200
 const DEFAULT_RATE = 120
-
-// random from 0 to 7
-function randomColumnIndex() {
-    return Math.floor(Math.random() * PLAY_COLUMNS)
-}
-
-// generate random number
-function randomInRange(start, end) {
-    return Math.floor(Math.random() * (end - start) + start)
-}
-
-function randomDifficulty(difficultyDistribution) {
-    // Creates an array of 100 values, with N for each difficulty where N is the distribution %
-    const arrayOfDifficulties = [
-        ...new Array(difficultyDistribution[1]).fill(1),
-        ...new Array(difficultyDistribution[2]).fill(2),
-        ...new Array(difficultyDistribution[3]).fill(3),
-        ...new Array(difficultyDistribution[4]).fill(4),
-        ...new Array(difficultyDistribution[5]).fill(5),
-    ]
-
-    // Picks one of the 100 values to determine the difficulty of this single fraction choice
-    return arrayOfDifficulties[randomInRange(0, arrayOfDifficulties.length)]
-}
 
 /**
  * update the yPos of the falling objects,
