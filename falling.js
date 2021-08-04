@@ -4,10 +4,11 @@ import { percentToPx } from './utils.js'
 import { isColliding } from './collisionAlgo.js'
 import * as mutatorFns from './stateMutators.js'
 import {
-    EL_IDS,
-    FALLING_OBJ_INIT_STATE,
     FRACTION_PAIRS_BY_DIFFICULTY,
+    FALLING_OBJ_INIT_STATE,
+    PLAY_COLUMNS,
     LEVEL_VARS,
+    EL_IDS,
 } from './constants.js'
 
 const DEFAULT_SPEED = 200
@@ -15,7 +16,7 @@ const DEFAULT_RATE = 120
 
 // random from 0 to 7
 function randomColumnIndex() {
-    return Math.floor(Math.random() * 8)
+    return Math.floor(Math.random() * PLAY_COLUMNS)
 }
 
 // generate random number

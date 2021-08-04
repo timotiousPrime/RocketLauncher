@@ -1,10 +1,21 @@
 import { EL_IDS } from './constants.js'
 import * as mutatorFns from './stateMutators.js'
+import { pxToPercent } from './utils.js'
 
 export function setupInitialDOMRelatedState(logic) {
     const basketEl = document.getElementById(EL_IDS.basket)
+    const playArea = document.getElementById(EL_IDS.playArea)
+    const columns = Array.from(
+        document.getElementById(EL_IDS.fallingObjectsList).children || [],
+    )
 
+    const columnsXPos = columns.map((el) =>
+        pxToPercent(el.offsetLeft + el.clientWidth / 2, playArea.clientWidth),
+    )
+
+    logic.mutate(mutatorFns.setColumnsXPos, columnsXPos)
     const { x, y, width, height } = basketEl.getBoundingClientRect()
+    logic.mutate(mutatorFns.setPlayAreaWidth, playArea.clientWidth)
     logic.mutate(mutatorFns.updateBasket, { xPos: x, yPos: y, width, height })
 }
 

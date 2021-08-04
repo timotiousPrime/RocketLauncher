@@ -1,3 +1,5 @@
+export const PLAY_COLUMNS = 8
+
 export const GAME_MODE = {
     INIT: 'init',
     RUNNING: 'running',
@@ -37,11 +39,13 @@ export const INIT_STATE = {
     basket: {
         basketValue: 0,
         xPosPx: 0,
-        xPos: 50,
+        xPos: 0,
         yPos: 0,
         width: 100,
         height: 20,
     },
+    playAreaWidth: 0,
+    columnsXPos: [],
     score: 0,
     gameLevel: 0,
     livesRemaining: 3,

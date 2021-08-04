@@ -7,6 +7,7 @@ export class StatefulLogic {
         this.getInitState = dependencies.getInitState
         this.onStateUpdate = dependencies.onStateUpdate
         this.resetState()
+        window.stateLogic = this // for debugging puroses
     }
 
     resetState() {
