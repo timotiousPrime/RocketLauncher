@@ -85,8 +85,8 @@ export function playBackgroundMusic(isMuted, isGameOver) {
     bgMusic.play()
 }
 
-export function playSoundEffect(element, isMuted) {
-    const soundElement = document.getElementById(element)
+export function playSoundEffect(elementId, isMuted) {
+    const soundElement = document.getElementById(elementId)
     if (!soundElement) return
     soundElement.muted = isMuted
     soundElement.currentTime = 0
