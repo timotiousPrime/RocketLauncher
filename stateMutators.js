@@ -306,6 +306,7 @@ export const calcLevel = (state) => {
     }
 }
 export const catchFallingObject = (state, fallingObject) => {
+    playSoundEffect(EL_IDS.catchFallingObjectSound, !state.playSounds)
     let nextState = calcBasketValue(state, fallingObject)
     nextState = calcScore(nextState)
     nextState = calcLives(nextState)

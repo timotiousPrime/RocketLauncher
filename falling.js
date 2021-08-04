@@ -4,7 +4,6 @@ import { percentToPx } from './utils.js'
 import { isColliding } from './collisionAlgo.js'
 import * as mutatorFns from './stateMutators.js'
 import { EL_IDS, FALLING_OBJ_INIT_STATE } from './constants.js'
-import { playSoundEffect } from './dom.js'
 
 const DEFAULT_SPEED = 200
 const DEFAULT_RATE = 120
@@ -161,7 +160,6 @@ export function rain(logic) {
                     }
                 }
                 if (hasCollided) {
-                    playSoundEffect(EL_IDS.catchFallingObjectSound, !logic.state.playSounds)
                     logic.mutate(mutatorFns.catchFallingObject, obj)
                 }
             })
