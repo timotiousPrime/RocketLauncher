@@ -4,7 +4,8 @@ import { pxToPercent } from './utils.js'
 
 const toPx = (value) => `${value}px`
 const toPercent = (value) => `${value}%`
-
+const getLivesRemainingEl = (livesRemaining) =>
+    document.getElementById(EL_IDS['livesRemaining' + livesRemaining])
 // __This is the main render function which delegates control to the more-specific render functions.__
 export function renderGame(state) {
     renderFallingObjects(state)
@@ -15,6 +16,7 @@ export function renderGame(state) {
     renderBasket(state)
     renderScore(state)
     renderLevel(state)
+    renderNextLevelScore(state)
 }
 
 function renderOverlay(state) {
@@ -113,10 +115,16 @@ function renderLevel({ gameLevel }) {
     const levelEl = document.getElementById(EL_IDS.levelValue)
     levelEl.textContent = gameLevel
 }
+function renderNextLevelScore({ nextLevelScore }) {
+    const levelEl = document.getElementById(EL_IDS.nextLevelScore)
+    if (levelEl.textContent + '' !== nextLevelScore + '') {
+        levelEl.textContent = nextLevelScore
+    }
+}
 
 function renderLivesRemaining({ livesRemaining }) {
-    const livesRemainingEl = document.getElementById(EL_IDS.livesRemaining)
-    livesRemainingEl.textContent = livesRemaining
+    const livesRemainingEl = getLivesRemainingEl(livesRemaining)
+    livesRemainingEl.checked = true
 }
 
 function renderFallingObjects({ fallingObjects }) {

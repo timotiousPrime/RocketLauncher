@@ -1,0 +1,46 @@
+/* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .radio-group on a single line */
+.radio-group {
+    display: inline-flex;
+    pointer-events: none;
+}
+
+/* hide radio inputs */
+.radio__input {
+    position: absolute !important;
+    left: -9999px !important;
+}
+
+/* set icon padding and size */
+.radio__label {
+    cursor: pointer;
+    display: inline-flex;
+}
+
+.radio__icon img {
+    position: relative;
+    top: 0;
+    width: 50px;
+    height: auto;
+    margin-left: 15px;
+}
+
+/* set default star color */
+.radio__icon {
+    opacity: 1;
+    transition: all 1s ease;
+}
+
+/* set color of none icon when unchecked */
+.radio__icon--none {
+    opacity: 0;
+}
+
+/* if any input is checked, make its following siblings hidden */
+.radio__input:checked ~ .radio__label .radio__icon {
+    opacity: 0;
+}
+
+/* make all stars orange on radio group hover */
+.radio-group:hover .radio__label .radio__icon {
+    opacity: 1;
+}
