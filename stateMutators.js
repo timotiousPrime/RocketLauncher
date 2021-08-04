@@ -1,15 +1,26 @@
 import { FALLING_OBJ_INIT_STATE, GAME_MODE, INIT_STATE } from './constants.js'
+import { pxToPercent, to2DecimalPlaces } from './utils.js'
 
-function to2DecimalPlaces(num) {
-    return Math.round((num + Number.EPSILON) * 100) / 100
+export const setPlayAreaWidth = (state, width) => {
+    return {
+        ...state,
+        playAreaWidth: width,
+    }
 }
-
+export const setColumnsXPos = (state, columnsXPos) => {
+    return {
+        ...state,
+        columnsXPos,
+    }
+}
 export const updateBasket = (state, { ...props }) => {
     let xPos = props.xPos
+    let basketXPosMax =
+        100 - pxToPercent(state.basket.width, state.playAreaWidth) / 2 // xPos is the center of the basket
     if (xPos <= 0) {
         xPos = 0
-    } else if (xPos >= 99) {
-        xPos = 99
+    } else if (xPos >= basketXPosMax) {
+        xPos = basketXPosMax
     }
     return {
         ...state,
@@ -22,11 +33,14 @@ export const updateBasket = (state, { ...props }) => {
 }
 
 export const moveBasketLeft = (state) => {
-    let xPos = state.basket.xPos - 100 / 8
+    let xPos =
+        state.columnsXPos
+            .slice()
+            .reverse()
+            .find((x) => x < state.basket.xPos) || 0
     if (xPos < 0) {
         xPos = 0
     }
-
     return {
         ...state,
         basket: {
@@ -37,11 +51,9 @@ export const moveBasketLeft = (state) => {
 }
 
 export const moveBasketRight = (state) => {
-    let xPos = state.basket.xPos + 100 / 8
-    if (xPos > 99) {
-        xPos = 99
-    }
-
+    let xPos =
+        state.columnsXPos.find((x) => x > state.basket.xPos) ||
+        state.columnsXPos[state.columnsXPos.length - 1]
     return {
         ...state,
         basket: {
