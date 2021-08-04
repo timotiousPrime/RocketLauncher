@@ -3,6 +3,7 @@ import { FALLING_OBJ_INIT_STATE,
          INIT_STATE, 
          EL_IDS } from './constants.js'
 import { playSoundEffect } from './dom.js'
+import { pxToPercent, to2DecimalPlaces } from './utils.js'
 
 export const setPlayAreaWidth = (state, width) => {
     return {
