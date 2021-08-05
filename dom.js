@@ -1,10 +1,21 @@
 import { EL_IDS } from './constants.js'
 import * as mutatorFns from './stateMutators.js'
+import { pxToPercent } from './utils.js'
 
 export function setupInitialDOMRelatedState(logic) {
     const basketEl = document.getElementById(EL_IDS.basket)
+    const playArea = document.getElementById(EL_IDS.playArea)
+    const columns = Array.from(
+        document.getElementById(EL_IDS.fallingObjectsList).children || [],
+    )
 
+    const columnsXPos = columns.map((el) =>
+        pxToPercent(el.offsetLeft + el.clientWidth / 2, playArea.clientWidth),
+    )
+
+    logic.mutate(mutatorFns.setColumnsXPos, columnsXPos)
     const { x, y, width, height } = basketEl.getBoundingClientRect()
+    logic.mutate(mutatorFns.setPlayAreaWidth, playArea.clientWidth)
     logic.mutate(mutatorFns.updateBasket, { xPos: x, yPos: y, width, height })
 }
 
@@ -61,12 +72,34 @@ export function removeCurrentFallingObjects() {
     })
 }
 
-export function playBackgroundMusic(isMuted) {
+export function playBackgroundMusic(isMuted, isGameOver) {
     const bgMusic = document.getElementById(EL_IDS.bgMusic)
-    if (!bgMusic) return
-    bgMusic.muted = isMuted
-    // bgMusic.currentTime = 0
+    const gameOverMusic = document.getElementById(EL_IDS.gameOverMusic)
+    if (!bgMusic || !gameOverMusic) return
+
+    const nextGameOverMuted = isMuted || !isGameOver
+    const nextBgMusicMuted = isMuted || isGameOver
+
+    if (gameOverMusic.muted !== nextGameOverMuted) {
+        gameOverMusic.currentTime = 0
+    }
+
+    if (bgMusic.muted !== nextBgMusicMuted) {
+        bgMusic.currentTime = 0
+    }
+
+    gameOverMusic.muted = nextGameOverMuted
+    bgMusic.muted = nextBgMusicMuted
+
     bgMusic.loop = true
+    gameOverMusic.play()
     bgMusic.play()
-    bgMusic.classList.add('musicPlaying')
+}
+
+export function playSoundEffect(elementId, isMuted) {
+    const soundElement = document.getElementById(elementId)
+    if (!soundElement) return
+    soundElement.muted = isMuted
+    soundElement.currentTime = 0
+    soundElement.play()
 }

@@ -1,6 +1,6 @@
 import { EL_IDS, GAME_MODE, IMG } from './constants.js'
-import { pxToPercent } from './utils.js'
 import { playBackgroundMusic } from './dom.js'
+import { pxToPercent } from './utils.js'
 
 const toPx = (value) => `${value}px`
 const toPercent = (value) => `${value}%`
@@ -15,6 +15,7 @@ export function renderGame(state) {
     renderBasket(state)
     renderScore(state)
     renderLevel(state)
+    renderSounds(state)
 }
 
 function renderOverlay(state) {
@@ -38,6 +39,10 @@ function renderOverlay(state) {
         }
         textEl.style.display = state.gameMode === gameMode ? 'block' : 'none'
     }
+}
+
+function renderSounds({ gameMode, playSounds }) {
+    playBackgroundMusic(!playSounds, gameMode === GAME_MODE.GAME_OVER)
 }
 
 function renderButtons({ gameMode, playSounds }) {
@@ -64,10 +69,8 @@ function renderButtons({ gameMode, playSounds }) {
 
     if (playSounds) {
         muteBtnImg.src = IMG.musicOnBtn
-        playBackgroundMusic(false)
     } else {
         muteBtnImg.src = IMG.musicOffBtn
-        playBackgroundMusic(true)
     }
 }
 
@@ -75,15 +78,18 @@ function renderBasket({ basket }) {
     const basketDiv = document.getElementById(EL_IDS.basket)
     const playArea = document.getElementById(EL_IDS.playArea)
 
-    // Basket width in % value
-    let halfOfBasket = pxToPercent(basket.width, playArea.clientWidth) / 2
+    // Basket width in % of play area
+    const basketHalfWidthPerc =
+        pxToPercent(basket.width, playArea.clientWidth) / 2
 
-    // Gets the of the basket in % value
-    let leftOffSetPercent = basket.xPos
+    // Gets the left offset the basket in % of play are
+    let leftOffSetPercent = basket.xPos - basketHalfWidthPerc // xPos is the center of the basket in percentage
+
+    // Don't allow rendering outside of visible play area
     if (leftOffSetPercent < 0) {
         leftOffSetPercent = 0
-    } else if (leftOffSetPercent >= 100 - halfOfBasket * 2) {
-        leftOffSetPercent = 100 - halfOfBasket * 2
+    } else if (leftOffSetPercent >= 100 - basketHalfWidthPerc * 2) {
+        leftOffSetPercent = 100 - basketHalfWidthPerc * 2
     }
 
     basketDiv.style.left = toPercent(leftOffSetPercent) // setting the xPos to a percentage
@@ -101,7 +107,6 @@ function renderBasketValue({ basket }) {
 function renderScore({ score }) {
     const scoreEl = document.getElementById(EL_IDS.scoreValue)
     if (+scoreEl.textContent !== +score) {
-        console.log('score ', score)
         scoreEl.textContent = score
     }
 }

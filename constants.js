@@ -30,18 +30,28 @@ export const EL_IDS = {
     restartBtn: 'restart-btn',
     pauseBtn: 'pause-btn',
     muteBtn: 'mute-btn',
-    bgMusic: 'background-audio'
+    bgMusic: 'background-audio',
+    basketSound: 'basket-audio',
+    rocketTakeOffSound: 'rocket-launch-audio',
+    spawnFallingObjectSound: 'spawn-falling-object-audio',
+    catchFallingObjectSound: 'catch-falling-object-audio',
+    lifeLostSound: 'life-lost-audio',
+    levelUpSound: 'level-up-audio',
+    gameOverMusic: 'game-over-audio',
+
 }
 
 export const INIT_STATE = {
     basket: {
         basketValue: 0,
         xPosPx: 0,
-        xPos: 50,
+        xPos: 0,
         yPos: 0,
         width: 100,
         height: 20,
     },
+    playAreaWidth: 0,
+    columnsXPos: [],
     score: 0,
     gameLevel: 1,
     livesRemaining: 3,
@@ -61,3 +71,5 @@ export const FALLING_OBJ_INIT_STATE = {
     denominator: 1,
     value: 0,
 }
+
+export const PLAY_COLUMNS = 8

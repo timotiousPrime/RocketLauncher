@@ -1,4 +1,4 @@
-import { GAME_MODE, EL_IDS } from './constants.js'
+import { EL_IDS, GAME_MODE } from './constants.js'
 import * as mutatorFns from './stateMutators.js'
 import { pxToPercent } from './utils.js'
 
@@ -32,18 +32,12 @@ export function setupEventListener(logic) {
         }
 
         // Listen for when enter is pressed to begin game
-        if (
-            GAME_MODE.INIT === logic.state.gameMode &&
-            e.key === 'Enter'
-        ) {
+        if (GAME_MODE.INIT === logic.state.gameMode && e.key === 'Enter') {
             logic.mutate(mutatorFns.startGame)
         }
-        
+
         // Listen for when enter is pressed when game is paused, to resume game
-        if (
-            GAME_MODE.PAUSED === logic.state.gameMode &&
-            e.key === 'Enter'
-        ) {
+        if (GAME_MODE.PAUSED === logic.state.gameMode && e.key === 'Enter') {
             logic.mutate(mutatorFns.setGameMode, GAME_MODE.RUNNING)
         }
 
@@ -53,7 +47,7 @@ export function setupEventListener(logic) {
         }
     })
 
-    // Fix this 
+    // Fix this
     // listen for when restart is clicked
     const restartBtn = document.getElementById(EL_IDS.restartBtn)
     restartBtn.addEventListener('click', () => {

@@ -1,15 +1,30 @@
-import { FALLING_OBJ_INIT_STATE, GAME_MODE, INIT_STATE } from './constants.js'
+import { FALLING_OBJ_INIT_STATE, 
+         GAME_MODE, 
+         INIT_STATE, 
+         EL_IDS } from './constants.js'
+import { playSoundEffect } from './dom.js'
+import { pxToPercent, to2DecimalPlaces } from './utils.js'
 
-function to2DecimalPlaces(num) {
-    return Math.round((num + Number.EPSILON) * 100) / 100
+export const setPlayAreaWidth = (state, width) => {
+    return {
+        ...state,
+        playAreaWidth: width,
+    }
 }
-
+export const setColumnsXPos = (state, columnsXPos) => {
+    return {
+        ...state,
+        columnsXPos,
+    }
+}
 export const updateBasket = (state, { ...props }) => {
     let xPos = props.xPos
+    let basketXPosMax =
+        100 - pxToPercent(state.basket.width, state.playAreaWidth) / 2 // xPos is the center of the basket
     if (xPos <= 0) {
         xPos = 0
-    } else if (xPos >= 99) {
-        xPos = 99
+    } else if (xPos >= basketXPosMax) {
+        xPos = basketXPosMax
     }
     return {
         ...state,
@@ -22,10 +37,16 @@ export const updateBasket = (state, { ...props }) => {
 }
 
 export const moveBasketLeft = (state) => {
-    let xPos = state.basket.xPos - 100 / 8
+    let xPos =
+        state.columnsXPos
+            .slice()
+            .reverse()
+            .find((x) => x < state.basket.xPos) || 0
     if (xPos < 0) {
         xPos = 0
     }
+
+    playSoundEffect(EL_IDS.basketSound, !state.playSounds)
 
     return {
         ...state,
@@ -41,6 +62,8 @@ export const moveBasketRight = (state) => {
     if (xPos > 99) {
         xPos = 99
     }
+
+    playSoundEffect(EL_IDS.basketSound, !state.playSounds)
 
     return {
         ...state,
@@ -72,6 +95,7 @@ export const resetBasketValue = (state) => {
 }
 
 export const setScore = (state, value) => {
+    playSoundEffect(EL_IDS.rocketTakeOffSound, !state.playSounds)
     return {
         ...state,
         score: value,
@@ -127,6 +151,7 @@ export const toggleMute = (state) => ({
 })
 
 export const addFallingObject = (state, fallingObj) => {
+    playSoundEffect( EL_IDS.spawnFallingObjectSound, !state.playSounds)
     return {
         ...state,
         fallingObjects: {
@@ -209,19 +234,28 @@ export const calcBasketValue = (state, fallingObj) => {
     }
 }
 
-export const calcScore = (state) =>
-    state.basket.basketValue === 1 || state.basket.basketValue === 0.99
-        ? {
-              ...state,
-              score: state.score + 1,
-              basket: {
-                  ...state.basket,
-                  basketValue: INIT_STATE.basket.basketValue,
+export const calcScore = (state) => {
+    if (state.basket.basketValue === 1 || state.basket.basketValue === 0.99) {
+        playSoundEffect(EL_IDS.rocketTakeOffSound, !state.playSounds)
+        return {
+            ...state,
+            score: state.score + 1,
+            basket: {
+                ...state.basket,
+                basketValue: INIT_STATE.basket.basketValue,
               },
           }
-        : state
+    } else {
+        return state
+    } 
+}
 
 export const calcLives = (state) => {
+
+    if (state.basket.basketValue > 1) {
+        playSoundEffect(EL_IDS.lifeLostSound, !state.playSounds)
+    }
+
     if (state.basket.basketValue <= 1) {
         return state
     }
@@ -277,15 +311,19 @@ export const calcLevel = (state) => {
         level = 10
     }
 
+    if (level !== state.gameLevel) {
+        playSoundEffect(EL_IDS.levelUpSound, !state.playSounds)
+    }
+
     return {
         ...state,
         gameLevel: level,
     }
 }
 export const catchFallingObject = (state, fallingObject) => {
+    playSoundEffect(EL_IDS.catchFallingObjectSound, !state.playSounds)
     let nextState = calcBasketValue(state, fallingObject)
     nextState = calcScore(nextState)
-    console.log(nextState)
     nextState = calcLives(nextState)
     nextState = calcLevel(nextState)
 
