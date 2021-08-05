@@ -55,12 +55,27 @@ body {
 }
 .basket-value {
     position: absolute;
-    opacity: 0.3;
+    opacity: 0.5;
     font-size: 120px;
-    left: 50%;
+    left: calc(50% + 45px);
     top: 12%;
     transform: translateX(-50%);
     color: #00a9e2;
+}
+
+.basket-value .fuel-wrapper .fuel {
+    transition: all 1s ease;
+    height: 0%;
+}
+.basket-value .fuel-wrapper {
+    width: 76px;
+    height: 100px;
+    left: calc(100% + 20px);
+    top: 50%;
+    transform: translateY(-50%);
+    border: 2px solid #014557;
+    overflow: hidden;
+    border-radius: 12px;
 }
 
 /* The rocket image won't display unless it is in a div */
@@ -90,7 +105,7 @@ body {
 
 .stats-box {
     width: var(--stats-box-width);
-    background-color: #696969;
+    background-color: rgba(105, 105, 105, 0.9);
     color: #ffffff;
     padding: 20px;
 }

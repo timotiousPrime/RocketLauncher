@@ -15,14 +15,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 62px;
-    height: 34px;
+    width: 65px;
+    height: 84px;
     position: absolute;
     left: 50%;
     top: 100px;
     transform: translateX(-50%);
     border-radius: 12px;
-    background-color: #0096bb;
+    background-color: #69696948;
+    border: 2px solid #014557;
     animation: fade-in 0.2s;
 }
 .falling-object::before {
@@ -44,15 +45,61 @@
     font-size: 22px;
     font-weight: 500;
     font-family: var(--font-mono);
+    color: #ffffff;
 }
 .falling-object-denominator {
     font-size: 22px;
     font-weight: 500;
     font-family: var(--font-mono);
+    color: #ffffff;
 }
 
 .falling-object-denominator::before {
     content: '/';
     display: inline;
     font-family: inherit;
+}
+.fuel-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fuel {
+    width: 100%;
+    overflow: hidden;
+    height: 75%;
+    position: absolute;
+    bottom: 0;
+    border-radius: 0 0 10px 10px;
+    z-index: -1;
+    box-sizing: content-box;
+    padding-top: 5px;
+}
+.fuel::after {
+    content: '';
+    display: block;
+    position: absolute;
+    background: url(../assets/wave.svg) repeat-x,
+        linear-gradient(#015871, #014050) repeat-x bottom;
+    background-size: 25% 10px, 50% calc(100% - 8px);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 400%;
+    animation: wave 1s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+}
+
+@keyframes wave {
+    0% {
+        margin-left: 0;
+    }
+    100% {
+        margin-left: -65px;
+    }
 }
