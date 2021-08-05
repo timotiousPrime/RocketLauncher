@@ -17,6 +17,7 @@ export function renderGame(prevState, state) {
     }
 
     renderFallingObjects(state)
+    renderTargetValue(state)
 
     if (hasStateChanged([(s) => s.livesRemaining])) {
         renderLivesRemaining(state)
@@ -105,6 +106,13 @@ function renderButtons({ gameMode, playSounds }) {
     } else {
         muteBtnImg.src = IMG.musicOffBtn
     }
+}
+
+function renderTargetValue(state){
+    let value = state.levelTarget > 0 ? state.levelTarget : 0
+    console.log(`The target value is ${value}`)
+    const levelTargetValue = document.getElementById(EL_IDS.targetValue)
+    levelTargetValue.textContent = `Your target is ${value}`
 }
 
 function renderBasket({ basket }) {
