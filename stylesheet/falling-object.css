@@ -59,7 +59,7 @@
     display: inline;
     font-family: inherit;
 }
-.falling-object .fuel-wrapper {
+.fuel-wrapper {
     position: absolute;
     top: 0;
     right: 0;
@@ -69,7 +69,7 @@
     overflow: hidden;
 }
 
-.falling-object .fuel {
+.fuel {
     width: 100%;
     overflow: hidden;
     height: 75%;
@@ -80,7 +80,7 @@
     box-sizing: content-box;
     padding-top: 5px;
 }
-.falling-object .fuel::after {
+.fuel::after {
     content: '';
     display: block;
     position: absolute;

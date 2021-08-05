@@ -99,8 +99,10 @@ function renderBasket({ basket }) {
 
 function renderBasketValue({ basket }) {
     const basketEl = document.getElementById(EL_IDS.basketValue)
+    const fuelValueEl = document.getElementById(EL_IDS.fuelValue)
     if (+basketEl.innerText !== +basket.basketValue) {
         basketEl.innerText = basket.basketValue
+        fuelValueEl.style.height = toPercent(basket.basketValue * 100)
     }
 }
 

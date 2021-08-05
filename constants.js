@@ -17,6 +17,7 @@ export const IMG = {
 export const EL_IDS = {
     basket: 'basket',
     basketValue: 'basket-value',
+    fuelValue: 'fuel-value',
     scoreValue: 'score-value',
     levelValue: 'level-value',
     targetValue: 'target-value',
