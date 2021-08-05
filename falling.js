@@ -1,22 +1,22 @@
 // @ts-check
 // suggestion for default speed and rate
-import { percentToPx } from './utils.js'
+import {
+    percentToPx,
+    randomColumnIndex,
+    randomDifficulty,
+    randomInRange,
+} from './utils.js'
 import { isColliding } from './collisionAlgo.js'
 import * as mutatorFns from './stateMutators.js'
-import { EL_IDS, FALLING_OBJ_INIT_STATE, PLAY_COLUMNS } from './constants.js'
+import {
+    FRACTION_PAIRS_BY_DIFFICULTY,
+    FALLING_OBJ_INIT_STATE,
+    LEVEL_VARS,
+    EL_IDS,
+} from './constants.js'
 
 const DEFAULT_SPEED = 200
 const DEFAULT_RATE = 120
-
-// random from 0 to 7
-function randomColumnIndex() {
-    return Math.floor(Math.random() * PLAY_COLUMNS)
-}
-
-// generate random number
-function randomInRange(start, end) {
-    return Math.floor(Math.random() * (end - start) + start)
-}
 
 /**
  * update the yPos of the falling objects,
@@ -78,61 +78,61 @@ function fall(yPos, speed, rate, onFalling) {
 }
 
 let currentId = 0
-const levelToMaxDenominatorMapper = {
-    1: 5,
-    2: 8,
-    3: 12,
-    4: 16,
-    5: 20,
-    6: 24,
-    7: 50,
-    8: 100,
-    9: 150,
-    10: 200,
-}
 
-function generateObject(logic) {
-    // TODO: generate number based on logic.state.gameLevel
+function generateObject(levelVars) {
+    const difficulty = randomDifficulty(
+        levelVars.fractionDifficultyDistribution,
+    )
+    let fractionPool = FRACTION_PAIRS_BY_DIFFICULTY[difficulty]
 
-    logic.state.gameLevel
-    let maxDenominator = levelToMaxDenominatorMapper[logic.state.gameLevel]
-    let maxNominator = maxDenominator / 2
+    // Ensure we only consider fractions within the level's bounds
+    fractionPool = fractionPool.filter((fractionPair) =>
+        levelVars.possibleDenominators.includes(fractionPair[1]),
+    )
 
-    const n = [
-        randomInRange(1, maxNominator),
-        randomInRange(1, maxDenominator),
-    ].sort()
+    const fractionChoice = fractionPool[randomInRange(0, fractionPool.length)]
     currentId += 1
 
     return new mutatorFns.FallingObject({
         columnIndex: randomColumnIndex(),
-        yPos: 100,
-        numerator: n[0],
-        denominator: n[1],
+        numerator: fractionChoice[0],
+        denominator: fractionChoice[1],
         id: currentId,
     })
 }
 
+const baseFallingPxPerSec = 300
+const baseGenerationSpeedMs = 1500
+
 export function rain(logic) {
     const playArea = document.getElementById(EL_IDS.playArea)
+    let savedGenerationSpeedMs = baseGenerationSpeedMs
     let fallingLogics = []
-    let interval = null
-    let speed = 700
+    let timeoutId = null
 
-    const run = () =>
-        setInterval(() => {
-            const obj = generateObject(logic)
-            logic.mutate(mutatorFns.addFallingObject, obj)
+    function recursiveRain() {
+        const levelVars = LEVEL_VARS[logic.state.gameLevel]
+        const generationSpeed =
+            baseGenerationSpeedMs / levelVars.generationSpeedMultiplier
 
-            const fallingObjectEl = document.getElementById(obj.id)
-            if (fallingObjectEl) {
-                const xPosPx = fallingObjectEl.getBoundingClientRect().x
-                obj.xPosPx = xPosPx
-            }
+        if (savedGenerationSpeedMs !== generationSpeed) {
+            savedGenerationSpeedMs = generationSpeed
+        }
 
-            speed = logic.state.gameLevel * 20 + 300
+        const obj = generateObject(levelVars)
+        logic.mutate(mutatorFns.addFallingObject, obj)
 
-            const fallingLogic = fall(obj.yPos, speed, 60, (newYPos) => {
+        const fallingObjectEl = document.getElementById(obj.id)
+        if (fallingObjectEl) {
+            const xPosPx = fallingObjectEl.getBoundingClientRect().x
+            obj.xPosPx = xPosPx
+        }
+
+        const fallingLogic = fall(
+            obj.yPos,
+            baseFallingPxPerSec * levelVars.fallingSpeedMultiplier,
+            60,
+            (newYPos) => {
                 const basket = {
                     ...logic.state.basket,
                     xPosPx: percentToPx(
@@ -162,41 +162,49 @@ export function rain(logic) {
                 if (hasCollided) {
                     logic.mutate(mutatorFns.catchFallingObject, obj)
                 }
-            })
-            fallingLogics.push(fallingLogic)
-        }, 2000)
+            },
+        )
+
+        fallingLogics.push(fallingLogic)
+        if (timeoutId !== null) {
+            run()
+        }
+    }
+
+    const run = () => {
+        timeoutId = setTimeout(recursiveRain, savedGenerationSpeedMs)
+    }
 
     return {
         pause: () => {
-            clearInterval(interval)
-            interval = null
+            clearTimeout(timeoutId)
+            timeoutId = null
             fallingLogics.forEach((obj) => {
                 obj.pause()
             })
         },
         start: () => {
-            if (interval === null) {
-                // if it's not already running
-                interval = run()
+            if (timeoutId === null) {
+                run()
                 fallingLogics.forEach((obj) => {
                     obj.resume()
                 })
             }
         },
         restart: () => {
-            clearInterval(interval)
             fallingLogics.forEach((obj) => {
                 obj.stop()
             })
             fallingLogics = []
-            interval = run()
+            savedGenerationSpeedMs = baseGenerationSpeedMs
+            run()
         },
         stop: () => {
-            clearInterval(interval)
             fallingLogics.forEach((obj) => {
                 obj.stop()
             })
             fallingLogics = []
+            savedGenerationSpeedMs = baseGenerationSpeedMs
         },
     }
 }
