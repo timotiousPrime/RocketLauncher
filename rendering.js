@@ -17,6 +17,7 @@ export function renderGame(state) {
     renderScore(state)
     renderLevel(state)
     renderNextLevelScore(state)
+    renderSounds(state)
 }
 
 function renderOverlay(state) {
@@ -40,6 +41,10 @@ function renderOverlay(state) {
         }
         textEl.style.display = state.gameMode === gameMode ? 'block' : 'none'
     }
+}
+
+function renderSounds({ gameMode, playSounds }) {
+    playBackgroundMusic(!playSounds, gameMode === GAME_MODE.GAME_OVER)
 }
 
 function renderButtons({ gameMode, playSounds }) {
@@ -66,10 +71,8 @@ function renderButtons({ gameMode, playSounds }) {
 
     if (playSounds) {
         muteBtnImg.src = IMG.musicOnBtn
-        playBackgroundMusic(false)
     } else {
         muteBtnImg.src = IMG.musicOffBtn
-        playBackgroundMusic(true)
     }
 }
 
@@ -96,17 +99,20 @@ function renderBasket({ basket }) {
     basketDiv.style.height = toPx(basket.height)
 }
 
-function renderBasketValue({ basket }) {
+function renderBasketValue({ basket, levelTarget }) {
     const basketEl = document.getElementById(EL_IDS.basketValue)
+    const fuelValueEl = document.getElementById(EL_IDS.fuelValue)
     if (+basketEl.innerText !== +basket.basketValue) {
         basketEl.innerText = basket.basketValue
+        fuelValueEl.style.height = toPercent(
+            (basket.basketValue / levelTarget) * 100,
+        )
     }
 }
 
 function renderScore({ score }) {
     const scoreEl = document.getElementById(EL_IDS.scoreValue)
     if (+scoreEl.textContent !== +score) {
-        console.log('score ', score)
         scoreEl.textContent = score
     }
 }
@@ -145,15 +151,23 @@ function renderFallingObjects({ fallingObjects }) {
         fallingObjectEl = document.createElement('span')
         const numeratorEl = document.createElement('span')
         const denominatorEl = document.createElement('span')
+        const fuelWrapperEl = document.createElement('span')
+        const fuelEl = document.createElement('span')
+        fuelWrapperEl.classList.add('fuel-wrapper')
+        fuelWrapperEl.appendChild(fuelEl)
+        fuelEl.classList.add('fuel')
         fallingObjectEl.classList.add('falling-object')
         fallingObjectEl.id = fallingObject.id
         numeratorEl.classList.add('falling-object-numerator')
         denominatorEl.classList.add('falling-object-denominator')
         numeratorEl.textContent = fallingObject.numerator
         denominatorEl.textContent = fallingObject.denominator
-
+        fuelEl.style.height = toPercent(
+            (fallingObject.numerator / fallingObject.denominator) * 100,
+        )
         fallingObjectEl.appendChild(numeratorEl)
         fallingObjectEl.appendChild(denominatorEl)
+        fallingObjectEl.appendChild(fuelWrapperEl)
         fallingObjectColumnEl.appendChild(fallingObjectEl)
 
         fallingObjectEl.style.width = toPx(fallingObject.width)
