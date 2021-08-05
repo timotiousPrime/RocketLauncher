@@ -61,7 +61,7 @@ function runGame() {
                     resetRocket()
                 }, 1200)
             }
-            renderGame(state)
+            renderGame(prevState, state)
         },
         getInitState: () => ({ ...INIT_STATE }),
     })

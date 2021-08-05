@@ -6,16 +6,49 @@ const toPx = (value) => `${value}px`
 const toPercent = (value) => `${value}%`
 
 // __This is the main render function which delegates control to the more-specific render functions.__
-export function renderGame(state) {
+export function renderGame(prevState, state) {
+    function hasStateChanged(stateSelectors) {
+        for (const selector of stateSelectors) {
+            if (selector(prevState) !== selector(state)) {
+                return true
+            }
+        }
+        return false
+    }
+
     renderFallingObjects(state)
-    renderLivesRemaining(state)
-    renderBasketValue(state)
-    renderOverlay(state)
-    renderButtons(state)
-    renderBasket(state)
-    renderScore(state)
-    renderLevel(state)
-    renderSounds(state)
+
+    if (hasStateChanged([(s) => s.livesRemaining])) {
+        renderLivesRemaining(state)
+    }
+
+    if (hasStateChanged([(s) => s.basket.basketValue, (s) => s.levelTarget])) {
+        renderBasketValue(state)
+    }
+
+    if (hasStateChanged([(s) => s.gameMode])) {
+        renderOverlay(state)
+    }
+
+    if (hasStateChanged([(s) => s.gameMode, (s) => s.playSounds])) {
+        renderButtons(state)
+    }
+
+    if (hasStateChanged([(s) => s.basket.xPos])) {
+        renderBasket(state)
+    }
+
+    if (hasStateChanged([(s) => s.score])) {
+        renderScore(state)
+    }
+
+    if (hasStateChanged([(s) => s.gameLevel])) {
+        renderLevel(state)
+    }
+
+    if (hasStateChanged([(s) => s.gameMode, (s) => s.playSounds])) {
+        renderSounds(state)
+    }
 }
 
 function renderOverlay(state) {
