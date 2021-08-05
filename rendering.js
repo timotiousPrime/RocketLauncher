@@ -97,12 +97,14 @@ function renderBasket({ basket }) {
     basketDiv.style.height = toPx(basket.height)
 }
 
-function renderBasketValue({ basket }) {
+function renderBasketValue({ basket, levelTarget }) {
     const basketEl = document.getElementById(EL_IDS.basketValue)
     const fuelValueEl = document.getElementById(EL_IDS.fuelValue)
     if (+basketEl.innerText !== +basket.basketValue) {
         basketEl.innerText = basket.basketValue
-        fuelValueEl.style.height = toPercent(basket.basketValue * 100)
+        fuelValueEl.style.height = toPercent(
+            (basket.basketValue / levelTarget) * 100,
+        )
     }
 }
 
