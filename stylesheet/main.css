@@ -57,7 +57,7 @@ body {
     position: absolute;
     opacity: 0.3;
     font-size: 120px;
-    left: 50%;
+    left: calc(50% + 45px);
     top: 12%;
     transform: translateX(-50%);
     color: #00a9e2;
@@ -90,7 +90,7 @@ body {
 
 .stats-box {
     width: var(--stats-box-width);
-    background-color: #696969;
+    background-color: rgba(105, 105, 105, 0.9);
     color: #ffffff;
     padding: 20px;
 }

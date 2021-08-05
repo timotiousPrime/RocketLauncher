@@ -139,15 +139,23 @@ function renderFallingObjects({ fallingObjects }) {
         fallingObjectEl = document.createElement('span')
         const numeratorEl = document.createElement('span')
         const denominatorEl = document.createElement('span')
+        const fuelWrapperEl = document.createElement('span')
+        const fuelEl = document.createElement('span')
+        fuelWrapperEl.classList.add('fuel-wrapper')
+        fuelWrapperEl.appendChild(fuelEl)
+        fuelEl.classList.add('fuel')
         fallingObjectEl.classList.add('falling-object')
         fallingObjectEl.id = fallingObject.id
         numeratorEl.classList.add('falling-object-numerator')
         denominatorEl.classList.add('falling-object-denominator')
         numeratorEl.textContent = fallingObject.numerator
         denominatorEl.textContent = fallingObject.denominator
-
+        fuelEl.style.height = toPercent(
+            (fallingObject.numerator / fallingObject.denominator) * 100,
+        )
         fallingObjectEl.appendChild(numeratorEl)
         fallingObjectEl.appendChild(denominatorEl)
+        fallingObjectEl.appendChild(fuelWrapperEl)
         fallingObjectColumnEl.appendChild(fallingObjectEl)
 
         fallingObjectEl.style.width = toPx(fallingObject.width)
