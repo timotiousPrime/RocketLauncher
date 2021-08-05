@@ -130,8 +130,8 @@ export function rain(logic) {
 
         const fallingLogic = fall(
             obj.yPos,
-            baseFallingPxPerSec * levelVars.fallingSpeedMultiplier,
-            60,
+            baseFallingPxPerSec * (levelVars.fallingSpeedMultiplier * 0.05 + 1) ,
+            30,
             (newYPos) => {
                 const basket = {
                     ...logic.state.basket,
