@@ -288,17 +288,24 @@ export const calcLevel = (state) => {
     let levelTarget = state.levelTarget
     const score = state.score
 
-    if (score >= 1 && score < 20) {
+    if (score >= 2 && score < 4) {
         level = 2
+        console.log(state.levelTarget)
     }
-    if (score >= 3 && score < 35) {
+    if (score >= 4 && score < 6) {
         level = 3
+        console.log(state.levelTarget)
+
     }
-    if (score >= 35 && score < 55) {
+    if (score >= 6 && score < 8) {
         level = 4
+        console.log(state.levelTarget)
+
     }
-    if (score >= 55 && score < 80) {
+    if (score >= 8 && score < 10) {
         level = 5
+        console.log(state.levelTarget)
+
     }
     if (score >= 70 && score < 100) {
         level = 6
