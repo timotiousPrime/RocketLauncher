@@ -3,6 +3,7 @@ import {
     GAME_MODE,
     INIT_STATE,
     LEVEL_VARS,
+    EL_IDS,
 } from './constants.js'
 import {
     pxToPercent,
@@ -10,6 +11,7 @@ import {
     doesValueMeetTarget,
     randomInRange,
 } from './utils.js'
+import { playSoundEffect } from './dom.js'
 
 export const setPlayAreaWidth = (state, width) => {
     return {
@@ -51,6 +53,9 @@ export const moveBasketLeft = (state) => {
     if (xPos < 0) {
         xPos = 0
     }
+
+    playSoundEffect(EL_IDS.basketSound, !state.playSounds)
+
     return {
         ...state,
         basket: {
@@ -61,9 +66,13 @@ export const moveBasketLeft = (state) => {
 }
 
 export const moveBasketRight = (state) => {
-    let xPos =
-        state.columnsXPos.find((x) => x > state.basket.xPos) ||
-        state.columnsXPos[state.columnsXPos.length - 1]
+    let xPos = state.basket.xPos + 100 / 8
+    if (xPos > 99) {
+        xPos = 99
+    }
+
+    playSoundEffect(EL_IDS.basketSound, !state.playSounds)
+
     return {
         ...state,
         basket: {
@@ -94,6 +103,7 @@ export const resetBasketValue = (state) => {
 }
 
 export const setScore = (state, value) => {
+    playSoundEffect(EL_IDS.rocketTakeOffSound, !state.playSounds)
     return {
         ...state,
         score: value,
@@ -149,6 +159,7 @@ export const toggleMute = (state) => ({
 })
 
 export const addFallingObject = (state, fallingObj) => {
+    playSoundEffect(EL_IDS.spawnFallingObjectSound, !state.playSounds)
     return {
         ...state,
         fallingObjects: {
@@ -236,6 +247,7 @@ export const calcScore = (state) => {
         return state
     }
 
+    playSoundEffect(EL_IDS.rocketTakeOffSound, !state.playSounds)
     return {
         ...state,
         score: state.score + 1,
@@ -247,7 +259,7 @@ export const calcScore = (state) => {
 }
 
 export const calcLives = (state) => {
-    if (state.basket.basketValue < state.levelTarget) {
+    if (state.basket.basketValue <= state.levelTarget) {
         return state
     }
 
@@ -260,6 +272,7 @@ export const calcLives = (state) => {
         }
     }
 
+    playSoundEffect(EL_IDS.lifeLostSound, !state.playSounds)
     return {
         ...state,
         livesRemaining,
@@ -307,6 +320,7 @@ export const calcLevel = (state) => {
         const { possibleTargets } = LEVEL_VARS[level]
 
         levelTarget = possibleTargets[randomInRange(0, possibleTargets.length)]
+        playSoundEffect(EL_IDS.levelUpSound, !state.playSounds)
     }
 
     return {
@@ -316,6 +330,7 @@ export const calcLevel = (state) => {
     }
 }
 export const catchFallingObject = (state, fallingObject) => {
+    playSoundEffect(EL_IDS.catchFallingObjectSound, !state.playSounds)
     let nextState = calcBasketValue(state, fallingObject)
     nextState = calcScore(nextState)
     nextState = calcLives(nextState)

@@ -24,6 +24,7 @@ export const IMG = {
 export const EL_IDS = {
     basket: 'basket',
     basketValue: 'basket-value',
+    fuelValue: 'fuel-value',
     scoreValue: 'score-value',
     levelValue: 'level-value',
     targetValue: 'target-value',
@@ -38,6 +39,13 @@ export const EL_IDS = {
     pauseBtn: 'pause-btn',
     muteBtn: 'mute-btn',
     bgMusic: 'background-audio',
+    basketSound: 'basket-audio',
+    rocketTakeOffSound: 'rocket-launch-audio',
+    spawnFallingObjectSound: 'spawn-falling-object-audio',
+    catchFallingObjectSound: 'catch-falling-object-audio',
+    lifeLostSound: 'life-lost-audio',
+    levelUpSound: 'level-up-audio',
+    gameOverMusic: 'game-over-audio',
 }
 
 export const INIT_STATE = {
@@ -65,8 +73,8 @@ export const FALLING_OBJ_INIT_STATE = {
     xPosPx: 0, // the x position of the object in pixels
     xPos: '50%', // this is relative to the column that the object is in, so it's fixed
     yPos: 100,
-    width: 62,
-    height: 34,
+    width: 65,
+    height: 84,
     numerator: 0,
     denominator: 1,
     value: 0,

@@ -19,7 +19,12 @@
                     <span id="target-value"></span>
                     <!-- <span class="target-text">Target</span> -->
                 </div>
-                <span id="basket-value" class="basket-value">0</span>
+                <span class="basket-value">
+                    <span id="basket-value">0</span>
+                    <span class="fuel-wrapper"
+                        ><span id="fuel-value" class="fuel"></span
+                    ></span>
+                </span>
                 <ul id="falling-objects" class="falling-object-container">
                     <li class="falling-object-column"></li>
                     <li class="falling-object-column"></li>
@@ -63,14 +68,14 @@
                     </button>
                 </div>
                 <div class="text-block">
-                    <p class="title">Instructions</p>
+                    <h3 class="title">Instructions</h3>
                     <p class="description">
                         Your mission is to collect just enough fuel to send our
-                        rockets off into space. When the value of the fuel you
+                        rockets off into space. <br><br>When the value of the fuel you
                         collect adds up to 1, our spaceship will blast off into
                         space; but if it adds up to more than 1, fuel will leak
                         and the spaceship will explode.
-                        <br />
+                        <br><br>
                         How many rockets can you launch?
                     </p>
                 </div>
@@ -90,8 +95,43 @@
             </div>
         </div>
 
-        <audio id="background-audio" src="./assets/bensound-psychedelic.mp3"></audio> <!--  music from bensound.com, the best place to get royalty free music for your projects -->
-
+        <audio
+            id="background-audio"
+            src="./assets/bensound-psychedelic.mp3"
+        ></audio>
+        <!--  music from bensound.com, the best place to get royalty free music for your projects -->
+        <audio
+            id="basket-audio"
+            src="./assets/zapsplat_cartoon_whoosh_whip_away_001_26700.mp3"
+        ></audio>
+        <!--  sound from zapsplat.com, the best place to get royalty free sound effects -->
+        <audio
+            id="spawn-falling-object-audio"
+            src="./assets/zapsplat_cartoon_bubble_pop_003_40275.mp3"
+        ></audio>
+        <!--  sound from zapsplat.com, the best place to get royalty free sound effects -->
+        <audio
+            id="catch-falling-object-audio"
+            src="./assets/zapsplat_multimedia_alert_prompt_ui_mallet_simple_hit_notification_004_70210.mp3"
+        ></audio>
+        <!--  sound from zapsplat.com, the best place to get royalty free sound effects -->
+        <audio
+            id="life-lost-audio"
+            src="./assets/zapsplat_explosion_loud_punchy_powerful_with_a_whoosh_63284.mp3"
+        ></audio>
+        <!--  sound from zapsplat.com, the best place to get royalty free sound effects -->
+        <audio
+            id="level-up-audio"
+            src="./assets/zapsplat_cartoon_sci_fi_laser_beam_rising_thin_64780.mp3"
+        ></audio>
+        <!--  sound from zapsplat.com, the best place to get royalty free sound effects -->
+        <audio id="game-over-audio" src="./assets/bensound-theduel.mp3"></audio>
+        <!--  music from bensound.com, the best place to get royalty free music for your projects -->
+        <audio
+            id="rocket-launch-audio"
+            src="./assets/zapsplat_science_fiction_spacecraft_powerful_pass_by_fast_whoosh_005_62003.mp3"
+        ></audio>
+        <!--  sound from zapsplat.com, the best place to get royalty free sound effects -->
     </body>
     <script type="module" src="./main.js"></script>
 </html>
