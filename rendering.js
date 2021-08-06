@@ -19,6 +19,7 @@ export function renderGame(prevState, state) {
 
     renderFallingObjects(state)
     renderNextLevelScore(state)
+    renderTargetValue(state)
     // s is the next state in this local scope
 
     if (hasStateChanged([(s) => s.livesRemaining])) {
@@ -108,6 +109,14 @@ function renderButtons({ gameMode, playSounds }) {
     } else {
         muteBtnImg.src = IMG.musicOffBtn
     }
+}
+
+
+function renderTargetValue(state){
+    let value = state.levelTarget
+    console.log(`The target value is ${value}`)
+    const levelTargetValue = document.getElementById(EL_IDS.targetValue)
+    levelTargetValue.textContent = value
 }
 
 function renderBasket({ basket }) {
