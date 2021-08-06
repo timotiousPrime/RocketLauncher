@@ -113,7 +113,7 @@ function renderButtons({ gameMode, playSounds }) {
 
 
 function renderTargetValue(state){
-    let value = state.levelTarget > 0 ? state.levelTarget : 0
+    let value = state.levelTarget
     console.log(`The target value is ${value}`)
     const levelTargetValue = document.getElementById(EL_IDS.targetValue)
     levelTargetValue.textContent = value
