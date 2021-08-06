@@ -18,6 +18,8 @@ export function renderGame(prevState, state) {
 
     renderFallingObjects(state)
 
+    // s is the next state in this local scope
+
     if (hasStateChanged([(s) => s.livesRemaining])) {
         renderLivesRemaining(state)
     }
