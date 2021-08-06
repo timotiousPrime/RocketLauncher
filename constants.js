@@ -42,6 +42,8 @@ export const EL_IDS = {
     restartBtn: 'restart-btn',
     pauseBtn: 'pause-btn',
     muteBtn: 'mute-btn',
+    explosion: 'explode',
+    rocket: 'rocket',
     bgMusic: 'background-audio',
     basketSound: 'basket-audio',
     rocketTakeOffSound: 'rocket-launch-audio',

@@ -21,6 +21,7 @@ function runGame() {
                 switch (prevState.gameMode) {
                     case GAME_MODE.GAME_OVER:
                         rainLogic.restart()
+                        resetRocket()
                         break
                     case GAME_MODE.PAUSED:
                     case GAME_MODE.INIT:
@@ -57,9 +58,11 @@ function runGame() {
             }
             if (rainLogic && prevState.livesRemaining > state.livesRemaining) {
                 explode()
-                setTimeout(() => {
-                    resetRocket()
-                }, 1200)
+                if (state.gameMode !== GAME_MODE.GAME_OVER) {
+                    setTimeout(() => {
+                        resetRocket()
+                    }, 1200)
+                }
             }
             renderGame(prevState, state)
         },
