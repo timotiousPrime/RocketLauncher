@@ -30,6 +30,7 @@ export const EL_IDS = {
     levelValue: 'level-value',
     targetValue: 'target-value',
     fallingObjectsList: 'falling-objects',
+    livesRemaining0: 'radio-0',
     livesRemaining1: 'radio-1',
     livesRemaining2: 'radio-2',
     livesRemaining3: 'radio-3',

@@ -268,8 +268,9 @@ export const calcLives = (state) => {
     if (livesRemaining < 1) {
         return {
             ...state,
-            gameMode: GAME_MODE.GAME_OVER,
+            livesRemaining,
             fallingObjects: {},
+            gameMode: GAME_MODE.GAME_OVER,
         }
     }
 
