@@ -263,6 +263,7 @@ export const calcLives = (state) => {
         return state
     }
 
+    playSoundEffect(EL_IDS.lifeLostSound, !state.playSounds)
     const livesRemaining = state.livesRemaining - 1
     if (livesRemaining < 1) {
         return {
@@ -272,7 +273,6 @@ export const calcLives = (state) => {
         }
     }
 
-    playSoundEffect(EL_IDS.lifeLostSound, !state.playSounds)
     return {
         ...state,
         livesRemaining,
