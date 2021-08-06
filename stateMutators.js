@@ -286,43 +286,48 @@ export const calcLives = (state) => {
 
 export const calcLevel = (state) => {
     let level = state.gameLevel
-    let nextLevelScore = 10
+    let nextLevelScore = 3
     let levelTarget = state.levelTarget
     const score = state.score
 
-    if (score >= 1 && score < 20) {
+    if (score < 3) {
+        level = 1
+        nextLevelScore = 3
+    }
+
+    if (score >= 3 && score < 8) {
         level = 2
-        nextLevelScore = 20
+        nextLevelScore = 8
     }
-    if (score >= 3 && score < 35) {
+    if (score >= 8 && score < 15) {
         level = 3
-        nextLevelScore = 35
+        nextLevelScore = 15
     }
-    if (score >= 35 && score < 55) {
+    if (score >= 15 && score < 25) {
         level = 4
-        nextLevelScore = 55
+        nextLevelScore = 25
     }
-    if (score >= 55 && score < 80) {
+    if (score >= 25 && score < 40) {
         level = 5
-        nextLevelScore = 80
+        nextLevelScore = 40
     }
-    if (score >= 70 && score < 100) {
+    if (score >= 40 && score < 60) {
         level = 6
-        nextLevelScore = 100
+        nextLevelScore = 60
     }
-    if (score >= 100 && score < 135) {
+    if (score >= 60 && score < 90) {
         level = 7
-        nextLevelScore = 135
+        nextLevelScore = 90
     }
-    if (score >= 135 && score < 175) {
+    if (score >= 90 && score < 120) {
         level = 8
-        nextLevelScore = 175
+        nextLevelScore = 120
     }
-    if (score >= 175 && score < 220) {
+    if (score >= 120 && score < 150) {
         level = 9
-        nextLevelScore = 220
+        nextLevelScore = 150
     }
-    if (score >= 220) {
+    if (score >= 150) {
         level = 10
         nextLevelScore = '∞'
     }
