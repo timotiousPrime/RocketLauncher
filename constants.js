@@ -66,8 +66,8 @@ export const INIT_STATE = {
     playAreaWidth: 0,
     columnsXPos: [],
     score: 0,
-    nextLevelScore: 10,
-    gameLevel: 0,
+    nextLevelScore: 3,
+    gameLevel: 1,
     levelTarget: 1,
     livesRemaining: 3,
     fallingObjects: {},
@@ -103,8 +103,8 @@ export const LEVEL_VARS = [
         },
     },
     {
-        fallingSpeedMultiplier: 1.6,
-        generationSpeedMultiplier: 1.4,
+        fallingSpeedMultiplier: 1.05,
+        generationSpeedMultiplier: 1.1,
         possibleTargets: [1.25, 1.33, 1.5, 1.66, 1.75, 2],
         possibleDenominators: [2, 3, 4, 6],
         fractionDifficultyDistribution: {
@@ -116,8 +116,8 @@ export const LEVEL_VARS = [
         },
     },
     {
-        fallingSpeedMultiplier: 1.9,
-        generationSpeedMultiplier: 1.6,
+        fallingSpeedMultiplier: 1.1,
+        generationSpeedMultiplier: 1.15,
         possibleTargets: [
             1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
         ],
@@ -131,8 +131,8 @@ export const LEVEL_VARS = [
         },
     },
     {
-        fallingSpeedMultiplier: 2.2,
-        generationSpeedMultiplier: 1.8,
+        fallingSpeedMultiplier: 1.15,
+        generationSpeedMultiplier: 1.2,
         possibleTargets: [
             1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
         ],
@@ -146,8 +146,8 @@ export const LEVEL_VARS = [
         },
     },
     {
-        fallingSpeedMultiplier: 2.5,
-        generationSpeedMultiplier: 2,
+        fallingSpeedMultiplier: 1.2,
+        generationSpeedMultiplier: 1.25,
         possibleTargets: [
             1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
         ],
