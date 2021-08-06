@@ -42,11 +42,11 @@ export function onWindowVisibilityChange(callback) {
     })
 }
 
-let explodeEl = null
 let rocketEl = null
+let explodeEl = null
 document.addEventListener('DOMContentLoaded', function () {
-    explodeEl = document.getElementById('explode')
-    rocketEl = document.getElementById('rocket')
+    rocketEl = document.getElementById(EL_IDS.rocket)
+    explodeEl = document.getElementById(EL_IDS.explosion)
 })
 
 export function explode() {

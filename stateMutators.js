@@ -263,16 +263,17 @@ export const calcLives = (state) => {
         return state
     }
 
+    playSoundEffect(EL_IDS.lifeLostSound, !state.playSounds)
     const livesRemaining = state.livesRemaining - 1
     if (livesRemaining < 1) {
         return {
             ...state,
-            gameMode: GAME_MODE.GAME_OVER,
+            livesRemaining,
             fallingObjects: {},
+            gameMode: GAME_MODE.GAME_OVER,
         }
     }
 
-    playSoundEffect(EL_IDS.lifeLostSound, !state.playSounds)
     return {
         ...state,
         livesRemaining,
