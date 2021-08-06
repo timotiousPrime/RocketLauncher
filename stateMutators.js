@@ -1,17 +1,17 @@
 import {
+    EL_IDS,
     FALLING_OBJ_INIT_STATE,
     GAME_MODE,
     INIT_STATE,
     LEVEL_VARS,
-    EL_IDS,
 } from './constants.js'
-import {
-    pxToPercent,
-    to2DecimalPlaces,
-    doesValueMeetTarget,
-    randomInRange,
-} from './utils.js'
 import { playSoundEffect } from './dom.js'
+import {
+    doesValueMeetTarget,
+    pxToPercent,
+    randomInRange,
+    to2DecimalPlaces,
+} from './utils.js'
 
 export const setPlayAreaWidth = (state, width) => {
     return {
@@ -285,35 +285,45 @@ export const calcLives = (state) => {
 
 export const calcLevel = (state) => {
     let level = state.gameLevel
+    let nextLevelScore = 10
     let levelTarget = state.levelTarget
     const score = state.score
 
     if (score >= 1 && score < 20) {
         level = 2
+        nextLevelScore = 20
     }
     if (score >= 3 && score < 35) {
         level = 3
+        nextLevelScore = 35
     }
     if (score >= 35 && score < 55) {
         level = 4
+        nextLevelScore = 55
     }
     if (score >= 55 && score < 80) {
         level = 5
+        nextLevelScore = 80
     }
     if (score >= 70 && score < 100) {
         level = 6
+        nextLevelScore = 100
     }
     if (score >= 100 && score < 135) {
         level = 7
+        nextLevelScore = 135
     }
     if (score >= 135 && score < 175) {
         level = 8
+        nextLevelScore = 175
     }
     if (score >= 175 && score < 220) {
         level = 9
+        nextLevelScore = 220
     }
     if (score >= 220) {
         level = 10
+        nextLevelScore = '∞'
     }
 
     if (level !== state.gameLevel) {
@@ -327,6 +337,7 @@ export const calcLevel = (state) => {
         ...state,
         levelTarget,
         gameLevel: level,
+        nextLevelScore,
     }
 }
 export const catchFallingObject = (state, fallingObject) => {

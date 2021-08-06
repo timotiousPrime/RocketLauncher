@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="stylesheet/main.css" />
         <link rel="stylesheet" href="stylesheet/falling-object.css" />
         <link rel="stylesheet" href="stylesheet/explode.css" />
+        <link rel="stylesheet" href="stylesheet/lives.css" />
     </head>
     <body>
         <div class="container">
@@ -44,9 +45,11 @@
             <div class="stats-box">
                 <h1>Rocket launcher</h1>
 
-                <div class="stats-row-center">
+                <div class="stats-row-center stats-row-score">
                     <span id="score-value" class="value">0</span>
+                    <span id="next-level-score" class="value-normal">0</span>
                     <span class="label">Score</span>
+                    <span class="label-normal">Next level score</span>
                 </div>
                 <div class="stats-row-center">
                     <span id="level-value" class="value">1</span>
@@ -54,7 +57,63 @@
                 </div>
                 <div class="stats-row">
                     <span class="label">Lives:</span>
-                    <span id="lives-remaining-value" class="value">3</span>
+                    <div class="radio-group">
+                        <input
+                            class="radio__input"
+                            name="lives"
+                            id="radio-0"
+                            value="0"
+                            type="radio"
+                        />
+                        <label
+                            aria-label="1"
+                            class="radio__label"
+                            html-for="radio-1"
+                        >
+                            <span class="radio__icon"
+                                ><img class="rocket" src="assets/rocket.svg"
+                            /></span>
+                        </label>
+                        <input
+                            class="radio__input"
+                            name="lives"
+                            id="radio-1"
+                            value="1"
+                            type="radio"
+                        />
+                        <label
+                            aria-label="2"
+                            class="radio__label"
+                            html-for="radio-2"
+                        >
+                            <span class="radio__icon"
+                                ><img class="rocket" src="assets/rocket.svg"
+                            /></span>
+                        </label>
+                        <input
+                            class="radio__input"
+                            name="lives"
+                            id="radio-2"
+                            value="2"
+                            type="radio"
+                        />
+                        <label
+                            aria-label="3"
+                            class="radio__label"
+                            html-for="radio-3"
+                        >
+                            <span class="radio__icon"
+                                ><img class="rocket" src="assets/rocket.svg"
+                            /></span>
+                        </label>
+                        <input
+                            class="radio__input"
+                            name="lives"
+                            id="radio-3"
+                            value="3"
+                            type="radio"
+                        />
+                    </div>
                 </div>
                 <div class="btnContainer">
                     <button id="pause-btn" class="pauseBtn btn" disabled>
@@ -71,11 +130,11 @@
                     <h3 class="title">Instructions</h3>
                     <p class="description">
                         Your mission is to collect just enough fuel to send our
-                        rockets off into space. <br><br>When the value of the fuel you
-                        collect adds up to 1, our spaceship will blast off into
-                        space; but if it adds up to more than 1, fuel will leak
-                        and the spaceship will explode.
-                        <br><br>
+                        rockets off into space. <br /><br />When the value of
+                        the fuel you collect adds up to 1, our spaceship will
+                        blast off into space; but if it adds up to more than 1,
+                        fuel will leak and the spaceship will explode.
+                        <br /><br />
                         How many rockets can you launch?
                     </p>
                 </div>
