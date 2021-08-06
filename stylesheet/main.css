@@ -264,7 +264,7 @@ button:hover:disabled {
 }
 
 .overlay {
-    display: none;
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -274,9 +274,15 @@ button:hover:disabled {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
 }
+
 .overlay-text {
     display: none;
 }
+
+.overlay-text-initial {
+    display: block;
+}
+
 .overlay-content {
     display: flex;
     justify-content: center;

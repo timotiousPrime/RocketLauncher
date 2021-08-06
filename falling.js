@@ -192,6 +192,7 @@ export function rain(logic) {
             }
         },
         restart: () => {
+            clearTimeout(timeoutId)
             fallingLogics.forEach((obj) => {
                 obj.stop()
             })
@@ -200,6 +201,7 @@ export function rain(logic) {
             run()
         },
         stop: () => {
+            clearTimeout(timeoutId)
             fallingLogics.forEach((obj) => {
                 obj.stop()
             })

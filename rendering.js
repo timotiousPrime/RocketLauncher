@@ -7,17 +7,51 @@ const toPercent = (value) => `${value}%`
 const getLivesRemainingEl = (livesRemaining) =>
     document.getElementById(EL_IDS['livesRemaining' + livesRemaining])
 // __This is the main render function which delegates control to the more-specific render functions.__
-export function renderGame(state) {
+export function renderGame(prevState, state) {
+    function hasStateChanged(stateSelectors) {
+        for (const selector of stateSelectors) {
+            if (selector(prevState) !== selector(state)) {
+                return true
+            }
+        }
+        return false
+    }
+
     renderFallingObjects(state)
-    renderLivesRemaining(state)
-    renderBasketValue(state)
-    renderOverlay(state)
-    renderButtons(state)
-    renderBasket(state)
-    renderScore(state)
-    renderLevel(state)
     renderNextLevelScore(state)
-    renderSounds(state)
+    // s is the next state in this local scope
+
+    if (hasStateChanged([(s) => s.livesRemaining])) {
+        renderLivesRemaining(state)
+    }
+
+    if (hasStateChanged([(s) => s.basket.basketValue, (s) => s.levelTarget])) {
+        renderBasketValue(state)
+    }
+
+    if (hasStateChanged([(s) => s.gameMode])) {
+        renderOverlay(state)
+    }
+
+    if (hasStateChanged([(s) => s.gameMode, (s) => s.playSounds])) {
+        renderButtons(state)
+    }
+
+    if (hasStateChanged([(s) => s.basket.xPos])) {
+        renderBasket(state)
+    }
+
+    if (hasStateChanged([(s) => s.score])) {
+        renderScore(state)
+    }
+
+    if (hasStateChanged([(s) => s.gameLevel])) {
+        renderLevel(state)
+    }
+
+    if (hasStateChanged([(s) => s.gameMode, (s) => s.playSounds])) {
+        renderSounds(state)
+    }
 }
 
 function renderOverlay(state) {
@@ -123,7 +157,7 @@ function renderLevel({ gameLevel }) {
 }
 function renderNextLevelScore({ nextLevelScore }) {
     const levelEl = document.getElementById(EL_IDS.nextLevelScore)
-    if (levelEl.textContent + '' !== nextLevelScore + '') {
+    if (levelEl.textContent !== nextLevelScore.toString()) {
         levelEl.textContent = nextLevelScore
     }
 }
