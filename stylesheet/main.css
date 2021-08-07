@@ -83,11 +83,11 @@ body {
     height: auto;
     transition: opacity 0.2s ease;
     opacity: 1;
-    top: calc(100% - 84px);
+    top: calc(100% - 154px);
 }
 .rocket.launch {
     transition: top 1s cubic-bezier(0.63, 0, 1, 0.92);
-    top: -100px;
+    top: -250px;
 }
 
 .stats-box {

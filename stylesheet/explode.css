@@ -1,14 +1,14 @@
 .explode {
     display: none;
-    height: 120px;
-    width: 120px;
+    height: 180px;
+    width: 180px;
     background: url(../assets/explode.png);
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-timing-function: steps(10);
     background-size: auto 100%;
-    bottom: -20px;
+    bottom: -7px;
     position: absolute;
-    left: 50%;
+    left: 48px;
     z-index: 2;
     transform: translateX(-50%) rotate(270deg);
 }
@@ -27,6 +27,6 @@
         background-position: 0px;
     }
     to {
-        background-position: -1366px;
+        background-position: -2088px;
     }
 }
