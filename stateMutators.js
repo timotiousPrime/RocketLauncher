@@ -121,7 +121,7 @@ export const resetScore = (state) => {
 export const resetLevelTarget = (state) => {
     return {
         ...state,
-        levelTarget: INIT_STATE.levelTarget,
+        levelTarget: LEVEL_VARS[0].possibleTargets[0],
     }
 }
 
@@ -351,6 +351,7 @@ export const restartGame = (state) => {
 export const startGame = (state) => {
     return {
         ...state,
+        levelTarget: LEVEL_VARS[0].possibleTargets[0],
         gameMode: GAME_MODE.RUNNING,
         playSounds: true,
     }
