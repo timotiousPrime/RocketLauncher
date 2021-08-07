@@ -15,6 +15,11 @@ import {
     to2DecimalPlaces,
 } from './utils.js'
 
+function getRandomTargetForLevel(level) {
+    const { possibleTargets } = LEVEL_VARS[level]
+    return possibleTargets[randomInRange(0, possibleTargets.length)]
+}
+
 export const setPlayAreaWidth = (state, width) => {
     return {
         ...state,
@@ -260,6 +265,7 @@ export const calcScore = (state) => {
     return {
         ...state,
         score: state.score + 1,
+        levelTarget: getRandomTargetForLevel(state.gameLevel),
         basket: {
             ...state.basket,
             basketValue: INIT_STATE.basket.basketValue,
@@ -311,11 +317,9 @@ export const calcLevel = (state) => {
     }
 
     if (level !== state.gameLevel) {
-        const { possibleTargets } = LEVEL_VARS[level]
-
         livesRemaining =
             livesRemaining < MAX_LIVES ? livesRemaining + 1 : livesRemaining
-        levelTarget = possibleTargets[randomInRange(0, possibleTargets.length)]
+        levelTarget = getRandomTargetForLevel(level)
         playSoundEffect(EL_IDS.levelUpSound, !state.playSounds)
     }
 
