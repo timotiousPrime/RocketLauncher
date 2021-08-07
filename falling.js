@@ -100,7 +100,7 @@ function generateObject(levelVars) {
     })
 }
 
-const baseFallingPxPerSec = 300
+const baseFallingPxPerSec = 250
 const baseGenerationSpeedMs = 1500
 
 export function rain(logic) {
