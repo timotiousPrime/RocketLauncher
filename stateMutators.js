@@ -2,10 +2,10 @@ import {
     EL_IDS,
     FALLING_OBJ_INIT_STATE,
     GAME_MODE,
-    MAX_LIVES,
     INIT_STATE,
-    LEVEL_VARS,
     LEVEL_MIN_SCORES,
+    LEVEL_VARS,
+    MAX_LIVES,
 } from './constants.js'
 import { playSoundEffect } from './dom.js'
 import {
@@ -353,7 +353,7 @@ export const restartGame = (state) => {
     nextState = resetGameLevel(nextState)
     nextState = resetLevelTarget(nextState)
     nextState = resetLivesRemaining(nextState)
-    nextState = setGameMode(nextState, GAME_MODE.RUNNING)
+    nextState = setGameMode(nextState, GAME_MODE.INIT)
     return resetFallingObjects(nextState)
 }
 
