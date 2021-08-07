@@ -7,12 +7,21 @@ export function setupEventListener(logic) {
 
     // move basket when left or right key is pressed
     document.addEventListener('keydown', (e) => {
+        const basketEl = document.getElementById(EL_IDS.basket)
         if (e.key === 'ArrowLeft') {
+            basketEl.style.transitionDuration = '.1s'
             logic.mutate(mutatorFns.moveBasketLeft)
+            setTimeout(() => {
+                basketEl.style.transitionDuration = '0s'
+            }, 150)
         }
 
         if (e.key === 'ArrowRight') {
+            basketEl.style.transitionDuration = '.1s'
             logic.mutate(mutatorFns.moveBasketRight)
+            setTimeout(() => {
+                basketEl.style.transitionDuration = '0s'
+            }, 150)
         }
     })
 
