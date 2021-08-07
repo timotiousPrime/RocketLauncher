@@ -25,7 +25,6 @@ function runGame() {
                         break
                     case GAME_MODE.PAUSED:
                     case GAME_MODE.INIT:
-                        rainLogic.stop()
                         rainLogic.start()
                         break
                     default:
@@ -40,6 +39,10 @@ function runGame() {
                         break
                     case GAME_MODE.RUNNING:
                         restartOrResumeRain()
+                        break
+                    case GAME_MODE.INIT: // restart
+                        rainLogic.stop()
+                        resetRocket()
                         break
                     case GAME_MODE.GAME_OVER:
                         rainLogic.stop()
