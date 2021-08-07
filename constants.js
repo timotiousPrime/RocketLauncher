@@ -129,7 +129,7 @@ export const LEVEL_VARS = [
     // Level 2
     {
         fallingSpeedMultiplier: 1.1,
-        generationSpeedMultiplier: 1.1,
+        generationSpeedMultiplier: 1.3,
         possibleTargets: getTargetsByDenominators(3, 4),
         possibleDenominators: [3, 4, 6],
         fractionDifficultyDistribution: {
@@ -143,7 +143,7 @@ export const LEVEL_VARS = [
     // Level 3
     {
         fallingSpeedMultiplier: 1.15,
-        generationSpeedMultiplier: 1.15,
+        generationSpeedMultiplier: 1.6,
         possibleTargets: getTargetsByDenominators(4, 5),
         possibleDenominators: [3, 4, 5, 8],
         fractionDifficultyDistribution: {
@@ -157,7 +157,7 @@ export const LEVEL_VARS = [
     // Level 4
     {
         fallingSpeedMultiplier: 1.2,
-        generationSpeedMultiplier: 1.2,
+        generationSpeedMultiplier: 2,
         possibleTargets: getTargetsByDenominators(3, 5),
         possibleTargets: [1, 1.33, 1.66, 2, 1.2, 1.4, 1.6, 1.8],
         possibleDenominators: [3, 5, 6, 9],
@@ -172,7 +172,7 @@ export const LEVEL_VARS = [
     // Level 5
     {
         fallingSpeedMultiplier: 1.25,
-        generationSpeedMultiplier: 1.25,
+        generationSpeedMultiplier: 2.3,
         possibleTargets: getTargetsByDenominators(3, 4, 5, 6, 9),
         possibleDenominators: [3, 4, 5, 6, 8, 9],
         fractionDifficultyDistribution: {
