@@ -5,6 +5,8 @@ export const PLAY_COLUMNS = 8
  */
 export const TARGET_NOISE_THRESHOLD = 0.05
 
+export const MAX_LIVES = 5
+
 export const GAME_MODE = {
     INIT: 'init',
     RUNNING: 'running',
