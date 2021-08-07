@@ -118,6 +118,13 @@ export const resetScore = (state) => {
     }
 }
 
+export const resetLevelTarget = (state) => {
+    return {
+        ...state,
+        levelTarget: INIT_STATE.levelTarget,
+    }
+}
+
 export const resetLivesRemaining = (state) => {
     return {
         ...state,
@@ -335,6 +342,7 @@ export const restartGame = (state) => {
     let nextState = resetBasketValue(state)
     nextState = resetScore(nextState)
     nextState = resetGameLevel(nextState)
+    nextState = resetLevelTarget(nextState)
     nextState = resetLivesRemaining(nextState)
     nextState = setGameMode(nextState, GAME_MODE.RUNNING)
     return resetFallingObjects(nextState)
