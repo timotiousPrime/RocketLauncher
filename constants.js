@@ -35,6 +35,8 @@ export const EL_IDS = {
     livesRemaining1: 'radio-1',
     livesRemaining2: 'radio-2',
     livesRemaining3: 'radio-3',
+    livesRemaining4: 'radio-4',
+    livesRemaining5: 'radio-5',
     overlayTextStart: 'overlay-text-start',
     overlayTextPause: 'overlay-text-pause',
     overlayTextGameOver: 'overlay-text-gameover',
