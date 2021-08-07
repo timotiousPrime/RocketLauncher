@@ -59,7 +59,7 @@
     display: inline;
     font-family: inherit;
 }
-.fuel-wrapper {
+.fuel-tank {
     position: absolute;
     top: 0;
     right: 0;
@@ -94,6 +94,33 @@
     width: 400%;
     animation: wave 1s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
 }
+.fuel-container .fuel-limit-line {
+    position: absolute;
+    border: none;
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #ff0000;
+}
+.fuel-container {
+    position: relative;
+    display: flex;
+}
+.fuel-container .fuel-tank .fuel {
+    transition: all 1s ease;
+    height: 0%;
+}
+.fuel-container .fuel-tank {
+    display: block;
+    position: relative;
+    width: 76px;
+    height: 100px;
+    margin-left: 20px;
+    border: 2px solid #014557;
+    overflow: hidden;
+    border-radius: 12px;
+    animation: fade-in 1s ease;
+}
 
 @keyframes wave {
     0% {
@@ -101,5 +128,14 @@
     }
     100% {
         margin-left: -65px;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

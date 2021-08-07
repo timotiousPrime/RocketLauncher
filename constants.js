@@ -25,6 +25,7 @@ export const EL_IDS = {
     basket: 'basket',
     basketValue: 'basket-value',
     fuelValue: 'fuel-value',
+    fuelContainer: 'fuel-container',
     scoreValue: 'score-value',
     nextLevelScore: 'next-level-score',
     levelValue: 'level-value',

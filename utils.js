@@ -1,4 +1,4 @@
-import { TARGET_NOISE_THRESHOLD, PLAY_COLUMNS } from './constants.js'
+import { PLAY_COLUMNS, TARGET_NOISE_THRESHOLD } from './constants.js'
 
 export const pxToPercent = (px, parentWidth) => (px / parentWidth) * 100
 
@@ -51,4 +51,16 @@ export function randomDifficulty(difficultyDistribution) {
 
     // Picks one of the 100 values to determine the difficulty of this single fraction choice
     return arrayOfDifficulties[randomInRange(0, arrayOfDifficulties.length)]
+}
+
+/**
+ * input: 2.75
+ * output: [1, 1, 0.75]
+ */
+export function splitNumber(targetValue) {
+    const a = []
+    a.length = Math.floor(targetValue)
+    a.fill(1)
+    a.push(targetValue - Math.floor(targetValue))
+    return a
 }

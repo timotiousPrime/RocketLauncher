@@ -1,6 +1,6 @@
 import { EL_IDS, GAME_MODE, IMG } from './constants.js'
 import { playBackgroundMusic } from './dom.js'
-import { pxToPercent } from './utils.js'
+import { pxToPercent, splitNumber } from './utils.js'
 
 const toPx = (value) => `${value}px`
 const toPercent = (value) => `${value}%`
@@ -19,7 +19,9 @@ export function renderGame(prevState, state) {
 
     renderFallingObjects(state)
     renderNextLevelScore(state)
-    renderTargetValue(state)
+    if (hasStateChanged([(s) => s.levelTarget])) {
+        renderTargetValue(state)
+    }
     // s is the next state in this local scope
 
     if (hasStateChanged([(s) => s.livesRemaining])) {
@@ -111,12 +113,39 @@ function renderButtons({ gameMode, playSounds }) {
     }
 }
 
+function renderFuelContainer(targetValue) {
+    const fuelTankNumbers = splitNumber(targetValue)
 
-function renderTargetValue(state){
+    const fuelContainerEl = document.getElementById(EL_IDS.fuelContainer)
+    fuelContainerEl.classList.add('fuel-container')
+
+    // remove child
+    while (fuelContainerEl.firstChild) {
+        fuelContainerEl.removeChild(fuelContainerEl.firstChild)
+    }
+
+    fuelTankNumbers.forEach((tankValue) => {
+        const fuelTankEl = document.createElement('span')
+        fuelTankEl.classList.add('fuel-tank')
+        const fuelEl = document.createElement('span')
+        fuelEl.classList.add('fuel')
+        fuelTankEl.appendChild(fuelEl)
+        fuelContainerEl.appendChild(fuelTankEl)
+        if (tankValue < 1) {
+            const fuelLimitLineEl = document.createElement('hr')
+            fuelLimitLineEl.classList.add('fuel-limit-line')
+            fuelTankEl.appendChild(fuelLimitLineEl)
+            fuelLimitLineEl.style.bottom = toPercent(tankValue * 100)
+        }
+    })
+}
+
+function renderTargetValue(state) {
     let value = state.levelTarget
     console.log(`The target value is ${value}`)
     const levelTargetValue = document.getElementById(EL_IDS.targetValue)
     levelTargetValue.textContent = value
+    renderFuelContainer(value)
 }
 
 function renderBasket({ basket }) {
@@ -144,12 +173,19 @@ function renderBasket({ basket }) {
 
 function renderBasketValue({ basket, levelTarget }) {
     const basketEl = document.getElementById(EL_IDS.basketValue)
-    const fuelValueEl = document.getElementById(EL_IDS.fuelValue)
+
     if (+basketEl.innerText !== +basket.basketValue) {
         basketEl.innerText = basket.basketValue
-        fuelValueEl.style.height = toPercent(
-            (basket.basketValue / levelTarget) * 100,
-        )
+
+        const fuelTankNumbers = splitNumber(basket.basketValue)
+        const fuelContainerEl = document.getElementById(EL_IDS.fuelContainer)
+        Array.from(fuelContainerEl.children).forEach((el, index) => {
+            const fuelValueEl = el.firstChild
+
+            fuelValueEl.style.height = toPercent(
+                (fuelTankNumbers[index] || 0) * 100,
+            )
+        })
     }
 }
 
@@ -194,10 +230,11 @@ function renderFallingObjects({ fallingObjects }) {
         fallingObjectEl = document.createElement('span')
         const numeratorEl = document.createElement('span')
         const denominatorEl = document.createElement('span')
-        const fuelWrapperEl = document.createElement('span')
+
+        const fuelTankEl = document.createElement('span')
         const fuelEl = document.createElement('span')
-        fuelWrapperEl.classList.add('fuel-wrapper')
-        fuelWrapperEl.appendChild(fuelEl)
+        fuelTankEl.classList.add('fuel-tank')
+        fuelTankEl.appendChild(fuelEl)
         fuelEl.classList.add('fuel')
         fallingObjectEl.classList.add('falling-object')
         fallingObjectEl.id = fallingObject.id
@@ -210,7 +247,7 @@ function renderFallingObjects({ fallingObjects }) {
         )
         fallingObjectEl.appendChild(numeratorEl)
         fallingObjectEl.appendChild(denominatorEl)
-        fallingObjectEl.appendChild(fuelWrapperEl)
+        fallingObjectEl.appendChild(fuelTankEl)
         fallingObjectColumnEl.appendChild(fallingObjectEl)
 
         fallingObjectEl.style.width = toPx(fallingObject.width)
