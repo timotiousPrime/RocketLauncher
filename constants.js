@@ -95,15 +95,26 @@ export const FALLING_OBJ_INIT_STATE = {
 /**
  * Array index indicates the level with the value being the minimum score needed for that level
  */
-export const LEVEL_MIN_SCORES = [0, 3, 8, 13, 18, 23, 28, 33]
+export const LEVEL_MIN_SCORES = [
+    0, // level 1
+    3, // level 2
+    8, // level 3
+    13, // level 4
+    18, // level 5
+    23, // level 6
+    28, // level 7
+    35, // level 8
+    45, // level 9
+    60, // level 10
+]
 
 const TARGETS_BY_DENOMINATOR = {
     2: [1, 1.5, 2],
     3: [1, 1.33, 1.66, 2],
     4: [1, 1.25, 1.5, 1.75, 2],
     5: [1, 1.2, 1.4, 1.6, 1.8, 2],
-    6: [1, 1.16, 1.33, 1.5, 1.66, 1.83],
-    8: [1, 1.125, 1.25, 1.375, 1.5],
+    6: [1, 1.16, 1.33, 1.5, 1.66, 1.83, 2],
+    8: [1, 1.125, 1.25, 1.375, 1.5, 1.75, 2],
     9: [1, 1.11, 1.22, 1.33],
 }
 
@@ -164,7 +175,6 @@ export const LEVEL_VARS = [
         fallingSpeedMultiplier: 1.2,
         generationSpeedMultiplier: 2,
         possibleTargets: getTargetsByDenominators(3, 5),
-        possibleTargets: [1, 1.33, 1.66, 2, 1.2, 1.4, 1.6, 1.8],
         possibleDenominators: [3, 5, 6, 9],
         fractionDifficultyDistribution: {
             1: 70,
@@ -190,34 +200,72 @@ export const LEVEL_VARS = [
     },
     // Level 6
     {
-        fallingSpeedMultiplier: 1.15,
-        generationSpeedMultiplier: 1.2,
-        possibleTargets: [
-            1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
-        ],
-        possibleDenominators: [3, 4, 5, 6, 7, 8, 9],
+        fallingSpeedMultiplier: 1.3,
+        generationSpeedMultiplier: 2.3,
+        possibleTargets: getTargetsByDenominators(5, 6, 8, 9),
+        possibleDenominators: [5, 6, 8, 9],
         fractionDifficultyDistribution: {
-            1: 15,
-            2: 20,
-            3: 35,
-            4: 20,
-            5: 10,
+            1: 60,
+            2: 15,
+            3: 15,
+            4: 10,
+            5: 0,
         },
     },
     // Level 7
     {
-        fallingSpeedMultiplier: 1.2,
-        generationSpeedMultiplier: 1.25,
-        possibleTargets: [
-            1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
-        ],
-        possibleDenominators: [3, 4, 5, 6, 7, 8, 9],
+        fallingSpeedMultiplier: 1.3,
+        generationSpeedMultiplier: 2.3,
+        possibleTargets: getTargetsByDenominators(5, 6, 8, 9),
+        possibleDenominators: [3, 5, 6, 7, 8, 9],
         fractionDifficultyDistribution: {
-            1: 0,
-            2: 35,
-            3: 30,
+            1: 55,
+            2: 15,
+            3: 15,
+            4: 10,
+            5: 5,
+        },
+    },
+    // Level 8
+    {
+        fallingSpeedMultiplier: 1.3,
+        generationSpeedMultiplier: 2.3,
+        possibleTargets: getTargetsByDenominators(5, 6, 8, 9),
+        possibleDenominators: [5, 6, 7, 8, 9],
+        fractionDifficultyDistribution: {
+            1: 50,
+            2: 15,
+            3: 15,
+            4: 15,
+            5: 5,
+        },
+    },
+    // Level 9
+    {
+        fallingSpeedMultiplier: 1.3,
+        generationSpeedMultiplier: 2.3,
+        possibleTargets: getTargetsByDenominators(6, 8, 9),
+        possibleDenominators: [6, 7, 8, 9],
+        fractionDifficultyDistribution: {
+            1: 40,
+            2: 20,
+            3: 25,
+            4: 15,
+            5: 10,
+        },
+    },
+    // Level 10
+    {
+        fallingSpeedMultiplier: 1.3,
+        generationSpeedMultiplier: 2.3,
+        possibleTargets: getTargetsByDenominators(5, 6, 8, 9),
+        possibleDenominators: [5, 6, 7, 8, 9],
+        fractionDifficultyDistribution: {
+            1: 20,
+            2: 20,
+            3: 20,
             4: 20,
-            5: 15,
+            5: 20,
         },
     },
 ]
