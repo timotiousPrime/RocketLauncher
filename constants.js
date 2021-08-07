@@ -79,7 +79,7 @@ export const FALLING_OBJ_INIT_STATE = {
     columnIndex: 0, // the index of the column that the object is currently in
     xPosPx: 0, // the x position of the object in pixels
     xPos: '50%', // this is relative to the column that the object is in, so it's fixed
-    yPos: 100,
+    yPos: -5,
     width: 65,
     height: 84,
     numerator: 0,
