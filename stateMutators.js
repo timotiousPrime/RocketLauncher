@@ -2,6 +2,7 @@ import {
     EL_IDS,
     FALLING_OBJ_INIT_STATE,
     GAME_MODE,
+    MAX_LIVES,
     INIT_STATE,
     LEVEL_VARS,
     LEVEL_MIN_SCORES,
@@ -13,6 +14,11 @@ import {
     randomInRange,
     to2DecimalPlaces,
 } from './utils.js'
+
+function getRandomTargetForLevel(level) {
+    const { possibleTargets } = LEVEL_VARS[level]
+    return possibleTargets[randomInRange(0, possibleTargets.length)]
+}
 
 export const setPlayAreaWidth = (state, width) => {
     return {
@@ -259,6 +265,7 @@ export const calcScore = (state) => {
     return {
         ...state,
         score: state.score + 1,
+        levelTarget: getRandomTargetForLevel(state.gameLevel),
         basket: {
             ...state.basket,
             basketValue: INIT_STATE.basket.basketValue,
@@ -294,6 +301,7 @@ export const calcLives = (state) => {
 
 export const calcLevel = (state) => {
     let nextLevelScore = state.nextLevelScore
+    let livesRemaining = state.livesRemaining
     let levelTarget = state.levelTarget
     let level = state.gameLevel
 
@@ -309,17 +317,18 @@ export const calcLevel = (state) => {
     }
 
     if (level !== state.gameLevel) {
-        const { possibleTargets } = LEVEL_VARS[level]
-
-        levelTarget = possibleTargets[randomInRange(0, possibleTargets.length)]
+        livesRemaining =
+            livesRemaining < MAX_LIVES ? livesRemaining + 1 : livesRemaining
+        levelTarget = getRandomTargetForLevel(level)
         playSoundEffect(EL_IDS.levelUpSound, !state.playSounds)
     }
 
     return {
         ...state,
         levelTarget,
-        nextLevelScore: nextLevelScore === Infinity ? '∞' : nextLevelScore,
+        livesRemaining,
         gameLevel: level,
+        nextLevelScore: nextLevelScore === Infinity ? '∞' : nextLevelScore,
     }
 }
 export const catchFallingObject = (state, fallingObject) => {

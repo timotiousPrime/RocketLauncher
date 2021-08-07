@@ -19,10 +19,11 @@ export function renderGame(prevState, state) {
 
     renderFallingObjects(state)
     renderNextLevelScore(state)
+
+    // s is the next state in this local scope
     if (hasStateChanged([(s) => s.levelTarget])) {
         renderTargetValue(state)
     }
-    // s is the next state in this local scope
 
     if (hasStateChanged([(s) => s.livesRemaining])) {
         renderLivesRemaining(state)
