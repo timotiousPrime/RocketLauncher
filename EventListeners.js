@@ -1,7 +1,7 @@
 import { EL_IDS, GAME_MODE } from './constants.js'
+import { setupInitialDOMRelatedState } from './dom.js'
 import * as mutatorFns from './stateMutators.js'
 import { pxToPercent } from './utils.js'
-
 export function setupEventListener(logic) {
     const playArea = document.getElementById(EL_IDS.playArea)
 
@@ -90,5 +90,9 @@ export function setupEventListener(logic) {
     muteBtn.addEventListener('click', () => {
         logic.mutate(mutatorFns.toggleMute)
         muteBtn.blur() // prevents the focus on the button
+    })
+
+    window.addEventListener('resize', (e) => {
+        setupInitialDOMRelatedState(logic)
     })
 }
