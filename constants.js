@@ -69,7 +69,7 @@ export const INIT_STATE = {
     score: 0,
     nextLevelScore: 3,
     gameLevel: 0,
-    levelTarget: 1,
+    levelTarget: 0,
     livesRemaining: 3,
     fallingObjects: {},
     gameMode: GAME_MODE.INIT,
