@@ -1,5 +1,6 @@
 :root {
     --stats-box-width: 35vh;
+    --stats-box-min-width: 300px;
 }
 
 html {
@@ -83,15 +84,16 @@ body {
     height: auto;
     transition: opacity 0.2s ease;
     opacity: 1;
-    top: calc(100% - 84px);
+    top: calc(100% - 154px);
 }
 .rocket.launch {
     transition: top 1s cubic-bezier(0.63, 0, 1, 0.92);
-    top: -100px;
+    top: -250px;
 }
 
 .stats-box {
     width: var(--stats-box-width);
+    min-width: var(--stats-box-min-width);
     background-color: rgba(105, 105, 105, 0.9);
     color: #ffffff;
     padding: 20px;
@@ -260,6 +262,7 @@ button:hover:disabled {
     right: 0;
     bottom: 0;
     width: calc(100% - var(--stats-box-width));
+    max-width: calc(100% - var(--stats-box-min-width));
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
 }
