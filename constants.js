@@ -67,7 +67,7 @@ export const INIT_STATE = {
     columnsXPos: [],
     score: 0,
     nextLevelScore: 3,
-    gameLevel: 1,
+    gameLevel: 0,
     levelTarget: 1,
     livesRemaining: 3,
     fallingObjects: {},
@@ -86,6 +86,11 @@ export const FALLING_OBJ_INIT_STATE = {
     denominator: 1,
     value: 0,
 }
+
+/**
+ * Array index indicates the level with the value being the minimum score needed for that level
+ */
+export const LEVEL_MIN_SCORES = [0, 3, 8, 15, 25, 40, 60, 90, 120]
 
 export const LEVEL_VARS = [
     {

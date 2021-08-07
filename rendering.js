@@ -111,8 +111,7 @@ function renderButtons({ gameMode, playSounds }) {
     }
 }
 
-
-function renderTargetValue(state){
+function renderTargetValue(state) {
     let value = state.levelTarget
     console.log(`The target value is ${value}`)
     const levelTargetValue = document.getElementById(EL_IDS.targetValue)
@@ -162,7 +161,7 @@ function renderScore({ score }) {
 
 function renderLevel({ gameLevel }) {
     const levelEl = document.getElementById(EL_IDS.levelValue)
-    levelEl.textContent = gameLevel
+    levelEl.textContent = gameLevel + 1
 }
 function renderNextLevelScore({ nextLevelScore }) {
     const levelEl = document.getElementById(EL_IDS.nextLevelScore)

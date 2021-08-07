@@ -4,6 +4,7 @@ import {
     GAME_MODE,
     INIT_STATE,
     LEVEL_VARS,
+    LEVEL_MIN_SCORES,
 } from './constants.js'
 import { playSoundEffect } from './dom.js'
 import {
@@ -285,51 +286,19 @@ export const calcLives = (state) => {
 }
 
 export const calcLevel = (state) => {
-    let level = state.gameLevel
-    let nextLevelScore = 3
+    let nextLevelScore = state.nextLevelScore
     let levelTarget = state.levelTarget
-    const score = state.score
+    let level = state.gameLevel
 
-    if (score < 3) {
-        level = 1
-        nextLevelScore = 3
-    }
+    for (let _level = level; _level < LEVEL_MIN_SCORES.length; _level++) {
+        const scoreLowerBound = LEVEL_MIN_SCORES[_level]
+        const scoreUpperBound = LEVEL_MIN_SCORES[_level + 1] || Infinity
 
-    if (score >= 3 && score < 8) {
-        level = 2
-        nextLevelScore = 8
-    }
-    if (score >= 8 && score < 15) {
-        level = 3
-        nextLevelScore = 15
-    }
-    if (score >= 15 && score < 25) {
-        level = 4
-        nextLevelScore = 25
-    }
-    if (score >= 25 && score < 40) {
-        level = 5
-        nextLevelScore = 40
-    }
-    if (score >= 40 && score < 60) {
-        level = 6
-        nextLevelScore = 60
-    }
-    if (score >= 60 && score < 90) {
-        level = 7
-        nextLevelScore = 90
-    }
-    if (score >= 90 && score < 120) {
-        level = 8
-        nextLevelScore = 120
-    }
-    if (score >= 120 && score < 150) {
-        level = 9
-        nextLevelScore = 150
-    }
-    if (score >= 150) {
-        level = 10
-        nextLevelScore = '∞'
+        if (state.score >= scoreLowerBound && state.score < scoreUpperBound) {
+            level = _level
+            nextLevelScore = scoreUpperBound
+            break
+        }
     }
 
     if (level !== state.gameLevel) {
@@ -342,8 +311,8 @@ export const calcLevel = (state) => {
     return {
         ...state,
         levelTarget,
+        nextLevelScore: nextLevelScore === Infinity ? '∞' : nextLevelScore,
         gameLevel: level,
-        nextLevelScore,
     }
 }
 export const catchFallingObject = (state, fallingObject) => {
