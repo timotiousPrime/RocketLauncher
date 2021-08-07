@@ -92,6 +92,24 @@ export const FALLING_OBJ_INIT_STATE = {
  */
 export const LEVEL_MIN_SCORES = [0, 3, 8, 13, 18, 23, 28, 33]
 
+const TARGETS_BY_DENOMINATOR = {
+    2: [1, 1.5, 2],
+    3: [1, 1.33, 1.66, 2],
+    4: [1, 1.25, 1.5, 1.75, 2],
+    5: [1, 1.2, 1.4, 1.6, 1.8, 2],
+    6: [1, 1.16, 1.33, 1.5, 1.66, 1.83],
+    8: [1, 1.125, 1.25, 1.375, 1.5],
+    9: [1, 1.11, 1.22, 1.33],
+}
+
+function getTargetsByDenominators(...denoms) {
+    const targets = []
+    for (const denom of denoms) {
+        targets.push(...TARGETS_BY_DENOMINATOR[denom])
+    }
+    return Array.from(new Set(targets))
+}
+
 export const LEVEL_VARS = [
     // Level 1
     {
@@ -112,7 +130,7 @@ export const LEVEL_VARS = [
     {
         fallingSpeedMultiplier: 1.1,
         generationSpeedMultiplier: 1.1,
-        possibleTargets: [1, 1.5, 2],
+        possibleTargets: getTargetsByDenominators(3, 4),
         possibleDenominators: [3, 4, 6],
         fractionDifficultyDistribution: {
             1: 80,
@@ -126,7 +144,7 @@ export const LEVEL_VARS = [
     {
         fallingSpeedMultiplier: 1.15,
         generationSpeedMultiplier: 1.15,
-        possibleTargets: [1, 1.25, 1.5, 1.75, 2, 1.2, 1.4, 1.6, 1.8],
+        possibleTargets: getTargetsByDenominators(4, 5),
         possibleDenominators: [3, 4, 5, 8],
         fractionDifficultyDistribution: {
             1: 75,
@@ -140,6 +158,7 @@ export const LEVEL_VARS = [
     {
         fallingSpeedMultiplier: 1.2,
         generationSpeedMultiplier: 1.2,
+        possibleTargets: getTargetsByDenominators(3, 5),
         possibleTargets: [1, 1.33, 1.66, 2, 1.2, 1.4, 1.6, 1.8],
         possibleDenominators: [3, 5, 6, 9],
         fractionDifficultyDistribution: {
@@ -154,10 +173,7 @@ export const LEVEL_VARS = [
     {
         fallingSpeedMultiplier: 1.25,
         generationSpeedMultiplier: 1.25,
-        possibleTargets: [
-            1.16, 1.11, 1.22, 1.25, 1.33, 1.5, 1.66, 1.75, 2, 1.2, 1.4, 1.6,
-            1.8,
-        ],
+        possibleTargets: getTargetsByDenominators(3, 4, 5, 6, 9),
         possibleDenominators: [3, 4, 5, 6, 8, 9],
         fractionDifficultyDistribution: {
             1: 65,
