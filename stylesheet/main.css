@@ -51,7 +51,7 @@ body {
     height: auto;
     position: absolute;
     bottom: 10px;
-    transition: all 0.1s ease;
+    transition: all 0s ease;
 }
 .basket-value {
     position: absolute;

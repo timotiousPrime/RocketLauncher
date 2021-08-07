@@ -1,4 +1,4 @@
-import { TARGET_NOISE_THRESHOLD, PLAY_COLUMNS } from './constants.js'
+import { PLAY_COLUMNS, TARGET_NOISE_THRESHOLD } from './constants.js'
 
 export const pxToPercent = (px, parentWidth) => (px / parentWidth) * 100
 
