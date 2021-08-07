@@ -1,19 +1,18 @@
 // @ts-check
 // suggestion for default speed and rate
+import { isColliding } from './collisionAlgo.js'
+import {
+    EL_IDS,
+    FRACTION_PAIRS_BY_DIFFICULTY,
+    LEVEL_VARS,
+} from './constants.js'
+import * as mutatorFns from './stateMutators.js'
 import {
     percentToPx,
     randomColumnIndex,
     randomDifficulty,
     randomInRange,
 } from './utils.js'
-import { isColliding } from './collisionAlgo.js'
-import * as mutatorFns from './stateMutators.js'
-import {
-    FRACTION_PAIRS_BY_DIFFICULTY,
-    FALLING_OBJ_INIT_STATE,
-    LEVEL_VARS,
-    EL_IDS,
-} from './constants.js'
 
 const DEFAULT_SPEED = 200
 const DEFAULT_RATE = 120
@@ -101,7 +100,7 @@ function generateObject(levelVars) {
     })
 }
 
-const baseFallingPxPerSec = 300
+const baseFallingPxPerSec = 250
 const baseGenerationSpeedMs = 1500
 
 export function rain(logic) {

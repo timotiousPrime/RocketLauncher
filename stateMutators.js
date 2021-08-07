@@ -4,6 +4,7 @@ import {
     GAME_MODE,
     INIT_STATE,
     LEVEL_VARS,
+    LEVEL_MIN_SCORES,
 } from './constants.js'
 import { playSoundEffect } from './dom.js'
 import {
@@ -114,6 +115,13 @@ export const resetScore = (state) => {
     return {
         ...state,
         score: INIT_STATE.score,
+    }
+}
+
+export const resetLevelTarget = (state) => {
+    return {
+        ...state,
+        levelTarget: INIT_STATE.levelTarget,
     }
 }
 
@@ -285,46 +293,19 @@ export const calcLives = (state) => {
 }
 
 export const calcLevel = (state) => {
-    let level = state.gameLevel
-    let nextLevelScore = 10
+    let nextLevelScore = state.nextLevelScore
     let levelTarget = state.levelTarget
-    const score = state.score
+    let level = state.gameLevel
 
-    if (score >= 1 && score < 20) {
-        level = 2
-        nextLevelScore = 20
-    }
-    if (score >= 3 && score < 35) {
-        level = 3
-        nextLevelScore = 35
-    }
-    if (score >= 35 && score < 55) {
-        level = 4
-        nextLevelScore = 55
-    }
-    if (score >= 55 && score < 80) {
-        level = 5
-        nextLevelScore = 80
-    }
-    if (score >= 70 && score < 100) {
-        level = 6
-        nextLevelScore = 100
-    }
-    if (score >= 100 && score < 135) {
-        level = 7
-        nextLevelScore = 135
-    }
-    if (score >= 135 && score < 175) {
-        level = 8
-        nextLevelScore = 175
-    }
-    if (score >= 175 && score < 220) {
-        level = 9
-        nextLevelScore = 220
-    }
-    if (score >= 220) {
-        level = 10
-        nextLevelScore = '∞'
+    for (let _level = level; _level < LEVEL_MIN_SCORES.length; _level++) {
+        const scoreLowerBound = LEVEL_MIN_SCORES[_level]
+        const scoreUpperBound = LEVEL_MIN_SCORES[_level + 1] || Infinity
+
+        if (state.score >= scoreLowerBound && state.score < scoreUpperBound) {
+            level = _level
+            nextLevelScore = scoreUpperBound
+            break
+        }
     }
 
     if (level !== state.gameLevel) {
@@ -337,8 +318,8 @@ export const calcLevel = (state) => {
     return {
         ...state,
         levelTarget,
+        nextLevelScore: nextLevelScore === Infinity ? '∞' : nextLevelScore,
         gameLevel: level,
-        nextLevelScore,
     }
 }
 export const catchFallingObject = (state, fallingObject) => {
@@ -361,6 +342,7 @@ export const restartGame = (state) => {
     let nextState = resetBasketValue(state)
     nextState = resetScore(nextState)
     nextState = resetGameLevel(nextState)
+    nextState = resetLevelTarget(nextState)
     nextState = resetLivesRemaining(nextState)
     nextState = setGameMode(nextState, GAME_MODE.RUNNING)
     return resetFallingObjects(nextState)

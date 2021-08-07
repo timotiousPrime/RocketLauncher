@@ -198,7 +198,7 @@ function renderScore({ score }) {
 
 function renderLevel({ gameLevel }) {
     const levelEl = document.getElementById(EL_IDS.levelValue)
-    levelEl.textContent = gameLevel
+    levelEl.textContent = gameLevel + 1
 }
 function renderNextLevelScore({ nextLevelScore }) {
     const levelEl = document.getElementById(EL_IDS.nextLevelScore)

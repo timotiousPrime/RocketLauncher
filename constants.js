@@ -67,7 +67,7 @@ export const INIT_STATE = {
     playAreaWidth: 0,
     columnsXPos: [],
     score: 0,
-    nextLevelScore: 10,
+    nextLevelScore: 3,
     gameLevel: 0,
     levelTarget: 1,
     livesRemaining: 3,
@@ -80,7 +80,7 @@ export const FALLING_OBJ_INIT_STATE = {
     columnIndex: 0, // the index of the column that the object is currently in
     xPosPx: 0, // the x position of the object in pixels
     xPos: '50%', // this is relative to the column that the object is in, so it's fixed
-    yPos: 100,
+    yPos: -5,
     width: 65,
     height: 84,
     numerator: 0,
@@ -88,7 +88,31 @@ export const FALLING_OBJ_INIT_STATE = {
     value: 0,
 }
 
+/**
+ * Array index indicates the level with the value being the minimum score needed for that level
+ */
+export const LEVEL_MIN_SCORES = [0, 3, 8, 13, 18, 23, 28, 33]
+
+const TARGETS_BY_DENOMINATOR = {
+    2: [1, 1.5, 2],
+    3: [1, 1.33, 1.66, 2],
+    4: [1, 1.25, 1.5, 1.75, 2],
+    5: [1, 1.2, 1.4, 1.6, 1.8, 2],
+    6: [1, 1.16, 1.33, 1.5, 1.66, 1.83],
+    8: [1, 1.125, 1.25, 1.375, 1.5],
+    9: [1, 1.11, 1.22, 1.33],
+}
+
+function getTargetsByDenominators(...denoms) {
+    const targets = []
+    for (const denom of denoms) {
+        targets.push(...TARGETS_BY_DENOMINATOR[denom])
+    }
+    return Array.from(new Set(targets))
+}
+
 export const LEVEL_VARS = [
+    // Level 1
     {
         fallingSpeedMultiplier: 1,
         generationSpeedMultiplier: 1,
@@ -103,37 +127,67 @@ export const LEVEL_VARS = [
             5: 0,
         },
     },
+    // Level 2
     {
-        fallingSpeedMultiplier: 1.6,
-        generationSpeedMultiplier: 1.4,
-        possibleTargets: [1.25, 1.33, 1.5, 1.66, 1.75, 2],
-        possibleDenominators: [2, 3, 4, 6],
+        fallingSpeedMultiplier: 1.1,
+        generationSpeedMultiplier: 1.3,
+        possibleTargets: getTargetsByDenominators(3, 4),
+        possibleDenominators: [3, 4, 6],
         fractionDifficultyDistribution: {
-            1: 60,
-            2: 30,
+            1: 80,
+            2: 10,
             3: 10,
             4: 0,
             5: 0,
         },
     },
+    // Level 3
     {
-        fallingSpeedMultiplier: 1.9,
+        fallingSpeedMultiplier: 1.15,
         generationSpeedMultiplier: 1.6,
-        possibleTargets: [
-            1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
-        ],
-        possibleDenominators: [3, 4, 5, 6, 7, 8],
+        possibleTargets: getTargetsByDenominators(4, 5),
+        possibleDenominators: [3, 4, 5, 8],
         fractionDifficultyDistribution: {
-            1: 30,
-            2: 40,
-            3: 30,
+            1: 75,
+            2: 15,
+            3: 10,
             4: 0,
             5: 0,
         },
     },
+    // Level 4
     {
-        fallingSpeedMultiplier: 2.2,
-        generationSpeedMultiplier: 1.8,
+        fallingSpeedMultiplier: 1.2,
+        generationSpeedMultiplier: 2,
+        possibleTargets: getTargetsByDenominators(3, 5),
+        possibleTargets: [1, 1.33, 1.66, 2, 1.2, 1.4, 1.6, 1.8],
+        possibleDenominators: [3, 5, 6, 9],
+        fractionDifficultyDistribution: {
+            1: 70,
+            2: 20,
+            3: 10,
+            4: 0,
+            5: 0,
+        },
+    },
+    // Level 5
+    {
+        fallingSpeedMultiplier: 1.25,
+        generationSpeedMultiplier: 2.3,
+        possibleTargets: getTargetsByDenominators(3, 4, 5, 6, 9),
+        possibleDenominators: [3, 4, 5, 6, 8, 9],
+        fractionDifficultyDistribution: {
+            1: 65,
+            2: 15,
+            3: 10,
+            4: 10,
+            5: 0,
+        },
+    },
+    // Level 6
+    {
+        fallingSpeedMultiplier: 1.15,
+        generationSpeedMultiplier: 1.2,
         possibleTargets: [
             1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
         ],
@@ -146,9 +200,10 @@ export const LEVEL_VARS = [
             5: 10,
         },
     },
+    // Level 7
     {
-        fallingSpeedMultiplier: 2.5,
-        generationSpeedMultiplier: 2,
+        fallingSpeedMultiplier: 1.2,
+        generationSpeedMultiplier: 1.25,
         possibleTargets: [
             1.25, 1.33, 1.5, 1.66, 1.75, 2, 2.25, 2.33, 2.5, 2.66, 2.75, 3,
         ],
@@ -189,13 +244,13 @@ export const FRACTION_PAIRS_BY_DIFFICULTY = {
         [4, 6],
         [1, 8],
         [6, 8],
-        [1, 9],
         [6, 9],
     ],
     4: [
         [1, 6],
         [5, 6],
         [3, 8],
+        [1, 9],
         [2, 9],
     ],
     5: [
