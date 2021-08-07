@@ -62,5 +62,5 @@ export function splitNumber(targetValue) {
     a.length = Math.floor(targetValue)
     a.fill(1)
     a.push(targetValue - Math.floor(targetValue))
-    return a
+    return a.filter((v) => v)
 }
