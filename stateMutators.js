@@ -2,10 +2,10 @@ import {
     EL_IDS,
     FALLING_OBJ_INIT_STATE,
     GAME_MODE,
-    MAX_LIVES,
     INIT_STATE,
-    LEVEL_VARS,
     LEVEL_MIN_SCORES,
+    LEVEL_VARS,
+    MAX_LIVES,
 } from './constants.js'
 import { playSoundEffect } from './dom.js'
 import {
@@ -348,13 +348,16 @@ export const catchFallingObject = (state, fallingObject) => {
 }
 
 export const restartGame = (state) => {
+    state.rainLogic.stop()
     let nextState = resetBasketValue(state)
     nextState = resetScore(nextState)
     nextState = resetGameLevel(nextState)
     nextState = resetLevelTarget(nextState)
     nextState = resetLivesRemaining(nextState)
     nextState = setGameMode(nextState, GAME_MODE.RUNNING)
-    return resetFallingObjects(nextState)
+    nextState = resetFallingObjects(nextState)
+    state.rainLogic.restart()
+    return nextState
 }
 
 export const startGame = (state) => {

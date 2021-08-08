@@ -143,7 +143,6 @@ function renderFuelContainer(targetValue) {
 
 function renderTargetValue(state) {
     let value = state.levelTarget
-    console.log(`The target value is ${value}`)
     const levelTargetValue = document.getElementById(EL_IDS.targetValue)
     levelTargetValue.textContent = value
     renderFuelContainer(value)
