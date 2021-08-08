@@ -80,6 +80,7 @@ function runGame() {
     })
 
     rainLogic = rain(logic)
+    logic.state.rainLogic = rainLogic
 }
 
 runGame()
