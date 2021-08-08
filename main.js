@@ -25,7 +25,6 @@ function runGame() {
                         break
                     case GAME_MODE.PAUSED:
                     case GAME_MODE.INIT:
-                        rainLogic.stop()
                         rainLogic.start()
                         break
                     default:
